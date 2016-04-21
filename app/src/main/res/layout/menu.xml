@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#00ffffff"
+        android:gravity="center"
+        android:text="MENU"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/slide_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:background="#00ffffff"
+        android:onClick="onExitClicked"
+        android:text="退出"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/slide_help"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_above="@id/slide_exit"
+        android:layout_centerHorizontal="true"
+        android:background="#00ffffff"
+        android:onClick="onHelpClicked"
+        android:text="查看收藏"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/slide_shared"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_above="@id/slide_help"
+        android:layout_centerHorizontal="true"
+        android:background="#00ffffff"
+        android:onClick="onSharedClicked"
+        android:text="查看关注"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/btn_user"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_above="@id/slide_shared"
+        android:layout_centerHorizontal="true"
+        android:background="#00ffffff"
+        android:onClick="onUserClicked"
+        android:text="用户"
+        android:textSize="30dp" />
+
+
+
+</RelativeLayout>

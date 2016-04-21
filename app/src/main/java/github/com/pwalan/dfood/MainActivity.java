@@ -20,8 +20,13 @@ import github.com.pwalan.dfood.fragment.FoodCircleFragment;
 import github.com.pwalan.dfood.fragment.HomeFragment;
 import github.com.pwalan.dfood.fragment.RecipeFragment;
 import github.com.pwalan.dfood.fragment.SeasonsetFragment;
+import github.com.pwalan.dfood.myview.SlidingMenu;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
+
+    //侧滑菜单
+    private SlidingMenu menu;
+
     // 初始化顶部栏显示
     private ImageView titleLeftImv;
     private TextView titleTv;
@@ -59,6 +64,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         fragmentManager = getSupportFragmentManager();
         initView(); // 初始化界面控件
         setChioceItem(0); // 初始化页面加载时显示第一个选项卡
+
+        menu=(SlidingMenu)findViewById(R.id.slide_menu);
     }
 
     /**
@@ -67,12 +74,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void initView() {
         // 初始化页面标题栏
         titleLeftImv = (ImageView) findViewById(R.id.title_imv);
+        //顶部左侧的图标点击事件
         titleLeftImv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserAcitvity.class));
+                menu.toggle();
             }
         });
+        //顶部标签
         titleTv = (TextView) findViewById(R.id.title_text_tv);
         titleTv.setText("首 页");
         // 初始化底部导航栏的控件

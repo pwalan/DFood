@@ -4,6 +4,8 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/fragment/HomeFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/fragment/SeasonsetFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/myview/RoundImageView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/myview/ScreenUtils.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/myview/SlidingMenu.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/favorite_off.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/favorite_on.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/head.jpg" charset="UTF-8" />
@@ -15,6 +17,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/picture5.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/user.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/vote.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/menu.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/quanzi_item.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/simple_item.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/title_layout.xml" charset="UTF-8" />
