@@ -7,13 +7,13 @@
     <RelativeLayout
         android:id="@+id/r1"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="60dp">
 
 
         <github.com.pwalan.dfood.myview.RoundImageView
             android:id="@+id/head"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="#00ffffff"
             android:scaleType="fitCenter"
             android:src="@drawable/head"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="pw"
-            android:textSize="30dp"
+            android:textSize="20dp"
             />
         <TextView
             android:id="@+id/time"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="2016-03-26"
-            android:textSize="20dp"
+            android:textSize="18dp"
             />
 
         <CheckBox
@@ -53,13 +53,36 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/picture"
+    <RelativeLayout
         android:layout_below="@id/r1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitStart"
-        android:src="@drawable/head"
-        />
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/rname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="菜名"/>
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="match_parent"
+            android:layout_below="@id/rname"
+            android:layout_height="200dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/head"
+            />
+
+        <TextView
+            android:layout_below="@id/picture"
+            android:layout_alignParentRight="true"
+            android:id="@+id/favorite_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="0评论 0收藏"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
