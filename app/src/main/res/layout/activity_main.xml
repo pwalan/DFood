@@ -49,10 +49,10 @@
 
                         <ImageView
                             android:id="@+id/first_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@android:drawable/ic_input_get" />
+                            android:src="@drawable/home" />
 
                         <TextView
                             android:id="@+id/first_text"
@@ -79,10 +79,10 @@
 
                         <ImageView
                             android:id="@+id/second_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@android:drawable/ic_menu_day" />
+                            android:src="@drawable/season" />
 
                         <TextView
                             android:id="@+id/second_text"
@@ -109,10 +109,10 @@
 
                         <ImageView
                             android:id="@+id/third_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@android:drawable/ic_menu_agenda" />
+                            android:src="@drawable/recipe" />
 
                         <TextView
                             android:id="@+id/third_text"

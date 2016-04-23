@@ -225,6 +225,28 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+
+    //********************************************************
+    //菜单中的点击事件
+
+    public void onUserClicked(View v){
+        Toast.makeText(this,"用户被点击",Toast.LENGTH_SHORT).show();
+    }
+
+    public void onConcernClicked(View v){
+        Toast.makeText(this,"关注被点击",Toast.LENGTH_SHORT).show();
+    }
+
+    public void onFavoriteClicked(View v){
+        Toast.makeText(this,"收藏被点击",Toast.LENGTH_SHORT).show();
+    }
+
+    public void onExitClicked(View v){
+        finish();
+    }
+
+    //********************************************************
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

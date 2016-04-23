@@ -7,53 +7,119 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#00ffffff"
         android:gravity="center"
         android:text="MENU"
-        android:textSize="30dp" />
+        android:textSize="26dp"
+        android:textColor="@color/black"/>
+
+    <!--退出程序-->
 
     <Button
-        android:id="@+id/slide_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:id="@+id/btn_exit"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
         android:layout_centerInParent="true"
         android:background="#00ffffff"
         android:onClick="onExitClicked"
-        android:text="退出"
-        android:textSize="30dp" />
+        android:text="退出程序"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_exit"
+        android:layout_alignTop="@id/btn_exit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/exit"/>
+
+    <TextView
+        android:id="@+id/blank1"
+        android:layout_above="@id/btn_exit"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <!--查看收藏-->
 
     <Button
-        android:id="@+id/slide_help"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_above="@id/slide_exit"
+        android:id="@+id/btn_favorite"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/blank1"
         android:layout_centerHorizontal="true"
         android:background="#00ffffff"
-        android:onClick="onHelpClicked"
+        android:onClick="onFavoriteClicked"
         android:text="查看收藏"
-        android:textSize="30dp" />
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_favorite"
+        android:layout_alignTop="@id/btn_favorite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/favorite"/>
+
+    <TextView
+        android:id="@+id/blank2"
+        android:layout_above="@id/btn_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <!--查看关注-->
 
     <Button
-        android:id="@+id/slide_shared"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_above="@id/slide_help"
+        android:id="@+id/btn_concern"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/blank2"
         android:layout_centerHorizontal="true"
         android:background="#00ffffff"
-        android:onClick="onSharedClicked"
+        android:onClick="onConcernClicked"
         android:text="查看关注"
-        android:textSize="30dp" />
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_concern"
+        android:layout_alignTop="@id/btn_concern"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/concern"/>
+
+    <TextView
+        android:id="@+id/blank3"
+        android:layout_above="@id/btn_concern"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <!--登录注册-->
 
     <Button
         android:id="@+id/btn_user"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_above="@id/slide_shared"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/blank3"
         android:layout_centerHorizontal="true"
         android:background="#00ffffff"
         android:onClick="onUserClicked"
-        android:text="用户"
-        android:textSize="30dp" />
+        android:text="登录/注册"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_user"
+        android:layout_alignTop="@id/btn_user"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/user"/>
 
 
 
