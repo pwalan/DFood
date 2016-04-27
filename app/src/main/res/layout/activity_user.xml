@@ -7,10 +7,92 @@
     tools:context="com.pwalan.androidtest.UserAcitvity">
 
     <TextView
+        android:id="@+id/blank0"
+        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:textSize="20dp"
-        android:text="欢迎登陆"/>
+        android:text="美食天下欢迎您"/>
+
+    <github.com.pwalan.dfood.myview.RoundImageView
+        android:id="@+id/img_head"
+        android:layout_below="@id/blank0"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:src="@drawable/user"/>
+
+    <EditText
+        android:id="@+id/et_passwd"
+        android:layout_centerInParent="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:hint="密码"/>
+
+    <TextView
+        android:id="@+id/blank1"
+        android:layout_below="@id/et_passwd"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="20dp" />
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_above="@id/et_passwd"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:hint="用户名"/>
+
+    <EditText
+        android:id="@+id/et_passwdconf"
+        android:layout_below="@id/et_passwd"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:visibility="invisible"
+        android:hint="确认密码"/>
+
+    <TextView
+        android:id="@+id/blank2"
+        android:layout_below="@id/et_passwdconf"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_below="@id/blank1"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="登录"
+        android:background="@color/tianyi"/>
+
+    <Button
+        android:id="@+id/register"
+        android:layout_below="@id/blank2"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:visibility="invisible"
+        android:text="注册"
+        android:background="@color/tianyi"/>
+
+    <Button
+        android:id="@+id/toregister"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:visibility="visible"
+        android:text="欢迎注册"
+        android:background="#00000000"/>
+
 
 </RelativeLayout>
