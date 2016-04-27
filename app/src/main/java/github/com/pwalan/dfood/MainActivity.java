@@ -22,6 +22,9 @@ import github.com.pwalan.dfood.fragment.RecipeFragment;
 import github.com.pwalan.dfood.fragment.SeasonsetFragment;
 import github.com.pwalan.dfood.myview.SlidingMenu;
 
+/**
+ * app整体框架
+ */
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     //侧滑菜单

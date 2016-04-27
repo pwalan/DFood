@@ -6,6 +6,7 @@ public class App extends Application{
     private boolean isLogin;
     private String username;
     private int uid;
+    private String headurl;
     private String server;
 
     @Override
@@ -14,6 +15,7 @@ public class App extends Application{
         isLogin = false;
         username=null;
         uid =0;
+        headurl=null;
         server="http://192.168.0.105:8080/AndroidServer/";
         super.onCreate();
     }
@@ -48,5 +50,13 @@ public class App extends Application{
 
     public void setServer(String server) {
         this.server = server;
+    }
+
+    public String getHeadurl() {
+        return headurl;
+    }
+
+    public void setHeadurl(String headurl) {
+        this.headurl = headurl;
     }
 }
