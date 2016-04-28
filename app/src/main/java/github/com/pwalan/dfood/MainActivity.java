@@ -233,7 +233,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //菜单中的点击事件
 
     public void onUserClicked(View v){
-        Toast.makeText(this,"用户被点击",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,UserAcitvity.class));
     }
 
     public void onConcernClicked(View v){
