@@ -32,6 +32,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_user);
 
         et_username=(EditText)findViewById(R.id.et_username);
+        et_username.requestFocus();
         et_passwd=(EditText)findViewById(R.id.et_passwd);
         et_passwdconf=(EditText)findViewById(R.id.et_passwdconf);
 
@@ -60,8 +61,8 @@ public class UserAcitvity extends Activity implements View.OnClickListener{
                 //注册成功后注册按钮、确认密码隐藏，登录、去注册显示
                 btn_toregister.setVisibility(View.VISIBLE);
                 btn_login.setVisibility(View.VISIBLE);
-                et_passwdconf.setVisibility(View.VISIBLE);
-                btn_register.setVisibility(View.VISIBLE);
+                et_passwdconf.setVisibility(View.INVISIBLE);
+                btn_register.setVisibility(View.INVISIBLE);
                 break;
             default:
                 break;

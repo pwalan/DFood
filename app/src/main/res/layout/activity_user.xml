@@ -30,6 +30,7 @@
         android:layout_centerInParent="true"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:inputType="textPassword"
         android:hint="密码"/>
 
     <TextView
@@ -45,7 +46,6 @@
         android:layout_centerHorizontal="true"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:inputType="textPassword"
         android:hint="用户名"/>
 
     <EditText
