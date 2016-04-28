@@ -4,10 +4,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="title_activity_user_acitvity">UserAcitvity</string>
+    <string name="title_activity_user_acitvity">用户</string>
 
     <string name="fg1_name">首页</string>
     <string name="fg2_name">季节套餐</string>
     <string name="fg3_name">美食食谱</string>
     <string name="fg4_name">美食圈</string>
+    <string name="title_activity_upload">上传</string>
 </resources>

@@ -1,6 +1,7 @@
 package github.com.pwalan.dfood;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity; // 注意这里我们导入的V4的包，不要导成app的包了
 import android.support.v4.app.FragmentManager;
@@ -33,6 +34,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     // 初始化顶部栏显示
     private ImageView titleLeftImv;
     private TextView titleTv;
+    private ImageView img_up;
     // 定义4个Fragment对象
     private HomeFragment fg1;
     private SeasonsetFragment fg2;
@@ -82,6 +84,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 menu.toggle();
+            }
+        });
+        //顶部右侧的加号图标点击启动上传
+        img_up=(ImageView)findViewById(R.id.img_up);
+        img_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,UploadActivity.class));
             }
         });
         //顶部标签
@@ -233,14 +243,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //菜单中的点击事件
 
     public void onUserClicked(View v){
+        menu.toggle();
         startActivity(new Intent(this,UserAcitvity.class));
     }
 
     public void onConcernClicked(View v){
+        menu.toggle();
         Toast.makeText(this,"关注被点击",Toast.LENGTH_SHORT).show();
     }
 
     public void onFavoriteClicked(View v){
+        menu.toggle();
         Toast.makeText(this,"收藏被点击",Toast.LENGTH_SHORT).show();
     }
 
