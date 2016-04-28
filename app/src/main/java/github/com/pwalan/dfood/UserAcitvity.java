@@ -57,6 +57,11 @@ public class UserAcitvity extends Activity implements View.OnClickListener{
                 btn_register.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_register:
+                //注册成功后注册按钮、确认密码隐藏，登录、去注册显示
+                btn_toregister.setVisibility(View.VISIBLE);
+                btn_login.setVisibility(View.VISIBLE);
+                et_passwdconf.setVisibility(View.VISIBLE);
+                btn_register.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
