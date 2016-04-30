@@ -249,12 +249,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void onConcernClicked(View v){
         menu.toggle();
-        Toast.makeText(this,"关注被点击",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,ShowConcernActivity.class));
     }
 
     public void onFavoriteClicked(View v){
         menu.toggle();
-        Toast.makeText(this,"收藏被点击",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,ShowFavoritesActivity.class));
     }
 
     public void onExitClicked(View v){

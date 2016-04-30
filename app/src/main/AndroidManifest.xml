@@ -30,17 +30,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".UserAcitvity"
             android:label="@string/title_activity_user_acitvity" >
         </activity>
-
         <activity
             android:name=".UploadActivity"
             android:label="@string/title_activity_upload" >
         </activity>
-
+        <activity
+            android:name=".ShowConcernActivity"
+            android:label="@string/title_activity_show_concern" >
+        </activity>
+        <activity
+            android:name=".ShowFavoritesActivity"
+            android:label="@string/title_activity_show_favorites" >
+        </activity>
     </application>
 
 </manifest>
