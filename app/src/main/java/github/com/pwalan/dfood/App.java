@@ -16,7 +16,7 @@ public class App extends Application{
         username=null;
         uid =0;
         headurl=null;
-        server="http://192.168.0.105:8080/AndroidServer/";
+        server="http://192.168.0.103:8080/AndroidServer/";
         super.onCreate();
     }
 

@@ -10,17 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.tencent.upload.UploadManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
+import github.com.pwalan.dfood.utils.C;
 
 /**
  * 用户登录/注册
@@ -66,11 +70,14 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     private Button btn_toregister;
 
     private App app;
+    private JSONObject response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        app=(App)getApplication();
 
         et_username = (EditText) findViewById(R.id.et_username);
         et_username.requestFocus();
@@ -85,7 +92,6 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         btn_register.setOnClickListener(this);
         btn_toregister = (Button) findViewById(R.id.btn_toregister);
         btn_toregister.setOnClickListener(this);
-
     }
 
     @Override
@@ -93,6 +99,25 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_login:
                 //登录
+                app.setUsername(et_username.getText().toString().trim());
+                passwd=et_passwd.getText().toString().trim();
+
+                if(progressDialog==null) progressDialog=new ProgressDialog(this);
+                progressDialog.setTitle("请稍后");
+                progressDialog.setMessage("登录中...");
+                progressDialog.show();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HashMap map=new HashMap();
+                        map.put("username",app.getUsername());
+                        map.put("passwd",passwd);
+                        response= C.asyncPost(app.getServer()+"login",map);
+                        handler.sendEmptyMessage(LOGIN);
+                    }
+                }).start();
+
                 break;
             case R.id.btn_toregister:
                 //点击去注册后此按钮和登录按钮隐藏，确认密码和注册显示
@@ -121,6 +146,24 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LOGIN:
+                    //取消进度框
+                    if(progressDialog!=null) progressDialog.dismiss();
+
+                    try {
+                        String status=response.getString("status");
+                        if(status.equals("succeed")){
+                            Toast.makeText(UserAcitvity.this,"登录成功！",Toast.LENGTH_SHORT).show();
+                            app.setUid(response.getInt("uid"));
+                            app.setIsLogin(true);
+
+                            finish();
+                        }else{
+                            et_passwd.setText("");
+                            Toast.makeText(UserAcitvity.this,"账号验证失败，请重试！",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case REGISTER:
                     break;
