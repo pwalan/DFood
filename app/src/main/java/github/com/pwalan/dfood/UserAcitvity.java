@@ -127,6 +127,13 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 btn_register.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_register:
+                passwd=et_passwd.getText().toString().trim();
+                passwdconf=et_passwdconf.getText().toString().trim();
+                if(passwd.equals(passwdconf)){
+
+                }else{
+                    Toast.makeText(this,"两次密码不一致，请重新输入！",Toast.LENGTH_SHORT);
+                }
                 //注册成功后注册按钮、确认密码隐藏，登录、去注册显示
                 btn_toregister.setVisibility(View.VISIBLE);
                 btn_login.setVisibility(View.VISIBLE);
