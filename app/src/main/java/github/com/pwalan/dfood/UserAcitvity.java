@@ -117,8 +117,8 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                         handler.sendEmptyMessage(LOGIN);
                     }
                 }).start();
-
                 break;
+
             case R.id.btn_toregister:
                 //点击去注册后此按钮和登录按钮隐藏，确认密码和注册显示
                 btn_toregister.setVisibility(View.INVISIBLE);
@@ -126,20 +126,35 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 et_passwdconf.setVisibility(View.VISIBLE);
                 btn_register.setVisibility(View.VISIBLE);
                 break;
+
             case R.id.btn_register:
+                app.setUsername(et_username.getText().toString().trim());
                 passwd=et_passwd.getText().toString().trim();
                 passwdconf=et_passwdconf.getText().toString().trim();
-                if(passwd.equals(passwdconf)){
 
+                if(passwd.equals(passwdconf)){
+                    if(progressDialog==null) progressDialog=new ProgressDialog(this);
+                    progressDialog.setTitle("请稍后");
+                    progressDialog.setMessage("注册中...");
+                    progressDialog.show();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HashMap map=new HashMap();
+                            map.put("username",app.getUsername());
+                            map.put("passwd",passwd);
+                            map.put("head",headUrl);
+                            response= C.asyncPost(app.getServer()+"register",map);
+                            Log.i("register_response",response.toString());
+                            handler.sendEmptyMessage(REGISTER);
+                        }
+                    }).start();
                 }else{
-                    Toast.makeText(this,"两次密码不一致，请重新输入！",Toast.LENGTH_SHORT);
+                    Toast.makeText(this,"两次密码不一致，请重新输入！",Toast.LENGTH_SHORT).show();
                 }
-                //注册成功后注册按钮、确认密码隐藏，登录、去注册显示
-                btn_toregister.setVisibility(View.VISIBLE);
-                btn_login.setVisibility(View.VISIBLE);
-                et_passwdconf.setVisibility(View.INVISIBLE);
-                btn_register.setVisibility(View.INVISIBLE);
                 break;
+
             case R.id.img_head:
                 //上传头像
                 break;
@@ -172,10 +187,31 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                         e.printStackTrace();
                     }
                     break;
+
                 case REGISTER:
+                    //取消进度框
+                    if(progressDialog!=null) progressDialog.dismiss();
+
+                    try {
+                        String status=response.getString("status");
+                        if(status.equals("succeed")){
+                            Toast.makeText(UserAcitvity.this,"注册成功！",Toast.LENGTH_SHORT).show();
+                            //注册成功后注册按钮、确认密码隐藏，登录、去注册显示
+                            btn_toregister.setVisibility(View.VISIBLE);
+                            btn_login.setVisibility(View.VISIBLE);
+                            et_passwdconf.setVisibility(View.INVISIBLE);
+                            btn_register.setVisibility(View.INVISIBLE);
+                        }else{
+                            Toast.makeText(UserAcitvity.this,"注册失败，用户名已存在！",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     break;
+
                 case UPLOAD:
                     break;
+
                 default:
                     break;
             }
@@ -184,7 +220,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     };
 
 
-    // 获取app 的签名
+    // 获取app的签名
     private void getUploadImageSign(final String s) {
         new Thread(new Runnable() {
             @Override
