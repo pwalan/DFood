@@ -13,10 +13,10 @@ public class App extends Application{
     public void onCreate() {
         //对两个值进行初始化
         isLogin = false;
-        username=null;
+        username="";
         uid =0;
-        headurl=null;
-        server="http://10.125.109.17:8080/AndroidServer/";
+        headurl="";
+        server="http://192.168.23.2:8080/AndroidServer/";
         super.onCreate();
     }
 

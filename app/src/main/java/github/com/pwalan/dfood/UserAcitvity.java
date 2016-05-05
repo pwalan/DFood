@@ -58,7 +58,6 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
 
     private String passwd;
     private String passwdconf;
-    private String headUrl;
 
     private EditText et_username;
     private EditText et_passwd;
@@ -144,7 +143,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                             HashMap map=new HashMap();
                             map.put("username",app.getUsername());
                             map.put("passwd",passwd);
-                            map.put("head",headUrl);
+                            map.put("head",app.getHeadurl());
                             response= C.asyncPost(app.getServer()+"register",map);
                             Log.i("register_response",response.toString());
                             handler.sendEmptyMessage(REGISTER);
