@@ -44,6 +44,8 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
 
     private ProgressDialog progressDialog;
 
+    private Intent lastIntent ;
+
     private String passwd;
     private String passwdconf;
     private String picPath=null;
@@ -68,6 +70,8 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_user);
 
         app=(App)getApplication();
+
+        lastIntent = getIntent();
 
         //腾讯云上传初始化
         QCloud.init(app.getServer() + "getSign", this);
@@ -197,7 +201,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                             Toast.makeText(UserAcitvity.this,"登录成功！",Toast.LENGTH_SHORT).show();
                             app.setUid(response.getInt("uid"));
                             app.setIsLogin(true);
-
+                            setResult(Activity.RESULT_OK, lastIntent);
                             finish();
                         }else{
                             et_passwd.setText("");

@@ -17,7 +17,7 @@ public class SlidingMenu extends HorizontalScrollView {
     /**
      * dp
      */
-    private int mMenuRightPadding = 150;
+    private int mMenuRightPadding = 100;
     /**
      * 菜单的宽度
      */

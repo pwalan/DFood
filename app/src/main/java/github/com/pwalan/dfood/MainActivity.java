@@ -1,13 +1,17 @@
 package github.com.pwalan.dfood;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity; // 注意这里我们导入的V4的包，不要导成app的包了
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,8 +32,12 @@ import github.com.pwalan.dfood.myview.SlidingMenu;
  */
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
+    private App app;
+
     //侧滑菜单
     private SlidingMenu menu;
+    //侧滑菜单中的登录注册按钮
+    private Button btn_user;
 
     // 初始化顶部栏显示
     private ImageView titleLeftImv;
@@ -77,6 +85,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      * 初始化页面
      */
     private void initView() {
+        app=(App)getApplication();
+        btn_user=(Button)findViewById(R.id.btn_user);
         // 初始化页面标题栏
         titleLeftImv = (ImageView) findViewById(R.id.title_imv);
         //顶部左侧的图标点击事件
@@ -244,7 +254,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void onUserClicked(View v){
         menu.toggle();
-        startActivity(new Intent(this,UserAcitvity.class));
+        startActivityForResult(new Intent(this, UserAcitvity.class), 0);
     }
 
     public void onConcernClicked(View v){
@@ -262,6 +272,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     //********************************************************
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode== Activity.RESULT_OK && requestCode == 0)
+        {
+            Log.d("dfood","login finished");
+            if(app.isLogin()){
+                btn_user.setText(app.getUsername());
+                Log.d("dfood","username is "+app.getUsername());
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
