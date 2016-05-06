@@ -3,6 +3,10 @@ package github.com.pwalan.dfood;
 import
         android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
@@ -18,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,6 +30,8 @@ import java.util.HashMap;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
 import github.com.pwalan.dfood.utils.C;
+import github.com.pwalan.dfood.utils.QCloud;
+import github.com.pwalan.dfood.utils.SelectPicActivity;
 
 /**
  * 用户登录/注册
@@ -35,29 +42,13 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     protected static final int REGISTER = 2;
     protected static final int UPLOAD = 3;
 
-    /**
-     * 要上传图片的本地地址
-     */
-    private String picPath = null;
-
-    /**
-     * 腾讯云上传管理类
-     */
-    private UploadManager photoUploadMgr;
-
-
-    /**
-     * 上传参数
-     */
-    private String bucket;
-    private String signUrl;
-    private String sign;
-    private String result;
-
     private ProgressDialog progressDialog;
 
     private String passwd;
     private String passwdconf;
+    private String picPath=null;
+    //是否正在注册，用来决定头像是否可更换
+    private Boolean registering;
 
     private EditText et_username;
     private EditText et_passwd;
@@ -78,6 +69,10 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
 
         app=(App)getApplication();
 
+        //腾讯云上传初始化
+        QCloud.init(app.getServer() + "getSign", this);
+
+        registering=false;
         et_username = (EditText) findViewById(R.id.et_username);
         et_username.requestFocus();
         et_passwd = (EditText) findViewById(R.id.et_passwd);
@@ -120,6 +115,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
 
             case R.id.btn_toregister:
                 //点击去注册后此按钮和登录按钮隐藏，确认密码和注册显示
+                registering=true;
                 btn_toregister.setVisibility(View.INVISIBLE);
                 btn_login.setVisibility(View.INVISIBLE);
                 et_passwdconf.setVisibility(View.VISIBLE);
@@ -127,9 +123,11 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.btn_register:
+                //注册
                 app.setUsername(et_username.getText().toString().trim());
                 passwd=et_passwd.getText().toString().trim();
                 passwdconf=et_passwdconf.getText().toString().trim();
+                app.setHeadurl(QCloud.resultUrl);
 
                 if(passwd.equals(passwdconf)){
                     if(progressDialog==null) progressDialog=new ProgressDialog(this);
@@ -155,11 +153,34 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.img_head:
-                //上传头像
+                //上传头像,仅限注册时
+                if(registering){
+                    Intent intent = new Intent(this,SelectPicActivity.class);
+                    startActivityForResult(intent, 0);
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==Activity.RESULT_OK && requestCode == 0)
+        {
+            picPath = data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
+            Log.i("dfood", "最终选择的图片=" + picPath);
+            Bitmap bm = BitmapFactory.decodeFile(picPath);
+            img_head.setImageBitmap(bm);
+
+            //更新图库
+
+            Uri localUri = Uri.fromFile(new File(picPath));
+            Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
+            sendBroadcast(localIntent);
+            handler.sendEmptyMessage(UPLOAD);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private Handler handler = new Handler() {
@@ -200,6 +221,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                             btn_login.setVisibility(View.VISIBLE);
                             et_passwdconf.setVisibility(View.INVISIBLE);
                             btn_register.setVisibility(View.INVISIBLE);
+                            registering=false;
                         }else{
                             Toast.makeText(UserAcitvity.this,"注册失败，用户名已存在！",Toast.LENGTH_SHORT).show();
                         }
@@ -209,6 +231,12 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                     break;
 
                 case UPLOAD:
+                    if(picPath!=null)
+                    {
+                        QCloud.UploadPic(picPath, UserAcitvity.this);
+                    }else{
+                        Toast.makeText(UserAcitvity.this, "上传的文件路径出错", Toast.LENGTH_SHORT).show();
+                    }
                     break;
 
                 default:
@@ -217,34 +245,5 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
         }
     };
-
-
-    // 获取app的签名
-    private void getUploadImageSign(final String s) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                try {
-                    Log.d("Demo", "Start getSign");
-                    URL url = new URL(s);
-                    HttpURLConnection urlConnection = (HttpURLConnection) url
-                            .openConnection();
-                    InputStreamReader in = new InputStreamReader(urlConnection
-                            .getInputStream());
-                    BufferedReader buffer = new BufferedReader(in);
-                    String inpuLine = null;
-                    while ((inpuLine = buffer.readLine()) != null) {
-                        result = inpuLine + "\n";
-                    }
-                    JSONObject jsonData = new JSONObject(result);
-                    sign = jsonData.getString("sign");
-                    Log.i("Sign", "SIGN: " + sign);
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }
-            }
-        }).start();
-    }
 
 }
