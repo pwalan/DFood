@@ -172,13 +172,13 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
             Log.i("dfood", "最终选择的图片=" + picPath);
             Bitmap bm = BitmapFactory.decodeFile(picPath);
             img_head.setImageBitmap(bm);
+            handler.sendEmptyMessage(UPLOAD);
 
             //更新图库
 
             Uri localUri = Uri.fromFile(new File(picPath));
             Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
             sendBroadcast(localIntent);
-            handler.sendEmptyMessage(UPLOAD);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

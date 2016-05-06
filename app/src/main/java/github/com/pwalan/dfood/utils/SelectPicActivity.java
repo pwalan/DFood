@@ -20,22 +20,22 @@ import github.com.pwalan.dfood.R;
 
 
 /**
- * ËµÃ÷£ºÖ÷ÒªÓÃÓÚÑ¡ÔñÎÄ¼ş²Ù×÷
+ * è¯´æ˜ï¼šä¸»è¦ç”¨äºé€‰æ‹©æ–‡ä»¶æ“ä½œ
  */
 
 public class SelectPicActivity extends Activity implements OnClickListener{
 
     /***
-     * Ê¹ÓÃÕÕÏà»úÅÄÕÕ»ñÈ¡Í¼Æ¬
+     * ä½¿ç”¨ç…§ç›¸æœºæ‹ç…§è·å–å›¾ç‰‡
      */
     public static final int SELECT_PIC_BY_TACK_PHOTO = 1;
     /***
-     * Ê¹ÓÃÏà²áÖĞµÄÍ¼Æ¬
+     * ä½¿ç”¨ç›¸å†Œä¸­çš„å›¾ç‰‡
      */
     public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
 
     /***
-     * ´ÓIntent»ñÈ¡Í¼Æ¬Â·¾¶µÄKEY
+     * ä»Intentè·å–å›¾ç‰‡è·¯å¾„çš„KEY
      */
     public static final String KEY_PHOTO_PATH = "photo_path";
 
@@ -44,7 +44,7 @@ public class SelectPicActivity extends Activity implements OnClickListener{
     private LinearLayout dialogLayout;
     private Button takePhotoBtn,pickPhotoBtn,cancelBtn;
 
-    /**»ñÈ¡µ½µÄÍ¼Æ¬Â·¾¶*/
+    /**è·å–åˆ°çš„å›¾ç‰‡è·¯å¾„*/
     private String picPath;
 
     private Intent lastIntent ;
@@ -57,7 +57,7 @@ public class SelectPicActivity extends Activity implements OnClickListener{
         initView();
     }
     /**
-     * ³õÊ¼»¯¼ÓÔØView
+     * åˆå§‹åŒ–åŠ è½½View
      */
     private void initView() {
         dialogLayout = (LinearLayout) findViewById(R.id.dialog_layout);
@@ -91,19 +91,19 @@ public class SelectPicActivity extends Activity implements OnClickListener{
     }
 
     /**
-     * ÅÄÕÕ»ñÈ¡Í¼Æ¬
+     * æ‹ç…§è·å–å›¾ç‰‡
      */
     private void takePhoto() {
-        //Ö´ĞĞÅÄÕÕÇ°£¬Ó¦¸ÃÏÈÅĞ¶ÏSD¿¨ÊÇ·ñ´æÔÚ
+        //æ‰§è¡Œæ‹ç…§å‰ï¼Œåº”è¯¥å…ˆåˆ¤æ–­SDå¡æ˜¯å¦å­˜åœ¨
         String SDState = Environment.getExternalStorageState();
         if(SDState.equals(Environment.MEDIA_MOUNTED))
         {
 
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//"android.media.action.IMAGE_CAPTURE"
             /***
-             * ĞèÒªËµÃ÷Ò»ÏÂ£¬ÒÔÏÂ²Ù×÷Ê¹ÓÃÕÕÏà»úÅÄÕÕ£¬ÅÄÕÕºóµÄÍ¼Æ¬»á´æ·ÅÔÚÏà²áÖĞµÄ
-             * ÕâÀïÊ¹ÓÃµÄÕâÖÖ·½Ê½ÓĞÒ»¸öºÃ´¦¾ÍÊÇ»ñÈ¡µÄÍ¼Æ¬ÊÇÅÄÕÕºóµÄÔ­Í¼
-             * Èç¹û²»ÊµÓÃContentValues´æ·ÅÕÕÆ¬Â·¾¶µÄ»°£¬ÅÄÕÕºó»ñÈ¡µÄÍ¼Æ¬ÎªËõÂÔÍ¼²»ÇåÎú
+             * éœ€è¦è¯´æ˜ä¸€ä¸‹ï¼Œä»¥ä¸‹æ“ä½œä½¿ç”¨ç…§ç›¸æœºæ‹ç…§ï¼Œæ‹ç…§åçš„å›¾ç‰‡ä¼šå­˜æ”¾åœ¨ç›¸å†Œä¸­çš„
+             * è¿™é‡Œä½¿ç”¨çš„è¿™ç§æ–¹å¼æœ‰ä¸€ä¸ªå¥½å¤„å°±æ˜¯è·å–çš„å›¾ç‰‡æ˜¯æ‹ç…§åçš„åŸå›¾
+             * å¦‚æœä¸å®ç”¨ContentValueså­˜æ”¾ç…§ç‰‡è·¯å¾„çš„è¯ï¼Œæ‹ç…§åè·å–çš„å›¾ç‰‡ä¸ºç¼©ç•¥å›¾ä¸æ¸…æ™°
              */
             ContentValues values = new ContentValues();
             photoUri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -111,12 +111,12 @@ public class SelectPicActivity extends Activity implements OnClickListener{
             /**-----------------*/
             startActivityForResult(intent, SELECT_PIC_BY_TACK_PHOTO);
         }else{
-            Toast.makeText(this,"ÄÚ´æ¿¨²»´æÔÚ", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"å†…å­˜å¡ä¸å­˜åœ¨", Toast.LENGTH_LONG).show();
         }
     }
 
     /***
-     * ´ÓÏà²áÖĞÈ¡Í¼Æ¬
+     * ä»ç›¸å†Œä¸­å–å›¾ç‰‡
      */
     private void pickPhoto() {
         Intent intent = new Intent();
@@ -142,23 +142,23 @@ public class SelectPicActivity extends Activity implements OnClickListener{
     }
 
     /**
-     * Ñ¡ÔñÍ¼Æ¬ºó£¬»ñÈ¡Í¼Æ¬µÄÂ·¾¶
+     * é€‰æ‹©å›¾ç‰‡åï¼Œè·å–å›¾ç‰‡çš„è·¯å¾„
      * @param requestCode
      * @param data
      */
     private void doPhoto(int requestCode,Intent data)
     {
-        if(requestCode == SELECT_PIC_BY_PICK_PHOTO )  //´ÓÏà²áÈ¡Í¼Æ¬£¬ÓĞĞ©ÊÖ»úÓĞÒì³£Çé¿ö£¬Çë×¢Òâ
+        if(requestCode == SELECT_PIC_BY_PICK_PHOTO )  //ä»ç›¸å†Œå–å›¾ç‰‡ï¼Œæœ‰äº›æ‰‹æœºæœ‰å¼‚å¸¸æƒ…å†µï¼Œè¯·æ³¨æ„
         {
             if(data == null)
             {
-                Toast.makeText(this, "Ñ¡ÔñÍ¼Æ¬ÎÄ¼ş³ö´í", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "é€‰æ‹©å›¾ç‰‡æ–‡ä»¶å‡ºé”™", Toast.LENGTH_LONG).show();
                 return;
             }
             photoUri = data.getData();
             if(photoUri == null )
             {
-                Toast.makeText(this, "Ñ¡ÔñÍ¼Æ¬ÎÄ¼ş³ö´í", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "é€‰æ‹©å›¾ç‰‡æ–‡ä»¶å‡ºé”™", Toast.LENGTH_LONG).show();
                 return;
             }
         }
@@ -178,7 +178,7 @@ public class SelectPicActivity extends Activity implements OnClickListener{
             setResult(Activity.RESULT_OK, lastIntent);
             finish();
         }else{
-            Toast.makeText(this, "Ñ¡ÔñÍ¼Æ¬ÎÄ¼ş²»ÕıÈ·", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "é€‰æ‹©å›¾ç‰‡æ–‡ä»¶ä¸æ­£ç¡®", Toast.LENGTH_LONG).show();
         }
     }
 }
