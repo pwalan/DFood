@@ -74,7 +74,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         lastIntent = getIntent();
 
         //腾讯云上传初始化
-        QCloud.init(app.getServer() + "getSign", this);
+        QCloud.init(this);
 
         registering=false;
         et_username = (EditText) findViewById(R.id.et_username);

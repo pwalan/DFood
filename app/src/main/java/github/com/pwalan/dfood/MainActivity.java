@@ -3,8 +3,12 @@ package github.com.pwalan.dfood;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity; // 注意这里我们导入的V4的包，不要导成app的包了
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,6 +40,10 @@ import github.com.pwalan.dfood.myview.SlidingMenu;
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     private App app;
+
+    private Bitmap bitmap;
+    //下载
+    protected static final int DOWNLOAD_FILE_DONE = 1;
 
     //侧滑菜单
     private SlidingMenu menu;
@@ -248,6 +259,54 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * 获取网落图片资源
+     * @param url
+     */
+    public void getHttpBitmap(final String url){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    URL myFileURL = new URL(url);
+                    //获得连接
+                    HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+                    //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
+                    conn.setConnectTimeout(6000);
+                    //连接设置获得数据流
+                    conn.setDoInput(true);
+                    //不使用缓存
+                    conn.setUseCaches(false);
+                    //这句可有可无，没有影响
+                    //conn.connect();
+                    //得到数据流
+                    InputStream is = conn.getInputStream();
+                    //解析得到图片
+                    bitmap = BitmapFactory.decodeStream(is);
+                    //关闭数据流
+                    is.close();
+
+                    handler.sendEmptyMessage(DOWNLOAD_FILE_DONE);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            switch(msg.what){
+                case DOWNLOAD_FILE_DONE:
+                    titleLeftImv.setImageBitmap(bitmap);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     //********************************************************
     //菜单中的点击事件
@@ -280,7 +339,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             Log.d("dfood","login finished");
             if(app.isLogin()){
                 btn_user.setText(app.getUsername());
-                Log.d("dfood","username is "+app.getUsername());
+                if(app.getHeadurl()!=null){
+                    getHttpBitmap(app.getHeadurl());
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

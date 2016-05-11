@@ -89,7 +89,7 @@ public class UploadActivity extends Activity implements View.OnClickListener{
         app=(App)getApplication();
 
         //腾讯云上传初始化
-        QCloud.init(app.getServer()+"getSign",this);
+        QCloud.init(this);
     }
 
     @Override

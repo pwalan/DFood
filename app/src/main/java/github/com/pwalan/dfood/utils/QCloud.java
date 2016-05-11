@@ -1,6 +1,8 @@
 package github.com.pwalan.dfood.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import com.tencent.upload.task.impl.PhotoUploadTask;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -32,14 +35,13 @@ public class QCloud {
 
     /**
      * 上传初始化
-     * @param signUrl 获取签名的URL
      * @param con 上下文
      */
-    public static void init(String signUrl,Context con){
+    public static void init(Context con){
         resultUrl="";
         bucket="pwalan";
         //获取APP签名
-        getUploadImageSign(signUrl);
+        getUploadImageSign("http://pwalan.cn/QCloudServer/getSign");
         // 实例化Photo业务上传管理类
         photoUploadMgr = new UploadManager(con, "10035979",
                 Const.FileType.Photo, "qcloudphoto");
@@ -102,12 +104,11 @@ public class QCloud {
                     }
                     JSONObject jsonData = new JSONObject(response);
                     sign = jsonData.getString("sign");
-                    Log.i("Sign", "SIGN: "+sign);
+                    Log.i("Sign", "SIGN: " +sign);
                 } catch (Exception e) {
                     // TODO: handle exception
                 }
             }
         }).start();
-
     }
 }
