@@ -1,15 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@color/aquamarine"
-    android:orientation="vertical">
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll01"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="第二个页面"
-        android:textSize="22sp"/>>
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+        <Button
+            android:layout_height="wrap_content"
+            android:text="春"
+            android:layout_width="wrap_content"
+            android:background="@color/lightgreen"
+            android:id="@+id/btn_spring" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:text="夏"
+            android:layout_width="wrap_content"
+            android:background="@color/tianyi"
+            android:id="@+id/btn_summer"/>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:text="秋"
+            android:layout_width="wrap_content"
+            android:background="@color/lightgoldenyellow"
+            android:id="@+id/btn_autumn"/>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:text="冬"
+            android:layout_width="wrap_content"
+            android:background="@color/white"
+            android:id="@+id/btn_winter"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/season_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll01"
+        android:divider="#ffffff"
+        android:dividerHeight="2dp">
+    </ListView>
+
+
+</RelativeLayout>

@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
                 new String[]{"picture", "name"},
                 new int[]{R.id.shared_pictures, R.id.picture_name});
 
-        ListView list = (ListView) view.findViewById(R.id.internet_list);
+        ListView list = (ListView) view.findViewById(R.id.home_list);
         list.setAdapter(simpleAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

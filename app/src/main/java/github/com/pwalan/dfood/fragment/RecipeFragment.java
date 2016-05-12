@@ -68,10 +68,10 @@ public class RecipeFragment extends Fragment {
             adapter.RemoveAll();
             adapter.notifyDataSetChanged();
 
-            if(v==btn_chinese){
+            if(btn_chinese==v){
                 groups=group_chinese;
                 child=child_chinese;
-            }else if(v==btn_foreign){
+            }else if(btn_foreign==v){
                 groups=group_foreign;
                 child=child_foreign;
             }
