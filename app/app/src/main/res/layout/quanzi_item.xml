@@ -10,13 +10,13 @@
         android:layout_height="80dp">
 
 
-        <com.pwalan.androidtest.RoundImageView
+        <github.com.pwalan.dfood.myview.RoundImageView
             android:id="@+id/head"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="#00ffffff"
             android:scaleType="fitCenter"
-            android:src="@drawable/head"
+            android:src="@drawable/user"
             />
 
         <TextView
@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitStart"
-        android:src="@drawable/head"
+        android:src="@drawable/user"
         />
 
 </RelativeLayout>
