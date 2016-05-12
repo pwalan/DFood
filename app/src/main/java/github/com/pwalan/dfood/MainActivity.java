@@ -313,7 +313,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void onUserClicked(View v){
         menu.toggle();
-        startActivityForResult(new Intent(this, UserAcitvity.class), 0);
+        if(app.isLogin()){
+            Toast.makeText(MainActivity.this,"已登录！",Toast.LENGTH_SHORT).show();
+        }else{
+            startActivityForResult(new Intent(this, UserAcitvity.class), 0);
+        }
     }
 
     public void onConcernClicked(View v){
