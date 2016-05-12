@@ -22,7 +22,7 @@ import github.com.pwalan.dfood.R;
  */
 public class HomeFragment extends Fragment {
     private String[] names = new String[]{
-            "picture1", "picture2", "picture3", "picture4", "picture5","picture6"
+            "白切鸡", "夫妻肺片","麻婆豆腐", "七星鱼丸", "石锅拌饭", "糖醋鲤鱼"
     };
 
     private int[] imageIds = new int[]{

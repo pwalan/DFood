@@ -312,22 +312,39 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //菜单中的点击事件
 
     public void onUserClicked(View v){
-        menu.toggle();
         if(app.isLogin()){
             Toast.makeText(MainActivity.this,"已登录！",Toast.LENGTH_SHORT).show();
         }else{
+            menu.toggle();
             startActivityForResult(new Intent(this, UserAcitvity.class), 0);
         }
     }
 
     public void onConcernClicked(View v){
-        menu.toggle();
-        startActivity(new Intent(this,ShowConcernActivity.class));
+        if(app.isLogin()){
+            menu.toggle();
+            startActivity(new Intent(this, ShowConcernActivity.class));
+        }else{
+            Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onFavoriteClicked(View v){
-        menu.toggle();
-        startActivity(new Intent(this,ShowFavoritesActivity.class));
+        if(app.isLogin()){
+            menu.toggle();
+            startActivity(new Intent(this, ShowFavoritesActivity.class));
+        }else{
+            Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onMyupClicked(View v){
+        if(app.isLogin()){
+            menu.toggle();
+            startActivity(new Intent(this, ShowMyupActivity.class));
+        }else{
+            Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onExitClicked(View v){

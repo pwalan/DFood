@@ -29,11 +29,15 @@ public class FoodCircleFragment extends Fragment {
     private List<Map<String, Object>> listItems;
 
     private String[] names = new String[]{
-            "name1", "name2", "name3", "name4", "name5", "name6"
+            "张三", "李四", "王五", "张三", "赵六", "王五"
     };
 
     private String[] times = new String[]{
-            "2011", "2012", "2013", "2014", "2015", "2016"
+            "2016-5-1", "2016-5-2", "2016-5-3", "2016-5-4", "2016-5-5", "2016-5-6"
+    };
+
+    private String[] rnames = new String[]{
+            "白切鸡", "夫妻肺片","麻婆豆腐", "七星鱼丸", "石锅拌饭", "糖醋鲤鱼"
     };
 
     private int[] pic = new int[]{
@@ -50,6 +54,7 @@ public class FoodCircleFragment extends Fragment {
             Map<String, Object> listItem = new HashMap<String, Object>();
             listItem.put("name", names[i]);
             listItem.put("time", times[i]);
+            listItem.put("rname",rnames[i]);
             listItem.put("pic", pic[i]);
             listItems.add(listItem);
         }
@@ -65,7 +70,7 @@ public class FoodCircleFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "You clicked " + names[position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "你点击了" + names[position]+"的"+rnames[position], Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -114,6 +119,7 @@ public class FoodCircleFragment extends Fragment {
                 holder.name = (TextView)convertView.findViewById(R.id.name);
                 holder.time = (TextView)convertView.findViewById(R.id.time);
                 holder.picture=(ImageView)convertView.findViewById(R.id.picture);
+                holder.rname=(TextView)convertView.findViewById(R.id.rname);
                 cb_favorite = (CheckBox)convertView.findViewById(R.id.cb_favorite);
                 convertView.setTag(holder);
             }else {
@@ -124,6 +130,7 @@ public class FoodCircleFragment extends Fragment {
             holder.name.setText((String) listItems.get(position).get("name"));
             holder.time.setText((String) listItems.get(position).get("time"));
             holder.picture.setImageResource((int)listItems.get(position).get("pic"));
+            holder.rname.setText((String)listItems.get(position).get("rname"));
             cb_favorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,7 +142,6 @@ public class FoodCircleFragment extends Fragment {
                 }
             });
 
-
             return convertView;
         }
     }
@@ -145,16 +151,18 @@ public class FoodCircleFragment extends Fragment {
         public RoundImageView head;
         public TextView name;
         public TextView time;
+        public TextView rname;
         public ImageView picture;
+        public TextView num;
     }
 
     //收藏动作
     public void favorite(int position) {
-        Toast.makeText(getActivity(),"你收藏了 "+names[position]+" 的 "+times[position],Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"你收藏了"+names[position]+"的"+rnames[position],Toast.LENGTH_SHORT).show();
     }
 
     //取消收藏
     public void disfavorite(int position){
-        Toast.makeText(getActivity(),"你取消了收藏 "+names[position]+" 的 "+times[position],Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"你取消了收藏"+names[position]+"的"+rnames[position],Toast.LENGTH_SHORT).show();
     }
 }

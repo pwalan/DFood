@@ -8,17 +8,50 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="MENU"
+        android:text="菜 单"
         android:textSize="26dp"
         android:textColor="@color/black"/>
 
+    <!--我的发布-->
+
+    <Button
+        android:id="@+id/btn_myup"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:background="#00ffffff"
+        android:onClick="onMyupClicked"
+        android:text="我的发布"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_myup"
+        android:layout_alignTop="@id/btn_myup"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/myup"/>
+
+    <TextView
+        android:id="@+id/blank1"
+        android:layout_above="@id/btn_myup"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
     <!--退出程序-->
+    <TextView
+        android:id="@+id/blank0"
+        android:layout_below="@id/btn_myup"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <Button
         android:id="@+id/btn_exit"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/blank0"
         android:background="#00ffffff"
         android:onClick="onExitClicked"
         android:text="退出程序"
@@ -34,11 +67,6 @@
         android:layout_height="40dp"
         android:src="@drawable/exit"/>
 
-    <TextView
-        android:id="@+id/blank1"
-        android:layout_above="@id/btn_exit"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
 
     <!--查看收藏-->
 
@@ -50,7 +78,7 @@
         android:layout_centerHorizontal="true"
         android:background="#00ffffff"
         android:onClick="onFavoriteClicked"
-        android:text="查看收藏"
+        android:text="我的收藏"
         android:textSize="20dp"
         android:layout_alignParentRight="true"
         android:paddingLeft="10dp"
@@ -79,7 +107,7 @@
         android:layout_centerHorizontal="true"
         android:background="#00ffffff"
         android:onClick="onConcernClicked"
-        android:text="查看关注"
+        android:text="我的关注"
         android:textSize="20dp"
         android:layout_alignParentRight="true"
         android:paddingLeft="10dp"

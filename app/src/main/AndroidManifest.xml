@@ -49,6 +49,10 @@
             android:name=".ShowFavoritesActivity"
             android:label="@string/title_activity_show_favorites" >
         </activity>
+        <activity
+            android:name=".ShowMyupActivity"
+            android:label="@string/title_activity_show_myup" >
+        </activity>
     </application>
 
 </manifest>
