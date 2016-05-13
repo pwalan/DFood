@@ -13,6 +13,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class UploadActivity extends Activity implements View.OnClickListener{
 
     private RoundImageView head;
     private Button btn_up,btn_down;
-    private TextView tv_result;
+    private EditText tv_result;
     private ProgressDialog progressDialog;
     private App app;
 
@@ -72,7 +73,7 @@ public class UploadActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
 
-        tv_result=(TextView)findViewById(R.id.tv_result);
+        tv_result=(EditText)findViewById(R.id.tv_result);
         tv_result.setOnClickListener(this);
 
         head=(RoundImageView)findViewById(R.id.head);
