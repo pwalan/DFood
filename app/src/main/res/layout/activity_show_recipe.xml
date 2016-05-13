@@ -58,7 +58,7 @@
         android:background="@color/tianyi"/>
 
     <ListView
-        android:id="@+id/steps_list"
+        android:id="@+id/step_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"

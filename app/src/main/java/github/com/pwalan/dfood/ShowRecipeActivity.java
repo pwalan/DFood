@@ -7,9 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
 
@@ -19,7 +23,8 @@ import github.com.pwalan.dfood.myview.RoundImageView;
 public class ShowRecipeActivity extends Activity {
 
     private App app;
-    private String rname;
+    private String rname,username,rcontent;
+    private int rid,uid;
 
     //标题
     private ImageView titleLeftImv;
@@ -35,10 +40,12 @@ public class ShowRecipeActivity extends Activity {
     private TextView tv_rcontent;
 
     //步骤列表
-
+    private ListView step_list;
 
     //评论列表
+    private ListView comment_list;
 
+    SimpleAdapter simpleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +120,10 @@ public class ShowRecipeActivity extends Activity {
         tv_rcontent=(TextView)findViewById(R.id.tv_rcontent);
 
         //初始化步骤
+        step_list=(ListView)findViewById(R.id.step_list);
 
         //初始化评论
+        comment_list=(ListView)findViewById(R.id.comment_list);
     }
 
 }
