@@ -1,5 +1,6 @@
 package github.com.pwalan.dfood.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import github.com.pwalan.dfood.MainActivity;
 import github.com.pwalan.dfood.R;
+import github.com.pwalan.dfood.ShowRecipeActivity;
 
 /**
  * 首页
@@ -51,6 +54,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), "你点击了 " + names[position], Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getActivity(),ShowRecipeActivity.class);
+                intent.putExtra("rname",names[position]);
+                startActivity(intent);
             }
         });
 

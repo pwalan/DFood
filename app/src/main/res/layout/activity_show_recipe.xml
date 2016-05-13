@@ -10,7 +10,7 @@
         layout="@layout/title_layout" />
 
     <ImageView
-        android:id="@+id/iv_rec"
+        android:id="@+id/iv_recipe"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
@@ -38,7 +38,7 @@
         android:textSize="20dp"/>
 
     <TextView
-        android:id="@+id/rcon"
+        android:id="@+id/tv_rcontent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

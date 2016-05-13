@@ -2,6 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="github.com.pwalan.dfood.ShowRecipeActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/comment"
+        android:title="评论"
+        />
+    <item
+        android:id="@+id/favorite"
+        android:title="收藏"
+        />
+    <item
+        android:id="@+id/share"
+        android:title="分享"
+        />
+
 </menu>
