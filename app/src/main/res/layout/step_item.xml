@@ -9,7 +9,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:text="1."
-        android:textSize="60dp"
+        android:textSize="50dp"
         android:gravity="center"
         android:textColor="@color/blue"
         android:textStyle="italic"/>

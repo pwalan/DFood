@@ -1,93 +1,100 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="github.com.pwalan.dfood.ShowRecipeActivity">
 
-    <LinearLayout
+    <include
+        android:id="@+id/show_recipe_title"
+        layout="@layout/title_layout" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="github.com.pwalan.dfood.ShowRecipeActivity">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/show_recipe_title"
-            layout="@layout/title_layout" />
-
-        <ImageView
-            android:id="@+id/iv_recipe"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
-
-        <TextView
-            android:id="@+id/tv_rname"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="菜名"
-            android:textSize="24dp" />
-
-        <github.com.pwalan.dfood.myview.RoundImageView
-            android:id="@+id/iv_head"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:src="@drawable/user" />
-
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:text="用户名"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/tv_rcontent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="5dp"
-            android:text="介绍"
-            android:textSize="18dp" />
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/tianyi"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="具体步骤"
-            android:textSize="28dp" />
-
-        <ListView
-            android:id="@+id/step_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="#ffffff"
-            android:dividerHeight="2dp"
-            android:padding="10dp"></ListView>
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@color/tianyi"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="评论"
-            android:textSize="28dp" />
-
-        <ListView
-            android:id="@+id/comment_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="#ffffff"
-            android:dividerHeight="2dp"
-            android:padding="10dp"></ListView>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-    </LinearLayout>
-</ScrollView>
+            <ImageView
+                android:id="@+id/iv_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <TextView
+                android:id="@+id/tv_rname"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="菜名"
+                android:textSize="24dp" />
+
+            <github.com.pwalan.dfood.myview.RoundImageView
+                android:id="@+id/iv_head"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/user" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="用户名"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/tv_rcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+                android:text="介绍"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/tianyi"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="具体步骤"
+                android:textSize="28dp" />
+
+            <ListView
+                android:id="@+id/step_list"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:divider="#ffffff"
+                android:dividerHeight="2dp"
+                android:padding="10dp"
+                 />
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/tianyi"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="评论"
+                android:textSize="28dp" />
+
+            <ListView
+                android:id="@+id/comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#ffffff"
+                android:dividerHeight="2dp"
+                android:padding="10dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

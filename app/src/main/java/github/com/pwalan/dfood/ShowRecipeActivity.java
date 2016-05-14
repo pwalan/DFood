@@ -60,6 +60,7 @@ public class ShowRecipeActivity extends Activity {
     private JSONArray steps;
     List<Map<String, Object>> listItems;
     private Bitmap bitmap;
+    private Bitmap[] bitmaps=new Bitmap[10];
 
     //标题
     private ImageView titleLeftImv;
@@ -196,6 +197,7 @@ public class ShowRecipeActivity extends Activity {
                             steps = new JSONArray(data.get("steps").toString());
                             JSONObject jo = steps.getJSONObject(count);
                             getHttpBitmap(jo.get("pic").toString(), STEP);
+                            Log.i("step", jo.get("pic").toString());
 
                         } else {
                             Toast.makeText(ShowRecipeActivity.this, "未找到,请返回！", Toast.LENGTH_SHORT).show();
@@ -232,10 +234,12 @@ public class ShowRecipeActivity extends Activity {
                             SimpleAdapter adapter = new SimpleAdapter(ShowRecipeActivity.this, listItems, R.layout.step_item,
                                     new String[]{"num", "content", "pic"},
                                     new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
+                            adapter.setViewBinder(new ListViewBinder());
                             step_list.setAdapter(adapter);
                         }else{
                             jo = steps.getJSONObject(count);
                             getHttpBitmap(jo.get("pic").toString(), STEP);
+                            Log.i("step",jo.get("pic").toString());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -259,10 +263,7 @@ public class ShowRecipeActivity extends Activity {
                     conn.setConnectTimeout(6000);
                     //连接设置获得数据流
                     conn.setDoInput(true);
-                    //不使用缓存
-                    conn.setUseCaches(false);
-                    //这句可有可无，没有影响
-                    //conn.connect();
+                    conn.connect();
                     //得到数据流
                     InputStream is = conn.getInputStream();
                     //解析得到图片
@@ -275,6 +276,27 @@ public class ShowRecipeActivity extends Activity {
                 }
             }
         }).start();
+    }
+
+
+    /**
+     * listview显示图片必备
+     */
+    private class ListViewBinder implements SimpleAdapter.ViewBinder {
+
+        @Override
+        public boolean setViewValue(View view, Object data,
+                                    String textRepresentation) {
+            // TODO Auto-generated method stub
+            if((view instanceof ImageView) && (data instanceof Bitmap)) {
+                ImageView imageView = (ImageView) view;
+                Bitmap bmp = (Bitmap) data;
+                imageView.setImageBitmap(bmp);
+                return true;
+            }
+            return false;
+        }
+
     }
 
 }
