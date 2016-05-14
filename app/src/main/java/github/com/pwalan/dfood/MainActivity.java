@@ -285,7 +285,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     bitmap = BitmapFactory.decodeStream(is);
                     //关闭数据流
                     is.close();
-
                     handler.sendEmptyMessage(DOWNLOAD_FILE_DONE);
                 }catch(Exception e){
                     e.printStackTrace();
@@ -301,6 +300,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             switch(msg.what){
                 case DOWNLOAD_FILE_DONE:
                     titleLeftImv.setImageBitmap(bitmap);
+                    Log.i("main","获取首页头像");
                     break;
                 default:
                     break;

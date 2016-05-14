@@ -1,7 +1,6 @@
 package github.com.pwalan.dfood;
 
-import
-        android.app.Activity;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -200,6 +199,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                         if(status.equals("succeed")){
                             Toast.makeText(UserAcitvity.this,"登录成功！",Toast.LENGTH_SHORT).show();
                             app.setUid(response.getInt("uid"));
+                            app.setHeadurl(response.getString("head"));
                             app.setIsLogin(true);
                             setResult(Activity.RESULT_OK, lastIntent);
                             finish();

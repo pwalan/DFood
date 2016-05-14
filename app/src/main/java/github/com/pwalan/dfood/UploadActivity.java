@@ -109,10 +109,8 @@ public class UploadActivity extends Activity implements View.OnClickListener{
                 }
                 break;
             case R.id.btn_down:
-               /* String url="http://photo01-10023565.video.myqcloud.com/20160329_024231.jpg";
-                Bitmap bitmap = getHttpBitmap(url);
-                head.setImageBitmap(bitmap);*/
-                url="http://photo01-10023565.video.myqcloud.com/20160329_024231.jpg";
+
+                url="http://site.meishij.net/rs/58/25/3568808/n3568808_142682583822977.jpg";
                 getHttpBitmap(url);
                 break;
             case R.id.tv_result:
