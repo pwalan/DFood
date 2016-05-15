@@ -70,11 +70,10 @@
             <ListView
                 android:id="@+id/step_list"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="match_parent"
                 android:divider="#ffffff"
                 android:dividerHeight="2dp"
-                android:padding="10dp"
-                 />
+                android:padding="10dp" />
 
             <TextView
                 android:layout_width="200dp"

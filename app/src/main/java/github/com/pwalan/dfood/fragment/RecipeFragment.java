@@ -1,5 +1,6 @@
 package github.com.pwalan.dfood.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import github.com.pwalan.dfood.R;
+import github.com.pwalan.dfood.ShowRecipeActivity;
 import github.com.pwalan.dfood.utils.SuperTreeViewAdapter;
 import github.com.pwalan.dfood.utils.TreeViewAdapter;
 
@@ -93,6 +95,9 @@ public class RecipeFragment extends Fragment {
                                             int parent, int children, long arg4) {
                     String str = "parent id:" + String.valueOf(parent) + ",children id:" + String.valueOf(children);
                     Toast.makeText(getActivity(), child[parent][children], Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(getActivity(),ShowRecipeActivity.class);
+                    intent.putExtra("rname",child[parent][children]);
+                    startActivity(intent);
                     return false;
                 }
             });
