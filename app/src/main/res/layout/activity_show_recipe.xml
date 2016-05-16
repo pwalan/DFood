@@ -83,7 +83,7 @@
                 android:background="@color/tianyi"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="评论"
+                android:text="评论区"
                 android:textSize="28dp" />
 
             <ListView

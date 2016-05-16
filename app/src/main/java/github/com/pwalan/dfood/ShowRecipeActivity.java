@@ -39,6 +39,8 @@ import java.util.logging.LogRecord;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
 import github.com.pwalan.dfood.utils.C;
+import github.com.pwalan.dfood.utils.ListViewBinder;
+import github.com.pwalan.dfood.utils.ListViewUtils;
 
 /**
  * 菜单详情页
@@ -239,7 +241,7 @@ public class ShowRecipeActivity extends Activity {
                                     new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
                             adapter.setViewBinder(new ListViewBinder());
                             step_list.setAdapter(adapter);
-                            setListViewHeightBasedOnChildren(step_list);
+                            ListViewUtils.setListViewHeightBasedOnChildren(step_list);
                         }else{
                             jo = steps.getJSONObject(count);
                             getHttpBitmap(jo.get("pic").toString(), STEP);
@@ -280,48 +282,6 @@ public class ShowRecipeActivity extends Activity {
                 }
             }
         }).start();
-    }
-
-
-    /**
-     * listview显示图片必备
-     */
-    private class ListViewBinder implements SimpleAdapter.ViewBinder {
-
-        @Override
-        public boolean setViewValue(View view, Object data,
-                                    String textRepresentation) {
-            // TODO Auto-generated method stub
-            if((view instanceof ImageView) && (data instanceof Bitmap)) {
-                ImageView imageView = (ImageView) view;
-                Bitmap bmp = (Bitmap) data;
-                imageView.setImageBitmap(bmp);
-                return true;
-            }
-            return false;
-        }
-    }
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-            if(i<2){
-                totalHeight += listItem.getMeasuredHeight();
-            }
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight;
-        listView.setLayoutParams(params);
     }
 
 }
