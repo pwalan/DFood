@@ -46,8 +46,7 @@ import github.com.pwalan.dfood.utils.ListViewUtils;
  * 菜单详情页
  */
 public class ShowRecipeActivity extends Activity {
-
-    //获取数据后
+    //获取数据
     protected static final int GET_DATA = 1;
     //菜谱图片
     protected static final int RPIC = 2;
@@ -55,6 +54,8 @@ public class ShowRecipeActivity extends Activity {
     protected static final int HEAD = 3;
     //菜谱步骤图片
     protected static final int STEP = 4;
+    //收藏
+    protected static final int ADDFAVORITE=5;
 
     private App app;
     private String rname;
@@ -132,11 +133,19 @@ public class ShowRecipeActivity extends Activity {
                                                          switch (item.getItemId()) {
                                                              case R.id.comment:
                                                                  popup.dismiss();
-                                                                 Toast.makeText(ShowRecipeActivity.this, "评论", Toast.LENGTH_SHORT).show();
+                                                                 if(app.isLogin()){
+                                                                     Toast.makeText(ShowRecipeActivity.this, "评论", Toast.LENGTH_SHORT).show();
+                                                                 }else{
+                                                                     Toast.makeText(ShowRecipeActivity.this,"要评论请先登录",Toast.LENGTH_SHORT).show();
+                                                                 }
                                                                  break;
                                                              case R.id.favorite:
                                                                  popup.dismiss();
-                                                                 Toast.makeText(ShowRecipeActivity.this, "收藏", Toast.LENGTH_SHORT).show();
+                                                                 if(app.isLogin()){
+                                                                     addFavorite();
+                                                                 }else{
+                                                                     Toast.makeText(ShowRecipeActivity.this,"要收藏请先登录",Toast.LENGTH_SHORT).show();
+                                                                 }
                                                                  break;
                                                              case R.id.share:
                                                                  popup.dismiss();
@@ -170,6 +179,9 @@ public class ShowRecipeActivity extends Activity {
         listItems = new ArrayList<Map<String, Object>>();
     }
 
+    /**
+     * 获取菜谱的数据
+     */
     private void getData() {
         new Thread(new Runnable() {
             @Override
@@ -178,6 +190,22 @@ public class ShowRecipeActivity extends Activity {
                 map.put("rname", rname);
                 response = C.asyncPost(app.getServer() + "getSteps", map);
                 handler.sendEmptyMessage(GET_DATA);
+            }
+        }).start();
+    }
+
+    /**
+     * 添加收藏
+     */
+    private void addFavorite(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap map=new HashMap();
+                map.put("uid",app.getUid());
+                map.put("rid",rid);
+                response=C.asyncPost(app.getServer()+"addFavorite",map);
+                handler.sendEmptyMessage(ADDFAVORITE);
             }
         }).start();
     }
@@ -246,6 +274,18 @@ public class ShowRecipeActivity extends Activity {
                             jo = steps.getJSONObject(count);
                             getHttpBitmap(jo.get("pic").toString(), STEP);
                             Log.i("step",jo.get("pic").toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case ADDFAVORITE:
+                    try {
+                        String result = response.getString("data");
+                        if(result.equals("add")){
+                            Toast.makeText(ShowRecipeActivity.this,"已收藏",Toast.LENGTH_SHORT).show();
+                        }else if(result.equals("cancle")){
+                            Toast.makeText(ShowRecipeActivity.this,"已取消收藏",Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -1,38 +1,151 @@
 package github.com.pwalan.dfood;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import github.com.pwalan.dfood.utils.C;
+import github.com.pwalan.dfood.utils.ListViewBinder;
+import github.com.pwalan.dfood.utils.ListViewUtils;
 
 
 public class ShowFavoritesActivity extends ActionBarActivity {
+    //获取数据
+    protected static final int GET_DATA = 1;
+    //获取图片
+    protected static final int GET_PICS=2;
+
+    private App app;
+    private ListView flist;
+    List<Map<String, Object>> listItems;
+    private JSONObject response;
+    private JSONArray data;
+    private int count=0;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_favorites);
+        app=(App)getApplication();
+        flist=(ListView)findViewById(R.id.flist);
+        listItems=new ArrayList<Map<String, Object>>();
+        getData();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_favorites, menu);
-        return true;
+    /**
+     * 获取收藏的数据
+     */
+    private void getData() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap map = new HashMap();
+                map.put("uid",app.getUid());
+                response = C.asyncPost(app.getServer() + "getFavorites", map);
+                handler.sendEmptyMessage(GET_DATA);
+            }
+        }).start();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case GET_DATA:
+                    try {
+                        data = new JSONArray(response.get("data").toString());
+                        JSONObject jo = data.getJSONObject(count);
+                        getHttpBitmap(jo.getString("pic"),GET_PICS);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case GET_PICS:
+                    Map<String, Object> listItem = new HashMap<String, Object>();
+                    try {
+                        JSONObject jo = data.getJSONObject(count);
+                        listItem.put("rname",jo.getString("rname"));
+                        listItem.put("time",jo.getString("time"));
+                        listItem.put("pic", bitmap);
+                        listItems.add(listItem);
+                        count++;
+                        if(count==data.length()){
+                            SimpleAdapter adapter = new SimpleAdapter(ShowFavoritesActivity.this, listItems, R.layout.favorite_item,
+                                    new String[]{"rname", "time", "pic"},
+                                    new int[]{R.id.tv_rname, R.id.tv_time, R.id.iv_pic});
+                            adapter.setViewBinder(new ListViewBinder());
+                            flist.setAdapter(adapter);
+                            flist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Toast.makeText(ShowFavoritesActivity.this, "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ShowFavoritesActivity.this, ShowRecipeActivity.class);
+                                    intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                                    startActivity(intent);
+                                }
+                            });
+                        }else{
+                            jo = data.getJSONObject(count);
+                            getHttpBitmap(jo.getString("pic"),GET_PICS);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
+    };
 
-        return super.onOptionsItemSelected(item);
+    public void getHttpBitmap(final String url, final int msg) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL myFileURL = new URL(url);
+                    //获得连接
+                    HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
+                    //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
+                    conn.setConnectTimeout(6000);
+                    //连接设置获得数据流
+                    conn.setDoInput(true);
+                    conn.connect();
+                    //得到数据流
+                    InputStream is = conn.getInputStream();
+                    //解析得到图片
+                    bitmap = BitmapFactory.decodeStream(is);
+                    //关闭数据流
+                    is.close();
+                    handler.sendEmptyMessage(msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
