@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="github.com.pwalan.dfood.ShowPersonInf">
+
+    <include
+        android:id="@+id/show_recipe_title"
+        layout="@layout/title_layout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp" >
+
+        <TextView
+            android:id="@+id/tv_01"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/tianyi"/>
+
+        <TextView
+            android:id="@+id/tv_con"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_toLeftOf="@id/tv_01"
+            android:layout_marginTop="10dp"
+            android:text="关注度"
+            android:textSize="24dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_conNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_01"
+            android:layout_below="@id/tv_con"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textSize="24dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_rec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_01"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="菜谱数"
+            android:textSize="24dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_recNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_01"
+            android:gravity="center"
+            android:layout_below="@id/tv_rec"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textSize="24dp"
+            />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/uplist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#ffffff"
+        android:dividerHeight="2dp"
+        android:padding="10dp"/>
+
+</LinearLayout>

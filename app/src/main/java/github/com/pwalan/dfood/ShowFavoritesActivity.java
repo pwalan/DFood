@@ -1,14 +1,12 @@
 package github.com.pwalan.dfood;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,10 +27,9 @@ import java.util.Map;
 
 import github.com.pwalan.dfood.utils.C;
 import github.com.pwalan.dfood.utils.ListViewBinder;
-import github.com.pwalan.dfood.utils.ListViewUtils;
 
 
-public class ShowFavoritesActivity extends ActionBarActivity {
+public class ShowFavoritesActivity extends Activity {
     //获取数据
     protected static final int GET_DATA = 1;
     //获取图片
@@ -94,7 +91,7 @@ public class ShowFavoritesActivity extends ActionBarActivity {
                         listItems.add(listItem);
                         count++;
                         if(count==data.length()){
-                            SimpleAdapter adapter = new SimpleAdapter(ShowFavoritesActivity.this, listItems, R.layout.favorite_item,
+                            SimpleAdapter adapter = new SimpleAdapter(ShowFavoritesActivity.this, listItems, R.layout.simple_recipe_item,
                                     new String[]{"rname", "time", "pic"},
                                     new int[]{R.id.tv_rname, R.id.tv_time, R.id.iv_pic});
                             adapter.setViewBinder(new ListViewBinder());

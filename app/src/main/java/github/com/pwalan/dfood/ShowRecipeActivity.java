@@ -167,6 +167,16 @@ public class ShowRecipeActivity extends Activity {
         tv_rname = (TextView) findViewById(R.id.tv_rname);
         tv_rname.setText(rname);
         iv_head = (RoundImageView) findViewById(R.id.iv_head);
+        iv_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Toast.makeText(ShowRecipeActivity.this,data.get("username").toString(),Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         tv_username = (TextView) findViewById(R.id.tv_username);
         tv_rcontent = (TextView) findViewById(R.id.tv_rcontent);
 

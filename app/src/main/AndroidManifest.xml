@@ -57,6 +57,10 @@
             android:name=".ShowRecipeActivity"
             android:label="@string/title_activity_show_recipe" >
         </activity>
+        <activity
+            android:name=".ShowPersonInf"
+            android:label="@string/title_activity_show_person_inf" >
+        </activity>
     </application>
 
 </manifest>
