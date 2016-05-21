@@ -341,7 +341,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onMyupClicked(View v){
         if(app.isLogin()){
             menu.toggle();
-            startActivity(new Intent(this, ShowMyupActivity.class));
+            Intent intent=new Intent(this, ShowPersonInf.class);
+            intent.putExtra("uid", app.getUid());
+            startActivity(intent);
         }else{
             Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
         }

@@ -241,7 +241,6 @@ public class ShowRecipeActivity extends Activity {
                             JSONObject jo = steps.getJSONObject(count);
                             getHttpBitmap(jo.get("pic").toString(), STEP);
                             Log.i("step", jo.get("pic").toString());
-
                         } else {
                             Toast.makeText(ShowRecipeActivity.this, "未找到,请返回！", Toast.LENGTH_SHORT).show();
                         }

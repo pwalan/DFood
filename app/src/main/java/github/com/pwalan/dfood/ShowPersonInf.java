@@ -1,14 +1,17 @@
 package github.com.pwalan.dfood;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +28,18 @@ import java.util.List;
 import java.util.Map;
 
 import github.com.pwalan.dfood.utils.C;
+import github.com.pwalan.dfood.utils.ListViewBinder;
 
 
 public class ShowPersonInf extends Activity {
     //获取数据
     protected static final int GET_DATA = 1;
+    //获取头像
+    protected static final int HEAD=2;
     //获取图片
-    protected static final int GET_PICS=2;
+    protected static final int GET_PICS=3;
     //添加关注
-    protected static final int CONCERN=3;
+    protected static final int CONCERN=4;
 
     private App app;
     private int uid;
@@ -65,7 +71,7 @@ public class ShowPersonInf extends Activity {
         tv_recNum=(TextView)findViewById(R.id.tv_recNum);
         //初始化标题栏
         titleLeftImv = (ImageView) findViewById(R.id.title_imv);
-        titleLeftImv.setImageResource(R.drawable.exit);
+        titleLeftImv.setImageResource(R.drawable.user);
         titleLeftImv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,11 +114,54 @@ public class ShowPersonInf extends Activity {
                 case GET_DATA:
                     try {
                         data = new JSONObject(response.get("data").toString());
+                        titleTv.setText(data.getString("username"));
+                        tv_conNum.setText(data.getString("conNum"));
+                        tv_recNum.setText(data.getString("recNum"));
+                        getHttpBitmap(data.getString("head"),HEAD);
+                        //处理用户发布
+                        ups=new JSONArray(data.getString("ups"));
+                        JSONObject jo = ups.getJSONObject(count);
+                        getHttpBitmap(jo.getString("pic"),GET_PICS);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
+                case HEAD:
+                    titleLeftImv.setImageBitmap(bitmap);
+                    break;
                 case GET_PICS:
+                    Map<String, Object> listItem = new HashMap<String, Object>();
+                    try {
+                        JSONObject jo = ups.getJSONObject(count);
+                        listItem.put("rname",jo.getString("rname"));
+                        listItem.put("time",jo.getString("time"));
+                        listItem.put("pic",bitmap);
+                        listItems.add(listItem);
+                        count++;
+                        if(count==ups.length()){
+                            SimpleAdapter adapter = new SimpleAdapter(ShowPersonInf.this, listItems, R.layout.simple_recipe_item,
+                                    new String[]{"rname", "time", "pic"},
+                                    new int[]{R.id.tv_rname, R.id.tv_time, R.id.iv_pic});
+                            adapter.setViewBinder(new ListViewBinder());
+                            uplist.setAdapter(adapter);
+                            uplist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Toast.makeText(ShowPersonInf.this, "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ShowPersonInf.this, ShowRecipeActivity.class);
+                                    intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                                    startActivity(intent);
+                                }
+                            });
+                        }else{
+                            jo=ups.getJSONObject(count);
+                            getHttpBitmap(jo.getString("pic"),GET_PICS);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case CONCERN:
                     break;
                 default:
                     break;

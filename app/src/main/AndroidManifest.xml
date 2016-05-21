@@ -50,10 +50,6 @@
             android:label="@string/title_activity_show_favorites" >
         </activity>
         <activity
-            android:name=".ShowMyupActivity"
-            android:label="@string/title_activity_show_myup" >
-        </activity>
-        <activity
             android:name=".ShowRecipeActivity"
             android:label="@string/title_activity_show_recipe" >
         </activity>
