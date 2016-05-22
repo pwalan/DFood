@@ -15,8 +15,8 @@ public class App extends Application{
         isLogin = false;
         username="";
         uid =0;
-        headurl="";
-        server="http://pwalan.cn/AndroidServer/";
+        headurl="http://pwalan-10035979.image.myqcloud.com/test_fileId_3119a3d1-b799-4400-b65e-48c92ba7aebd";
+        server="http://192.168.0.106:8080/AndroidServer/";
         super.onCreate();
     }
 

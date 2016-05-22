@@ -39,7 +39,7 @@ public class QCloud {
      * @param con 上下文
      */
     public static void init(Context con){
-        resultUrl="";
+        resultUrl="http://pwalan-10035979.image.myqcloud.com/test_fileId_3119a3d1-b799-4400-b65e-48c92ba7aebd";
         bucket="pwalan";
         //获取APP签名
         getUploadImageSign("http://pwalan.cn/QCloudServer/getSign");
@@ -54,7 +54,6 @@ public class QCloud {
      * @param con 上下文（用来显示结果）
      */
     public static void UploadPic(String picPath, final Context con){
-        resultUrl="";
         PhotoUploadTask task = new PhotoUploadTask(picPath,
                 new IUploadTaskListener() {
                     @Override
