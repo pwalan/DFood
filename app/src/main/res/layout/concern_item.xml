@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textColor="#000000"/>
 
     <TextView
@@ -27,8 +27,8 @@
         android:layout_below="@id/tv_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24dp"
-        android:layout_marginTop="10dp"
+        android:textSize="18dp"
+        android:layout_marginTop="5dp"
         android:textColor="#000000"/>
 
 </RelativeLayout>
