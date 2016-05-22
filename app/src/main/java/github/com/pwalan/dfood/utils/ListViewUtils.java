@@ -29,8 +29,8 @@ public class ListViewUtils {
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
-            if(i<2){
-                //多出两个item的高度作为预留空间
+            if(i<1){
+                //多出的高度作为预留空间
                 totalHeight += listItem.getMeasuredHeight();
             }
         }

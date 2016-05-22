@@ -56,16 +56,17 @@ public class ShowRecipeActivity extends Activity {
     protected static final int STEP = 4;
     //收藏
     protected static final int ADDFAVORITE=5;
+    //获取评论用户的头像
+    protected static final int HEADS=6;
 
     private App app;
     private String rname;
     private int rid, uid;
     private int count = 0;
     private JSONObject response, data;
-    private JSONArray steps;
-    List<Map<String, Object>> listItems;
+    private JSONArray steps,comments;
+    List<Map<String, Object>> step_listItems,com_listItems;
     private Bitmap bitmap;
-    private Bitmap[] bitmaps=new Bitmap[10];
 
     //标题
     private ImageView titleLeftImv;
@@ -184,7 +185,10 @@ public class ShowRecipeActivity extends Activity {
         //初始化评论
         comment_list = (ListView) findViewById(R.id.comment_list);
 
-        listItems = new ArrayList<Map<String, Object>>();
+        step_listItems = new ArrayList<Map<String, Object>>();
+        com_listItems=new ArrayList<Map<String, Object>>();
+
+
     }
 
     /**
@@ -234,6 +238,7 @@ public class ShowRecipeActivity extends Activity {
                             uid = data.getInt("uid");
                             tv_username.setText(data.get("username").toString());
                             tv_rcontent.setText("        " + data.get("info").toString());
+                            comments=new JSONArray(data.getString("comments"));
                             //处理菜谱步骤
                             steps = new JSONArray(data.get("steps").toString());
                             JSONObject jo = steps.getJSONObject(count);
@@ -261,22 +266,29 @@ public class ShowRecipeActivity extends Activity {
                     break;
 
                 case STEP:
-                    Map<String, Object> listItem = new HashMap<String, Object>();
                     Log.i("step","现在是第"+count);
                     try {
                         JSONObject jo = steps.getJSONObject(count);
-                        listItem.put("num", jo.get("num").toString());
-                        listItem.put("content", jo.get("content").toString());
-                        listItem.put("pic", bitmap);
-                        listItems.add(listItem);
+                        Map<String, Object> step_listItem = new HashMap<String, Object>();
+                        step_listItem.put("num", jo.get("num").toString());
+                        step_listItem.put("content", jo.get("content").toString());
+                        step_listItem.put("pic", bitmap);
+                        step_listItems.add(step_listItem);
                         count++;
                         if (count == steps.length()) {
-                            SimpleAdapter adapter = new SimpleAdapter(ShowRecipeActivity.this, listItems, R.layout.step_item,
+                            SimpleAdapter adapter = new SimpleAdapter(ShowRecipeActivity.this, step_listItems, R.layout.step_item,
                                     new String[]{"num", "content", "pic"},
                                     new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
                             adapter.setViewBinder(new ListViewBinder());
                             step_list.setAdapter(adapter);
                             ListViewUtils.setListViewHeightBasedOnChildren(step_list);
+
+                            //获取完步骤后再获取评论
+                            count=0;
+                            jo=comments.getJSONObject(count);
+                            if(jo!=null){
+                                getHttpBitmap(jo.getString("head"),HEADS);
+                            }
                         }else{
                             jo = steps.getJSONObject(count);
                             getHttpBitmap(jo.get("pic").toString(), STEP);
@@ -293,6 +305,31 @@ public class ShowRecipeActivity extends Activity {
                             Toast.makeText(ShowRecipeActivity.this,"已收藏",Toast.LENGTH_SHORT).show();
                         }else if(result.equals("cancle")){
                             Toast.makeText(ShowRecipeActivity.this,"已取消收藏",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case HEADS:
+                    try {
+                        JSONObject jo = comments.getJSONObject(count);
+                        Map<String, Object> com_listItem = new HashMap<String, Object>();
+                        com_listItem.put("cname", jo.get("cname").toString());
+                        com_listItem.put("time",jo.getString("time"));
+                        com_listItem.put("content", jo.get("content").toString());
+                        com_listItem.put("head", bitmap);
+                        com_listItems.add(com_listItem);
+                        count++;
+                        if (count == comments.length()) {
+                            SimpleAdapter adapter = new SimpleAdapter(ShowRecipeActivity.this, com_listItems, R.layout.comment_item,
+                                    new String[]{"cname", "time", "content","head"},
+                                    new int[]{R.id.tv_cname, R.id.tv_time, R.id.tv_content, R.id.iv_chead});
+                            adapter.setViewBinder(new ListViewBinder());
+                            comment_list.setAdapter(adapter);
+                            ListViewUtils.setListViewHeightBasedOnChildren(comment_list);
+                        }else{
+                            jo = comments.getJSONObject(count);
+                            getHttpBitmap(jo.get("head").toString(), HEADS);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
