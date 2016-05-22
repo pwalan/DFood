@@ -39,7 +39,7 @@ public class ShowPersonInf extends Activity {
     //获取图片
     protected static final int GET_PICS=3;
     //添加关注
-    protected static final int CONCERN=4;
+    protected static final int ADDCONCERN=4;
 
     private App app;
     private int uid;
@@ -85,7 +85,7 @@ public class ShowPersonInf extends Activity {
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ShowPersonInf.this,"关注",Toast.LENGTH_SHORT).show();
+                addConcern();
             }
         });
 
@@ -103,6 +103,22 @@ public class ShowPersonInf extends Activity {
                 map.put("uid",uid);
                 response = C.asyncPost(app.getServer() + "getUserUp", map);
                 handler.sendEmptyMessage(GET_DATA);
+            }
+        }).start();
+    }
+
+    /**
+     * 添加关注
+     */
+    private void addConcern(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap map=new HashMap();
+                map.put("uid",app.getUid());
+                map.put("cid",uid);
+                response=C.asyncPost(app.getServer()+"addConcern",map);
+                handler.sendEmptyMessage(ADDCONCERN);
             }
         }).start();
     }
@@ -161,7 +177,18 @@ public class ShowPersonInf extends Activity {
                         e.printStackTrace();
                     }
                     break;
-                case CONCERN:
+                case ADDCONCERN:
+                    try {
+                        String result=response.getString("data");
+                        if(result.equals("add")){
+                            Toast.makeText(ShowPersonInf.this,"已关注",Toast.LENGTH_SHORT).show();
+                        }else if(result.equals("cancle")){
+                            Toast.makeText(ShowPersonInf.this,"已取消关注",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     break;
                 default:
                     break;

@@ -54,7 +54,7 @@ public class ShowFavoritesActivity extends Activity {
     }
 
     /**
-     * 获取收藏的数据
+     * 获取收藏数据
      */
     private void getData() {
         new Thread(new Runnable() {

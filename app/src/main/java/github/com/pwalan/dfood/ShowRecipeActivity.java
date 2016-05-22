@@ -170,11 +170,9 @@ public class ShowRecipeActivity extends Activity {
         iv_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Toast.makeText(ShowRecipeActivity.this,data.get("username").toString(),Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Intent intent = new Intent(ShowRecipeActivity.this, ShowPersonInf.class);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
             }
         });
         tv_username = (TextView) findViewById(R.id.tv_username);
@@ -233,7 +231,7 @@ public class ShowRecipeActivity extends Activity {
                             rid = Integer.parseInt(data.get("rid").toString());
                             Log.i("step","rpic:"+data.get("rpic").toString());
                             getHttpBitmap(data.get("rpic").toString(), RPIC);
-                            uid = Integer.parseInt(data.get("uid").toString());
+                            uid = data.getInt("uid");
                             tv_username.setText(data.get("username").toString());
                             tv_rcontent.setText("        " + data.get("info").toString());
                             //处理菜谱步骤
