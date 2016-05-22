@@ -130,12 +130,13 @@ public class ShowRecipeActivity extends Activity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                                                      @Override
                                                      public boolean onMenuItemClick(MenuItem item) {
-                                                         Intent intent;
                                                          switch (item.getItemId()) {
                                                              case R.id.comment:
                                                                  popup.dismiss();
                                                                  if(app.isLogin()){
-                                                                     Toast.makeText(ShowRecipeActivity.this, "评论", Toast.LENGTH_SHORT).show();
+                                                                     Intent intent=new Intent(ShowRecipeActivity.this,MakeCommentActivity.class);
+                                                                     intent.putExtra("rid",rid);
+                                                                     startActivity(intent);
                                                                  }else{
                                                                      Toast.makeText(ShowRecipeActivity.this,"要评论请先登录",Toast.LENGTH_SHORT).show();
                                                                  }

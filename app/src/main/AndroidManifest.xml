@@ -57,6 +57,11 @@
             android:name=".ShowPersonInf"
             android:label="@string/title_activity_show_person_inf" >
         </activity>
+        <activity
+            android:name=".MakeCommentActivity"
+            android:label="@string/title_activity_make_comment"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
