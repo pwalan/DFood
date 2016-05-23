@@ -22,9 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,17 +38,19 @@ import github.com.pwalan.dfood.fragment.HomeFragment;
 import github.com.pwalan.dfood.fragment.RecipeFragment;
 import github.com.pwalan.dfood.fragment.SeasonsetFragment;
 import github.com.pwalan.dfood.myview.SlidingMenu;
+import github.com.pwalan.dfood.utils.C;
+import github.com.pwalan.dfood.utils.QCloud;
 
 /**
  * app整体框架
  */
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
+    //下载头像
+    protected static final int DOWNLOAD_FILE_DONE = 1;
 
     private App app;
-
     private Bitmap bitmap;
-    //下载
-    protected static final int DOWNLOAD_FILE_DONE = 1;
+    private JSONObject response;
 
     //侧滑菜单
     private SlidingMenu menu;
@@ -88,7 +95,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         fragmentManager = getSupportFragmentManager();
         initView(); // 初始化界面控件
         setChioceItem(0); // 初始化页面加载时显示第一个选项卡
-
         menu=(SlidingMenu)findViewById(R.id.slide_menu);
     }
 

@@ -28,22 +28,6 @@ public class C {
 	static public final int TRANSPORT_METHOD_JSON=1;
 	static public final int TRANSPORT_METHOD_XML=2;
 	static public final int TRANSPORT_METHOD_MULITY=3;
-
-	static public final String IP = "http://192.168.0.105:8080/";
-	
-	static public final String getTestJson = IP + "LifeWIKI/usertest";
-
-	static public final String registJson = IP + "LifeWIKI/regist";
-
-	static public final String getInforJson = IP + "LifeWIKI/getperson";
-
-	static public final String getPhoneCode = IP + "LifeWIKI/getphonecode";
-
-    static public final String getthings = IP + "LifeWIKI/getthings";
-
-	//加新的网络请求地址（action）
-
-	static public final String saveUp = IP + "LifeWIKI/saveup";
 	
 	static public JSONObject asyncPost(String toUrl, HashMap content) {
 		PostThread t = new PostThread(toUrl, content);
