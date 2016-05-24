@@ -46,14 +46,15 @@ public class HomeFragment extends Fragment {
     //获取图片
     protected static final int GET_PICS=2;
 
-    /*private String[] names = new String[]{
-            "白切鸡", "夫妻肺片","麻婆豆腐", "七星鱼丸", "石锅拌饭", "糖醋鲤鱼"
+    private String[] names = new String[]{
+            "白切鸡", "夫妻肺片","麻婆豆腐", "七星鱼丸", "石锅拌饭", "糖醋鲤鱼","糖醋排骨","宫保鸡丁"
     };
 
     private int[] imageIds = new int[]{
             R.drawable.picture0, R.drawable.picture1, R.drawable.picture2,
-            R.drawable.picture3, R.drawable.picture4,R.drawable.picture5
-    };*/
+            R.drawable.picture3, R.drawable.picture4,R.drawable.picture5,
+            R.drawable.picture6,R.drawable.picture7
+    };
 
     private App app;
     private JSONArray data;
@@ -68,12 +69,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        app=(App)getActivity().getApplication();
+      /*  app=(App)getActivity().getApplication();
         listItems = new ArrayList<Map<String, Object>>();
         list = (ListView) view.findViewById(R.id.home_list);
-        getData();
+        getData();*/
 
-        /*List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < names.length; i++) {
             Map<String, Object> listItem = new HashMap<String, Object>();
             listItem.put("picture", imageIds[i]);
@@ -94,14 +95,12 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("rname",names[position]);
                 startActivity(intent);
             }
-        });*/
+        });
 
         return view;
     }
 
-    /**
-     * 获取数据
-     */
+    /*
     public void getData(){
         new Thread(new Runnable() {
             @Override
@@ -168,6 +167,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void run() {
                 try {
+                    Log.i("dfood","即将下载第"+count+"张图");
                     URL myFileURL = new URL(url);
                     //获得连接
                     HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
@@ -190,5 +190,5 @@ public class HomeFragment extends Fragment {
             }
         }).start();
     }
-
+     */
 }
