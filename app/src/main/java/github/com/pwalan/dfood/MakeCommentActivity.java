@@ -1,6 +1,7 @@
 package github.com.pwalan.dfood;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,9 @@ public class MakeCommentActivity extends Activity {
     private int rid;
     private JSONObject response;
 
+    //startActivityForResult需要的intent
+    private Intent lastIntent ;
+
     private EditText et_comment;
     private Button btn_publish;
 
@@ -34,8 +38,9 @@ public class MakeCommentActivity extends Activity {
 
         rid=getIntent().getIntExtra("rid",0);
         app=(App)getApplication();
+        lastIntent = getIntent();
 
-        et_comment=(EditText)findViewById(R.id.et_comment);
+        et_comment = (EditText) findViewById(R.id.et_comment);
         btn_publish=(Button)findViewById(R.id.btn_publish);
         btn_publish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +70,8 @@ public class MakeCommentActivity extends Activity {
                         String result=response.getString("data");
                         if(result.equals("add")){
                             Toast.makeText(MakeCommentActivity.this,"发表成功",Toast.LENGTH_SHORT).show();
+                            //设置结果
+                            setResult(Activity.RESULT_OK, lastIntent);
                             finish();
                         }
                     } catch (JSONException e) {

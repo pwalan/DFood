@@ -58,6 +58,8 @@ public class ShowRecipeActivity extends Activity {
     protected static final int ADDFAVORITE=5;
     //获取评论用户的头像
     protected static final int HEADS=6;
+    //获取新评论
+    protected static final int GET_COMMENT=7;
 
     private App app;
     private String rname;
@@ -90,7 +92,6 @@ public class ShowRecipeActivity extends Activity {
     //评论列表
     private ListView comment_list;
 
-    SimpleAdapter simpleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +141,7 @@ public class ShowRecipeActivity extends Activity {
                                                                  if(app.isLogin()){
                                                                      Intent intent=new Intent(ShowRecipeActivity.this,MakeCommentActivity.class);
                                                                      intent.putExtra("rid",rid);
-                                                                     startActivity(intent);
+                                                                     startActivityForResult(intent,0);
                                                                  }else{
                                                                      Toast.makeText(ShowRecipeActivity.this,"要评论请先登录",Toast.LENGTH_SHORT).show();
                                                                  }
@@ -207,6 +208,21 @@ public class ShowRecipeActivity extends Activity {
                 map.put("rname", rname);
                 response = C.asyncPost(app.getServer() + "getSteps", map);
                 handler.sendEmptyMessage(GET_DATA);
+            }
+        }).start();
+    }
+
+    /**
+     * 获取新的评论数据
+     */
+    private void getComments() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap map = new HashMap();
+                map.put("rname", rname);
+                response = C.asyncPost(app.getServer() + "getSteps", map);
+                handler.sendEmptyMessage(GET_COMMENT);
             }
         }).start();
     }
@@ -342,11 +358,35 @@ public class ShowRecipeActivity extends Activity {
                         e.printStackTrace();
                     }
                     break;
+                case GET_COMMENT:
+                    try {
+                        data = new JSONObject(response.get("data").toString());
+                        comments=new JSONArray(data.getString("comments"));
+                        JSONObject jo = steps.getJSONObject(count);
+                        jo=comments.getJSONObject(count);
+                        if(jo!=null){
+                            getHttpBitmap(jo.getString("head"),HEADS);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 default:
                     break;
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode== Activity.RESULT_OK && requestCode == 0)
+        {
+            count=0;
+            com_listItems=new ArrayList<Map<String, Object>>();
+            getComments();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     public void getHttpBitmap(final String url, final int msg) {
         new Thread(new Runnable() {
