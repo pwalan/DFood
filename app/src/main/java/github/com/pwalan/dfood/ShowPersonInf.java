@@ -49,6 +49,9 @@ public class ShowPersonInf extends Activity {
     private Bitmap bitmap;
     List<Map<String, Object>> listItems;
 
+    //startActivityForResult需要的intent
+    private Intent lastIntent ;
+
     // 初始化顶部栏显示
     private ImageView titleLeftImv;
     private TextView titleTv;
@@ -65,7 +68,9 @@ public class ShowPersonInf extends Activity {
         uid=getIntent().getIntExtra("uid",0);
 
         app=(App)getApplication();
+        lastIntent = getIntent();
         listItems=new ArrayList<Map<String, Object>>();
+
         uplist=(ListView)findViewById(R.id.uplist);
         tv_conNum=(TextView)findViewById(R.id.tv_conNum);
         tv_recNum=(TextView)findViewById(R.id.tv_recNum);
@@ -85,7 +90,11 @@ public class ShowPersonInf extends Activity {
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addConcern();
+                if(app.isLogin()){
+                    addConcern();
+                }else{
+                    Toast.makeText(ShowPersonInf.this,"要关注请先登录",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -169,6 +178,8 @@ public class ShowPersonInf extends Activity {
                                     startActivity(intent);
                                 }
                             });
+                            //设置结果
+                            setResult(Activity.RESULT_OK, lastIntent);
                         }else{
                             jo=ups.getJSONObject(count);
                             getHttpBitmap(jo.getString("pic"),GET_PICS);
@@ -182,8 +193,10 @@ public class ShowPersonInf extends Activity {
                         String result=response.getString("data");
                         if(result.equals("add")){
                             Toast.makeText(ShowPersonInf.this,"已关注",Toast.LENGTH_SHORT).show();
+                            tv_conNum.setText(""+(Integer.parseInt(tv_conNum.getText().toString())+1));
                         }else if(result.equals("cancle")){
                             Toast.makeText(ShowPersonInf.this,"已取消关注",Toast.LENGTH_SHORT).show();
+                            tv_conNum.setText(""+(Integer.parseInt(tv_conNum.getText().toString())-1));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

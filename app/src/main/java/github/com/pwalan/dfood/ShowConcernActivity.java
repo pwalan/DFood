@@ -107,7 +107,7 @@ public class ShowConcernActivity extends Activity {
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     Intent intent = new Intent(ShowConcernActivity.this, ShowPersonInf.class);
                                     intent.putExtra("uid", cids.get(position));
-                                    startActivity(intent);
+                                    startActivityForResult(intent, 0);
                                 }
                             });
                         }else{
@@ -123,6 +123,17 @@ public class ShowConcernActivity extends Activity {
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode== Activity.RESULT_OK && requestCode == 0)
+        {
+            count=0;
+            listItems=new ArrayList<Map<String, Object>>();
+            getData();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     public void getHttpBitmap(final String url, final int msg) {
         new Thread(new Runnable() {
