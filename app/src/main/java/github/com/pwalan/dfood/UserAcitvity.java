@@ -43,6 +43,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
 
     private ProgressDialog progressDialog;
 
+    //startActivityForResult需要的intent
     private Intent lastIntent ;
 
     private String passwd;
@@ -201,6 +202,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                             app.setUid(response.getInt("uid"));
                             app.setHeadurl(response.getString("head"));
                             app.setIsLogin(true);
+                            //设置结果
                             setResult(Activity.RESULT_OK, lastIntent);
                             finish();
                         }else{

@@ -68,6 +68,9 @@ public class ShowRecipeActivity extends Activity {
     List<Map<String, Object>> step_listItems,com_listItems;
     private Bitmap bitmap;
 
+    //startActivityForResult需要的intent
+    private Intent lastIntent ;
+
     //标题
     private ImageView titleLeftImv;
     private TextView titleTv;
@@ -106,6 +109,7 @@ public class ShowRecipeActivity extends Activity {
      */
     private void initView() {
         app = (App) getApplication();
+        lastIntent = getIntent();
 
         //初始化标题栏
         titleLeftImv = (ImageView) findViewById(R.id.title_imv);
@@ -328,6 +332,8 @@ public class ShowRecipeActivity extends Activity {
                             adapter.setViewBinder(new ListViewBinder());
                             comment_list.setAdapter(adapter);
                             ListViewUtils.setListViewHeightBasedOnChildren(comment_list);
+                            //设置结果
+                            setResult(Activity.RESULT_OK, lastIntent);
                         }else{
                             jo = comments.getJSONObject(count);
                             getHttpBitmap(jo.get("head").toString(), HEADS);

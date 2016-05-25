@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -102,7 +103,7 @@ public class ShowFavoritesActivity extends Activity {
                                     Toast.makeText(ShowFavoritesActivity.this, "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(ShowFavoritesActivity.this, ShowRecipeActivity.class);
                                     intent.putExtra("rname", listItems.get(position).get("rname").toString());
-                                    startActivity(intent);
+                                    startActivityForResult(intent, 0);
                                 }
                             });
                         }else{
@@ -118,6 +119,18 @@ public class ShowFavoritesActivity extends Activity {
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode== Activity.RESULT_OK && requestCode == 0)
+        {
+            Log.i("dfood","查看收藏后");
+            count=0;
+            listItems=new ArrayList<Map<String, Object>>();
+            getData();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     public void getHttpBitmap(final String url, final int msg) {
         new Thread(new Runnable() {
