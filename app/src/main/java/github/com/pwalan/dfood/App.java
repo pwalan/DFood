@@ -5,6 +5,7 @@ import android.app.Application;
 public class App extends Application{
     private boolean isLogin;
     private String username;
+    private String passwd;
     private int uid;
     private String headurl;
     private String server;
@@ -58,5 +59,13 @@ public class App extends Application{
 
     public void setHeadurl(String headurl) {
         this.headurl = headurl;
+    }
+
+    public String getPasswd() {
+        return passwd;
+    }
+
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
     }
 }

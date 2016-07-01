@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="github.com.pwalan.dfood.ChangePasswdActivity">
+
+    <TextView
+        android:id="@+id/tv01"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="修改密码"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimaryDark"/>
+
+    <EditText
+        android:id="@+id/et_confnewpasswd"
+        android:layout_centerInParent="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:hint="重复新密码"/>
+
+    <EditText
+        android:id="@+id/et_newpasswd"
+        android:layout_above="@id/et_confnewpasswd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:hint="新密码"/>
+
+    <EditText
+        android:id="@+id/et_oldpasswd"
+        android:layout_above="@id/et_newpasswd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:hint="原密码"/>
+
+    <Button
+        android:id="@+id/btn_change"
+        android:layout_below="@id/et_confnewpasswd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="修改"
+        android:background="@color/tianyi"/>
+
+</RelativeLayout>

@@ -102,6 +102,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 //登录
                 app.setUsername(et_username.getText().toString().trim());
                 passwd=et_passwd.getText().toString().trim();
+                app.setPasswd(passwd);
 
                 if(progressDialog==null) progressDialog=new ProgressDialog(this);
                 progressDialog.setTitle("请稍后");
