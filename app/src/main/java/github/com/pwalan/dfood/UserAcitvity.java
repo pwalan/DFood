@@ -60,6 +60,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     private Button btn_login;
     private Button btn_register;
     private Button btn_toregister;
+    private Button btn_forget;
 
     private App app;
     private JSONObject response;
@@ -90,6 +91,8 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         btn_register.setOnClickListener(this);
         btn_toregister = (Button) findViewById(R.id.btn_toregister);
         btn_toregister.setOnClickListener(this);
+        btn_forget=(Button)findViewById(R.id.btn_forget);
+        btn_forget.setOnClickListener(this);
     }
 
     @Override
@@ -131,6 +134,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 app.setUsername(et_username.getText().toString().trim());
                 passwd=et_passwd.getText().toString().trim();
                 passwdconf=et_passwdconf.getText().toString().trim();
+                //上传完头像后，设置用户的头像地址
                 app.setHeadurl(QCloud.resultUrl);
 
                 if(passwd.equals(passwdconf)){
@@ -162,6 +166,10 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                     Intent intent = new Intent(this,SelectPicActivity.class);
                     startActivityForResult(intent, 0);
                 }
+                break;
+            case R.id.btn_forget:
+                //忘记密码
+                startActivity(new Intent(this,ForgetPasswdActivity.class));
                 break;
             default:
                 break;

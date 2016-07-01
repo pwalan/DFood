@@ -60,7 +60,16 @@
         <activity
             android:name=".MakeCommentActivity"
             android:label="@string/title_activity_make_comment"
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".UserUpdateDialog"
+            android:label="@string/title_activity_user_update_dialog"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".ForgetPasswdActivity"
+            android:label="@string/title_activity_forget_passwd" >
         </activity>
     </application>
 
