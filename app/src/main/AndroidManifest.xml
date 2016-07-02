@@ -75,6 +75,10 @@
             android:name=".ChangePasswdActivity"
             android:label="@string/title_activity_change_passwd" >
         </activity>
+        <activity
+            android:name=".ChangeHeadActivity"
+            android:label="@string/title_activity_change_head" >
+        </activity>
     </application>
 
 </manifest>

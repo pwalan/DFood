@@ -38,7 +38,8 @@ public class UserUpdateDialog extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.btn_ch_head:
-                Toast.makeText(this,"更改头像",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, ChangeHeadActivity.class));
+                finish();
                 break;
             case R.id.btn_ch_passwd:
                 startActivity(new Intent(this,ChangePasswdActivity.class));

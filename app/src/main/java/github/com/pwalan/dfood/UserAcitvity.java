@@ -253,7 +253,6 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                         Toast.makeText(UserAcitvity.this, "上传的文件路径出错", Toast.LENGTH_SHORT).show();
                     }
                     break;
-
                 default:
                     break;
             }
