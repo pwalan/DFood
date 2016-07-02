@@ -3,6 +3,7 @@ package github.com.pwalan.dfood;
 import android.app.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,13 +12,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,8 +74,9 @@ public class UploadActivity extends Activity{
     private App app;
     private Bitmap bitmap;
     private String url=null;
+    private int step_num=1;
     private String season;  //选择的季节
-    List<Map<String, Object>> step_listItems;
+    List<Map<String, Object>> listItems;
     List<String> urls;
 
     @Override
@@ -123,10 +130,66 @@ public class UploadActivity extends Activity{
             }
         });
         step_list=(ListView)findViewById(R.id.step_list);
-        step_listItems = new ArrayList<Map<String, Object>>();
+        listItems = new ArrayList<Map<String, Object>>();
         urls=new ArrayList<String>();
         //添加步骤的按钮
         btn_add=(ImageButton)findViewById(R.id.btn_add);
+    }
+
+    public class MyAdapter extends BaseAdapter {
+
+        private LayoutInflater mInflater;
+
+        public MyAdapter(Context context) {
+            this.mInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return listItems.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        //****************************************final方法
+        //注意原本getView方法中的int position变量是非final的，现在改为final
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            final CheckBox cb_favorite;
+            if (convertView == null) {
+
+                holder=new ViewHolder();
+
+                //可以理解为从vlist获取view  之后把view返回给ListView
+
+                convertView = mInflater.inflate(R.layout.step_up_item, null);
+
+                convertView.setTag(holder);
+            }else {
+                holder = (ViewHolder)convertView.getTag();
+            }
+
+            return convertView;
+        }
+    }
+
+    //这里存储的是step_up_item里的组件
+    public final class ViewHolder {
+        public TextView tv_num;
+        public EditText et_step;
+        public ImageView iv_step;
     }
 
     @Override
