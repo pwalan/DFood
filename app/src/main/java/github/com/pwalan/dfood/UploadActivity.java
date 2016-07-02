@@ -12,14 +12,23 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
 import github.com.pwalan.dfood.utils.QCloud;
@@ -43,10 +52,25 @@ public class UploadActivity extends Activity{
 
 
     private ProgressDialog progressDialog;
-    private App app;
 
+    // 顶部栏显示
+    private ImageView titleLeftImv;
+    private TextView titleTv;
+    private ImageView img_up;
+
+    //食谱信息
+    private ImageView iv_recipe;
+    private EditText et_rname,et_rcontent;
+    private Spinner sp_season;
+    private ListView step_list;
+    private ImageButton btn_add;
+
+    private App app;
     private Bitmap bitmap;
     private String url=null;
+    private String season;  //选择的季节
+    List<Map<String, Object>> step_listItems;
+    List<String> urls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +83,50 @@ public class UploadActivity extends Activity{
 
         //腾讯云上传初始化
         QCloud.init(this);
+
+        /**
+         * 初始化页面标题栏
+         */
+        titleLeftImv = (ImageView) findViewById(R.id.title_imv);
+        titleLeftImv.setImageResource(R.drawable.exit);
+        //顶部左侧的图标点击事件
+        titleLeftImv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //顶部右侧的加号图标点击启动上传
+        img_up=(ImageView)findViewById(R.id.img_up);
+        img_up.setImageResource(R.drawable.myup);
+        img_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(UploadActivity.this, "上传中...", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //顶部标签
+        titleTv = (TextView) findViewById(R.id.title_text_tv);
+        titleTv.setText("食谱发布");
+
+        /**
+         * 初始化食谱部分
+         */
+        iv_recipe=(ImageView)findViewById(R.id.iv_recipe);
+        et_rname=(EditText)findViewById(R.id.et_rname);
+        et_rcontent=(EditText)findViewById(R.id.et_rcontent);
+        sp_season=(Spinner)findViewById(R.id.sp_season);
+        sp_season.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                season=(String)sp_season.getSelectedItem();
+            }
+        });
+        step_list=(ListView)findViewById(R.id.step_list);
+        step_listItems = new ArrayList<Map<String, Object>>();
+        urls=new ArrayList<String>();
+        //添加步骤的按钮
+        btn_add=(ImageButton)findViewById(R.id.btn_add);
     }
 
     @Override

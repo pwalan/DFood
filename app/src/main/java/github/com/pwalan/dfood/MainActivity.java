@@ -57,7 +57,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //侧滑菜单中的登录注册按钮
     private Button btn_user;
 
-    // 初始化顶部栏显示
+    // 顶部栏显示
     private ImageView titleLeftImv;
     private TextView titleTv;
     private ImageView img_up;
@@ -118,7 +118,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,UploadActivity.class));
+                if(app.isLogin()){
+                    startActivity(new Intent(MainActivity.this,UploadActivity.class));
+                }else{
+                    Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //顶部标签
