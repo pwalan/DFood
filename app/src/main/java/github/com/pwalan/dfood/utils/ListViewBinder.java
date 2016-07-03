@@ -8,7 +8,7 @@ import android.widget.SimpleAdapter;
 /**
  * ListView显示Bitmap图片需要让Adapter设置的类
  */
-public class ListViewBinder implements SimpleAdapter.ViewBinder{
+public class ListViewBinder implements SimpleAdapter.ViewBinder {
     @Override
     public boolean setViewValue(View view, Object data,
                                 String textRepresentation) {

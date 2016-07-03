@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
+import github.com.pwalan.dfood.utils.ListViewBinder;
 import github.com.pwalan.dfood.utils.ListViewUtils;
 import github.com.pwalan.dfood.utils.QCloud;
 import github.com.pwalan.dfood.utils.SelectPicActivity;
@@ -80,7 +81,7 @@ public class UploadActivity extends Activity{
     List<Map<String, Object>> listItems;
     Map<String, Object> listItem;
     List<String> urls;
-    SimpleAdapter simpleAdapter;
+    SimpleAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +132,13 @@ public class UploadActivity extends Activity{
         listItems = new ArrayList<Map<String, Object>>();
         listItem = new HashMap<String, Object>();
         listItem.put("num", step_num + ".");
-        listItem.put("content","请添加");
+        listItem.put("content", "请添加");
         listItems.add(listItem);
-        simpleAdapter= new SimpleAdapter(UploadActivity.this, listItems, R.layout.step_item,
+        adapter= new SimpleAdapter(UploadActivity.this, listItems, R.layout.step_item,
                 new String[]{"num", "content", "pic"},
                 new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
-        step_list.setAdapter(simpleAdapter);
+        adapter.setViewBinder(new ListViewBinder());
+        step_list.setAdapter(adapter);
         step_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -153,9 +155,9 @@ public class UploadActivity extends Activity{
                 step_num++;
                 listItem = new HashMap<String, Object>();
                 listItem.put("num", step_num + ".");
-                listItem.put("content", "请添加");
+                listItem.put("content","请添加");
                 listItems.add(listItem);
-                simpleAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 ListViewUtils.setListViewHeightBasedOnChildren(step_list);
             }
         });
@@ -167,7 +169,7 @@ public class UploadActivity extends Activity{
                 if(size>0){
                     step_num--;
                     listItems.remove(size-1);
-                    simpleAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                     ListViewUtils.setListViewHeightBasedOnChildren(step_list);
                 }
             }
@@ -181,9 +183,7 @@ public class UploadActivity extends Activity{
             picPath = data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
             Log.i("dfood", "最终选择的图片=" + picPath);
             Bitmap bm = BitmapFactory.decodeFile(picPath);
-
             //更新图库
-
             Uri localUri = Uri.fromFile(new File(picPath));
             Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
             sendBroadcast(localIntent);
@@ -191,6 +191,64 @@ public class UploadActivity extends Activity{
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    //自定义Adapter满足点击item内部
+    public class MyAdapter extends BaseAdapter {
+
+        private LayoutInflater mInflater;
+
+        public MyAdapter(Context context) {
+            this.mInflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return listItems.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+
+                holder=new ViewHolder();
+
+                //可以理解为从vlist获取view  之后把view返回给ListView
+
+                convertView = mInflater.inflate(R.layout.step_up_item, null);
+                holder.tv_num=(TextView)convertView.findViewById(R.id.tv_num);
+                holder.et_step=(EditText)convertView.findViewById(R.id.et_step);
+                holder.iv_step=(ImageView)convertView.findViewById(R.id.iv_step);
+
+                convertView.setTag(holder);
+            }else {
+                holder = (ViewHolder)convertView.getTag();
+            }
+            holder.tv_num.setText((String)listItems.get(position).get("num"));
+            holder.iv_step.setImageBitmap((Bitmap)listItems.get(position).get("pic"));
+
+            return convertView;
+        }
+    }
+
+    //这里存储的是step_up_item里的组件
+    public final class ViewHolder {
+        public TextView tv_num;
+        public EditText et_step;
+        public ImageView iv_step;
+    }
 
     private Handler handler = new Handler(){
         @Override

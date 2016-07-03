@@ -1,13 +1,17 @@
 package github.com.pwalan.dfood;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +35,11 @@ public class ChangeHeadActivity extends Activity {
     //获取数据
     protected static final int GET_DATA = 2;
 
+    //本地广播
+    private IntentFilter intentFilter;
+    private LocalReceiver localReceiver;
+    private LocalBroadcastManager localBroadcastManager;
+
     //startActivityForResult需要的intent
     private Intent lastIntent ;
 
@@ -49,6 +58,13 @@ public class ChangeHeadActivity extends Activity {
         app = (App) getApplication();
 
         lastIntent = getIntent();
+
+        //本地广播接收初始化
+        localBroadcastManager=LocalBroadcastManager.getInstance(this);
+        intentFilter=new IntentFilter();
+        intentFilter.addAction("github.com.pwalan.dfood.LOCAL_BROADCAST");
+        localReceiver=new LocalReceiver();
+        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 
         //腾讯云上传初始化
         QCloud.init(this);
@@ -97,6 +113,15 @@ public class ChangeHeadActivity extends Activity {
             sendBroadcast(localIntent);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //接受广播
+    class LocalReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent){
+            btn_change.setClickable(true);
+            btn_change.setBackgroundColor(getResources().getColor(R.color.tianyi));
+        }
     }
 
     private Handler handler = new Handler() {

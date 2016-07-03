@@ -31,7 +31,8 @@
         android:layout_height="50dp"
         android:text="更换"
         android:textSize="20dp"
-        android:background="@color/tianyi"/>
+        android:background="@color/lightgray"
+        android:clickable="false"/>
 
 
 </RelativeLayout>

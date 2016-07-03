@@ -1,9 +1,8 @@
 package github.com.pwalan.dfood.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,6 +23,8 @@ import java.net.URL;
 import java.util.UUID;
 
 public class QCloud {
+    //本地广播,通知上传完成
+    static LocalBroadcastManager localBroadcastManager;
     /**
      * 腾讯云上传管理类
      */
@@ -39,6 +40,7 @@ public class QCloud {
      * @param con 上下文
      */
     public static void init(Context con){
+        localBroadcastManager=LocalBroadcastManager.getInstance(con.getApplicationContext());
         resultUrl="http://pwalan-10035979.image.myqcloud.com/test_fileId_3119a3d1-b799-4400-b65e-48c92ba7aebd";
         bucket="pwalan";
         //获取APP签名
@@ -61,6 +63,8 @@ public class QCloud {
                         Log.i("Demo", "upload succeed: " + result.url);
                         resultUrl=result.url;
                         Toast.makeText(con,"上传成功！",Toast.LENGTH_SHORT).show();
+                        //发出广播
+                        localBroadcastManager.sendBroadcast(new Intent("github.com.pwalan.dfood.LOCAL_BROADCAST"));
                     }
                     @Override
                     public void onUploadStateChange(ITask.TaskState state) {
