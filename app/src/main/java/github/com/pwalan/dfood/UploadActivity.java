@@ -88,9 +88,6 @@ public class UploadActivity extends Activity{
 
         app=(App)getApplication();
 
-        //腾讯云上传初始化
-        QCloud.init(this);
-
         /**
          * 初始化页面标题栏
          */
@@ -134,62 +131,6 @@ public class UploadActivity extends Activity{
         urls=new ArrayList<String>();
         //添加步骤的按钮
         btn_add=(ImageButton)findViewById(R.id.btn_add);
-    }
-
-    public class MyAdapter extends BaseAdapter {
-
-        private LayoutInflater mInflater;
-
-        public MyAdapter(Context context) {
-            this.mInflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return listItems.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        //****************************************final方法
-        //注意原本getView方法中的int position变量是非final的，现在改为final
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            final CheckBox cb_favorite;
-            if (convertView == null) {
-
-                holder=new ViewHolder();
-
-                //可以理解为从vlist获取view  之后把view返回给ListView
-
-                convertView = mInflater.inflate(R.layout.step_up_item, null);
-
-                convertView.setTag(holder);
-            }else {
-                holder = (ViewHolder)convertView.getTag();
-            }
-
-            return convertView;
-        }
-    }
-
-    //这里存储的是step_up_item里的组件
-    public final class ViewHolder {
-        public TextView tv_num;
-        public EditText et_step;
-        public ImageView iv_step;
     }
 
     @Override
