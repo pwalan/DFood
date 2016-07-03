@@ -122,10 +122,11 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.btn_toregister:
-                //点击去注册后此按钮和登录按钮隐藏，确认密码和注册显示
+                //点击去注册后此按钮和登录、忘记密码按钮隐藏，确认密码和注册显示
                 registering=true;
                 btn_toregister.setVisibility(View.INVISIBLE);
                 btn_login.setVisibility(View.INVISIBLE);
+                btn_forget.setVisibility(View.INVISIBLE);
                 et_passwdconf.setVisibility(View.VISIBLE);
                 btn_register.setVisibility(View.VISIBLE);
                 break;
@@ -231,9 +232,10 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                         String status=response.getString("status");
                         if(status.equals("succeed")){
                             Toast.makeText(UserAcitvity.this,"注册成功！",Toast.LENGTH_SHORT).show();
-                            //注册成功后注册按钮、确认密码隐藏，登录、去注册显示
+                            //注册成功后注册按钮、确认密码隐藏，登录、去注册、忘记密码显示
                             btn_toregister.setVisibility(View.VISIBLE);
                             btn_login.setVisibility(View.VISIBLE);
+                            btn_forget.setVisibility(View.VISIBLE);
                             et_passwdconf.setVisibility(View.INVISIBLE);
                             btn_register.setVisibility(View.INVISIBLE);
                             registering=false;

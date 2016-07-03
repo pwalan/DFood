@@ -12,127 +12,12 @@
         android:textSize="26dp"
         android:textColor="@color/black"/>
 
-    <!--我的发布-->
-
-    <Button
-        android:id="@+id/btn_myup"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:background="#00ffffff"
-        android:onClick="onMyupClicked"
-        android:text="我的发布"
-        android:textSize="20dp"
-        android:layout_alignParentRight="true"
-        android:paddingLeft="10dp"
-        android:gravity="left|center"/>
-
-    <ImageView
-        android:layout_toLeftOf="@id/btn_myup"
-        android:layout_alignTop="@id/btn_myup"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/myup"/>
-
-    <TextView
-        android:id="@+id/blank1"
-        android:layout_above="@id/btn_myup"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <!--退出程序-->
-    <TextView
-        android:id="@+id/blank0"
-        android:layout_below="@id/btn_myup"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <Button
-        android:id="@+id/btn_exit"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/blank0"
-        android:background="#00ffffff"
-        android:onClick="onExitClicked"
-        android:text="退出程序"
-        android:textSize="20dp"
-        android:layout_alignParentRight="true"
-        android:paddingLeft="10dp"
-        android:gravity="left|center"/>
-
-    <ImageView
-        android:layout_toLeftOf="@id/btn_exit"
-        android:layout_alignTop="@id/btn_exit"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/exit"/>
-
-
-    <!--查看收藏-->
-
-    <Button
-        android:id="@+id/btn_favorite"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_above="@id/blank1"
-        android:layout_centerHorizontal="true"
-        android:background="#00ffffff"
-        android:onClick="onFavoriteClicked"
-        android:text="我的收藏"
-        android:textSize="20dp"
-        android:layout_alignParentRight="true"
-        android:paddingLeft="10dp"
-        android:gravity="left|center"/>
-
-    <ImageView
-        android:layout_toLeftOf="@id/btn_favorite"
-        android:layout_alignTop="@id/btn_favorite"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/favorite"/>
-
-    <TextView
-        android:id="@+id/blank2"
-        android:layout_above="@id/btn_favorite"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <!--查看关注-->
-
-    <Button
-        android:id="@+id/btn_concern"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_above="@id/blank2"
-        android:layout_centerHorizontal="true"
-        android:background="#00ffffff"
-        android:onClick="onConcernClicked"
-        android:text="我的关注"
-        android:textSize="20dp"
-        android:layout_alignParentRight="true"
-        android:paddingLeft="10dp"
-        android:gravity="left|center"/>
-
-    <ImageView
-        android:layout_toLeftOf="@id/btn_concern"
-        android:layout_alignTop="@id/btn_concern"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/concern"/>
-
-    <TextView
-        android:id="@+id/blank3"
-        android:layout_above="@id/btn_concern"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
     <!--登录注册-->
-
     <Button
         android:id="@+id/btn_user"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_above="@id/blank3"
+        android:layout_marginTop="120dp"
         android:layout_centerHorizontal="true"
         android:background="#00ffffff"
         android:onClick="onUserClicked"
@@ -149,6 +34,122 @@
         android:layout_height="40dp"
         android:src="@drawable/user"/>
 
+    <!--查看关注-->
+
+    <Button
+        android:id="@+id/btn_concern"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btn_user"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="#00ffffff"
+        android:onClick="onConcernClicked"
+        android:text="我的关注"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_concern"
+        android:layout_alignTop="@id/btn_concern"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/concern"/>
+
+    <!--查看收藏-->
+
+    <Button
+        android:id="@+id/btn_favorite"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btn_concern"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="#00ffffff"
+        android:onClick="onFavoriteClicked"
+        android:text="我的收藏"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_favorite"
+        android:layout_alignTop="@id/btn_favorite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/favorite"/>
+
+    <!--我的发布-->
+
+    <Button
+        android:id="@+id/btn_myup"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btn_favorite"
+        android:layout_marginTop="20dp"
+        android:background="#00ffffff"
+        android:onClick="onMyupClicked"
+        android:text="我的发布"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_myup"
+        android:layout_alignTop="@id/btn_myup"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/myup"/>
+
+    <!-- 食谱搜索 -->
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btn_myup"
+        android:layout_marginTop="20dp"
+        android:background="#00ffffff"
+        android:onClick="onSearchClicked"
+        android:text="菜谱搜索"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_search"
+        android:layout_alignTop="@id/btn_search"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/search"/>
+
+    <!--退出程序-->
+
+    <Button
+        android:id="@+id/btn_exit"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btn_search"
+        android:layout_marginTop="20dp"
+        android:background="#00ffffff"
+        android:onClick="onExitClicked"
+        android:text="退出程序"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_exit"
+        android:layout_alignTop="@id/btn_exit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/exit"/>
 
 
 </RelativeLayout>
