@@ -58,7 +58,6 @@ public class UploadActivity extends Activity{
      */
     private String picPath = null;
 
-
     private ProgressDialog progressDialog;
 
     // 顶部栏显示
@@ -71,7 +70,7 @@ public class UploadActivity extends Activity{
     private EditText et_rname,et_rcontent;
     private Spinner sp_season;
     private ListView step_list;
-    private ImageView imv_add;
+    private ImageView imv_add,imv_delete;
 
     private App app;
     private Bitmap bitmap;
@@ -132,16 +131,47 @@ public class UploadActivity extends Activity{
         listItems = new ArrayList<Map<String, Object>>();
         listItem = new HashMap<String, Object>();
         listItem.put("num", step_num + ".");
+        listItem.put("content","请添加");
         listItems.add(listItem);
         simpleAdapter= new SimpleAdapter(UploadActivity.this, listItems, R.layout.step_item,
                 new String[]{"num", "content", "pic"},
                 new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
         step_list.setAdapter(simpleAdapter);
-        ListViewUtils.setListViewHeightBasedOnChildren(step_list);
+        step_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(UploadActivity.this,"第"+(position+1)+"步",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         urls=new ArrayList<String>();
         //添加步骤的按钮
         imv_add=(ImageView)findViewById(R.id.imv_add);
+        imv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                step_num++;
+                listItem = new HashMap<String, Object>();
+                listItem.put("num", step_num + ".");
+                listItem.put("content", "请添加");
+                listItems.add(listItem);
+                simpleAdapter.notifyDataSetChanged();
+                ListViewUtils.setListViewHeightBasedOnChildren(step_list);
+            }
+        });
+        imv_delete=(ImageView)findViewById(R.id.imv_delete);
+        imv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int size=listItems.size();
+                if(size>0){
+                    step_num--;
+                    listItems.remove(size-1);
+                    simpleAdapter.notifyDataSetChanged();
+                    ListViewUtils.setListViewHeightBasedOnChildren(step_list);
+                }
+            }
+        });
     }
 
     @Override

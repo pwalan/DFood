@@ -84,16 +84,27 @@
     </ScrollView>
 
     <ImageView
-        android:id="@+id/imv_add"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/add"
+        android:id="@+id/imv_delete"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/delete"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
         android:elevation="1dp"
-        android:scaleType="center"
+        />
+
+    <ImageView
+        android:id="@+id/imv_add"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/add"
+        android:layout_above="@id/imv_delete"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="5dp"
+        android:elevation="1dp"
         />
 
 </RelativeLayout>
