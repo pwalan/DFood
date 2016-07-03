@@ -79,6 +79,10 @@
             android:name=".ChangeHeadActivity"
             android:label="@string/title_activity_change_head" >
         </activity>
+        <activity
+            android:name=".UpStepActivity"
+            android:label="@string/title_activity_up_step" >
+        </activity>
     </application>
 
 </manifest>

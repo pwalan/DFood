@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="github.com.pwalan.dfood.UpStepActivity">
+
+    <TextView
+        android:id="@+id/tv01"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="步骤详情"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_below="@id/tv01"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="第1步"
+        android:textSize="28dp"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/et_step"
+        android:layout_below="@id/tv_num"
+        android:layout_centerHorizontal="true"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:hint="具体描述"
+        android:textSize="20dp"/>
+
+    <ImageView
+        android:id="@+id/iv_step"
+        android:layout_below="@id/et_step"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:src="@drawable/uppic" />
+
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_below="@id/iv_step"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="完成"
+        android:textSize="20dp"
+        android:background="@color/lightgray"
+        android:clickable="false" />
+
+</RelativeLayout>

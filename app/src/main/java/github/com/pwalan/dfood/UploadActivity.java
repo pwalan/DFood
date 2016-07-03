@@ -75,12 +75,13 @@ public class UploadActivity extends Activity{
 
     private App app;
     private Bitmap bitmap;
-    private String url=null;
+    private String recipeurl=null;
     private int step_num=1;
     private String season;  //选择的季节
     List<Map<String, Object>> listItems;
     Map<String, Object> listItem;
-    List<String> urls;
+    List<Map<String, String>> steps; //要上传的步骤
+    List<String> picPaths;
     SimpleAdapter adapter;
 
     @Override
@@ -116,7 +117,7 @@ public class UploadActivity extends Activity{
         });
         //顶部标签
         titleTv = (TextView) findViewById(R.id.title_text_tv);
-        titleTv.setText("食谱发布");
+        titleTv.setText("菜谱发布");
 
         /**
          * 初始化食谱部分
@@ -131,9 +132,10 @@ public class UploadActivity extends Activity{
         step_list=(ListView)findViewById(R.id.step_list);
         listItems = new ArrayList<Map<String, Object>>();
         listItem = new HashMap<String, Object>();
-        listItem.put("num", step_num + ".");
+        listItem.put("num", step_num +"");
         listItem.put("content", "请添加");
         listItems.add(listItem);
+        picPaths.add("");
         adapter= new SimpleAdapter(UploadActivity.this, listItems, R.layout.step_item,
                 new String[]{"num", "content", "pic"},
                 new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
@@ -142,11 +144,19 @@ public class UploadActivity extends Activity{
         step_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(UploadActivity.this,"第"+(position+1)+"步",Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadActivity.this, "第" + (position + 1) + "步", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(UploadActivity.this,UpStepActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putInt("position",position);
+                bundle.putString("content",(String)listItems.get(position).get("content"));
+                bundle.putString("picPath",picPaths.get(position));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 0);
             }
         });
 
-        urls=new ArrayList<String>();
+        steps=new ArrayList<Map<String,String>>();
+        picPaths=new ArrayList<String>();
         //添加步骤的按钮
         imv_add=(ImageView)findViewById(R.id.imv_add);
         imv_add.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +167,7 @@ public class UploadActivity extends Activity{
                 listItem.put("num", step_num + ".");
                 listItem.put("content","请添加");
                 listItems.add(listItem);
+                picPaths.add("");
                 adapter.notifyDataSetChanged();
                 ListViewUtils.setListViewHeightBasedOnChildren(step_list);
             }
@@ -178,6 +189,9 @@ public class UploadActivity extends Activity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /**
+         * 从选择图片得到结果
+         */
         if(resultCode==Activity.RESULT_OK && requestCode == TO_SELECT_PHOTO)
         {
             picPath = data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
@@ -188,10 +202,17 @@ public class UploadActivity extends Activity{
             Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
             sendBroadcast(localIntent);
         }
+        /**
+         * 从上传步骤得到结果
+         */
+        if(resultCode==Activity.RESULT_OK&&requestCode==0){
+            Bundle returndata=data.getExtras();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    //自定义Adapter满足点击item内部
+
+    //自定义Adapter满足点击item内部*************************************************
     public class MyAdapter extends BaseAdapter {
 
         private LayoutInflater mInflater;
@@ -249,6 +270,7 @@ public class UploadActivity extends Activity{
         public EditText et_step;
         public ImageView iv_step;
     }
+    //******************************************************************************
 
     private Handler handler = new Handler(){
         @Override
