@@ -31,6 +31,9 @@ public class ChangeHeadActivity extends Activity {
     //获取数据
     protected static final int GET_DATA = 2;
 
+    //startActivityForResult需要的intent
+    private Intent lastIntent ;
+
     private ImageView img_head;
     private Button btn_change;
 
@@ -44,6 +47,8 @@ public class ChangeHeadActivity extends Activity {
         setContentView(R.layout.activity_change_head);
 
         app = (App) getApplication();
+
+        lastIntent = getIntent();
 
         //腾讯云上传初始化
         QCloud.init(this);
@@ -109,6 +114,8 @@ public class ChangeHeadActivity extends Activity {
                     try {
                         String data=response.getString("data");
                         if(data.equals("changed")){
+                            //设置结果
+                            setResult(Activity.RESULT_OK, lastIntent);
                             Toast.makeText(ChangeHeadActivity.this,"更换成功！",Toast.LENGTH_SHORT).show();
                             finish();
                         }

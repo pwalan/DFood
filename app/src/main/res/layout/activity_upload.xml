@@ -83,10 +83,10 @@
 
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/btn_add"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+    <ImageView
+        android:id="@+id/imv_add"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -94,7 +94,6 @@
         android:layout_marginBottom="20dp"
         android:elevation="1dp"
         android:scaleType="center"
-        android:background="#00ffffff"
         />
 
 </RelativeLayout>

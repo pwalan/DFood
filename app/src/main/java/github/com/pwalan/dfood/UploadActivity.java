@@ -33,10 +33,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
+import github.com.pwalan.dfood.utils.ListViewUtils;
 import github.com.pwalan.dfood.utils.QCloud;
 import github.com.pwalan.dfood.utils.SelectPicActivity;
 
@@ -69,7 +71,7 @@ public class UploadActivity extends Activity{
     private EditText et_rname,et_rcontent;
     private Spinner sp_season;
     private ListView step_list;
-    private ImageButton btn_add;
+    private ImageView imv_add;
 
     private App app;
     private Bitmap bitmap;
@@ -77,7 +79,9 @@ public class UploadActivity extends Activity{
     private int step_num=1;
     private String season;  //选择的季节
     List<Map<String, Object>> listItems;
+    Map<String, Object> listItem;
     List<String> urls;
+    SimpleAdapter simpleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +110,8 @@ public class UploadActivity extends Activity{
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(UploadActivity.this, "上传中...", Toast.LENGTH_SHORT).show();
+                season=(String)sp_season.getSelectedItem();
+                Toast.makeText(UploadActivity.this, season, Toast.LENGTH_SHORT).show();
             }
         });
         //顶部标签
@@ -120,17 +125,23 @@ public class UploadActivity extends Activity{
         et_rname=(EditText)findViewById(R.id.et_rname);
         et_rcontent=(EditText)findViewById(R.id.et_rcontent);
         sp_season=(Spinner)findViewById(R.id.sp_season);
-        sp_season.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                season=(String)sp_season.getSelectedItem();
-            }
-        });
+        /**
+         * 初始化步骤列表
+         */
         step_list=(ListView)findViewById(R.id.step_list);
         listItems = new ArrayList<Map<String, Object>>();
+        listItem = new HashMap<String, Object>();
+        listItem.put("num", step_num + ".");
+        listItems.add(listItem);
+        simpleAdapter= new SimpleAdapter(UploadActivity.this, listItems, R.layout.step_item,
+                new String[]{"num", "content", "pic"},
+                new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
+        step_list.setAdapter(simpleAdapter);
+        ListViewUtils.setListViewHeightBasedOnChildren(step_list);
+
         urls=new ArrayList<String>();
         //添加步骤的按钮
-        btn_add=(ImageButton)findViewById(R.id.btn_add);
+        imv_add=(ImageView)findViewById(R.id.imv_add);
     }
 
     @Override

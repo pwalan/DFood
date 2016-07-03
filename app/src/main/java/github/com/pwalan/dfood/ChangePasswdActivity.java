@@ -1,6 +1,7 @@
 package github.com.pwalan.dfood;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +25,9 @@ public class ChangePasswdActivity extends Activity {
     //获取数据
     protected static final int GET_DATA = 1;
 
+    //startActivityForResult需要的intent
+    private Intent lastIntent ;
+
     private EditText et_oldpasswd, et_newpasswd,et_confnewpasswd;
     private Button btn_change;
 
@@ -36,6 +40,8 @@ public class ChangePasswdActivity extends Activity {
         setContentView(R.layout.activity_change_passwd);
 
         app=(App)getApplication();
+
+        lastIntent = getIntent();
 
         et_confnewpasswd=(EditText)findViewById(R.id.et_confnewpasswd);
         et_newpasswd=(EditText)findViewById(R.id.et_newpasswd);
@@ -75,6 +81,8 @@ public class ChangePasswdActivity extends Activity {
                     try {
                         String data=response.getString("data");
                         if(data.equals("changed")){
+                            //设置结果
+                            setResult(Activity.RESULT_OK, lastIntent);
                             Toast.makeText(ChangePasswdActivity.this,"更改成功！",Toast.LENGTH_SHORT).show();
                             finish();
                         }

@@ -95,15 +95,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         fragmentManager = getSupportFragmentManager();
         initView(); // 初始化界面控件
         setChioceItem(0); // 初始化页面加载时显示第一个选项卡
-        menu=(SlidingMenu)findViewById(R.id.slide_menu);
+        menu = (SlidingMenu) findViewById(R.id.slide_menu);
     }
 
     /**
      * 初始化页面
      */
     private void initView() {
-        app=(App)getApplication();
-        btn_user=(Button)findViewById(R.id.btn_user);
+        app = (App) getApplication();
+        btn_user = (Button) findViewById(R.id.btn_user);
         // 初始化页面标题栏
         titleLeftImv = (ImageView) findViewById(R.id.title_imv);
         //顶部左侧的图标点击事件
@@ -114,14 +114,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         });
         //顶部右侧的加号图标点击启动上传
-        img_up=(ImageView)findViewById(R.id.img_up);
+        img_up = (ImageView) findViewById(R.id.img_up);
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(app.isLogin()){
-                    startActivity(new Intent(MainActivity.this,UploadActivity.class));
-                }else{
-                    Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+                if (app.isLogin()) {
+                    startActivity(new Intent(MainActivity.this, UploadActivity.class));
+                } else {
+                    Toast.makeText(MainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -271,16 +271,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     /**
      * 获取网落图片资源
+     *
      * @param url
      */
-    public void getHttpBitmap(final String url){
+    public void getHttpBitmap(final String url) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try{
+                try {
                     URL myFileURL = new URL(url);
                     //获得连接
-                    HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+                    HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
                     //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
                     conn.setConnectTimeout(6000);
                     //连接设置获得数据流
@@ -296,7 +297,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     //关闭数据流
                     is.close();
                     handler.sendEmptyMessage(DOWNLOAD_FILE_DONE);
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -304,13 +305,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
 
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
-        public void handleMessage(Message msg){
-            switch(msg.what){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case DOWNLOAD_FILE_DONE:
                     titleLeftImv.setImageBitmap(bitmap);
-                    Log.i("main","获取首页头像");
+                    Log.i("main", "获取首页头像");
                     break;
                 default:
                     break;
@@ -321,46 +322,46 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //********************************************************
     //菜单中的点击事件
 
-    public void onUserClicked(View v){
-        if(app.isLogin()){
+    public void onUserClicked(View v) {
+        if (app.isLogin()) {
             menu.toggle();
-            startActivity(new Intent(this,UserUpdateDialog.class));
-        }else{
+            startActivityForResult(new Intent(this, UserUpdateDialog.class), 0);
+        } else {
             menu.toggle();
-            startActivityForResult(new Intent(this, UserAcitvity.class), 0);
+            startActivityForResult(new Intent(this, UserAcitvity.class), 1);
         }
     }
 
-    public void onConcernClicked(View v){
-        if(app.isLogin()){
+    public void onConcernClicked(View v) {
+        if (app.isLogin()) {
             menu.toggle();
             startActivity(new Intent(this, ShowConcernActivity.class));
-        }else{
-            Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void onFavoriteClicked(View v){
-        if(app.isLogin()){
+    public void onFavoriteClicked(View v) {
+        if (app.isLogin()) {
             menu.toggle();
             startActivity(new Intent(this, ShowFavoritesActivity.class));
-        }else{
-            Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void onMyupClicked(View v){
-        if(app.isLogin()){
+    public void onMyupClicked(View v) {
+        if (app.isLogin()) {
             menu.toggle();
-            Intent intent=new Intent(this, ShowPersonInf.class);
+            Intent intent = new Intent(this, ShowPersonInf.class);
             intent.putExtra("uid", app.getUid());
             startActivity(intent);
-        }else{
-            Toast.makeText(MainActivity.this,"请登录！",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void onExitClicked(View v){
+    public void onExitClicked(View v) {
         finish();
     }
 
@@ -368,12 +369,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode== Activity.RESULT_OK && requestCode == 0)
-        {
-            Log.d("dfood","login finished");
-            if(app.isLogin()){
+        if (resultCode == Activity.RESULT_OK && requestCode == 0) {
+            btn_user.setText("登录/注册");
+            titleLeftImv.setImageResource(R.drawable.user);
+            app.setIsLogin(false);
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            Log.d("dfood", "login finished");
+            if (app.isLogin()) {
                 btn_user.setText(app.getUsername());
-                if(app.getHeadurl()!=null){
+                if (app.getHeadurl() != null) {
                     getHttpBitmap(app.getHeadurl());
                 }
             }
