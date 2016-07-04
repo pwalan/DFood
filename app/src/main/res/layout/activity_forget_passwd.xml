@@ -53,12 +53,12 @@
         android:layout_toRightOf="@id/tv03"
         android:layout_below="@id/tv_question"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="60dp"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_find"
         android:layout_below="@id/tv03"
         android:layout_toRightOf="@id/tv03"
         android:layout_marginTop="30dp"

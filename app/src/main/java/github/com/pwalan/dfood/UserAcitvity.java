@@ -42,6 +42,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     protected static final int LOGIN = 1;
     protected static final int REGISTER = 2;
     protected static final int UPLOAD = 3;
+    protected static final int FORGET=4;
 
     private ProgressDialog progressDialog;
 
@@ -185,7 +186,14 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn_forget:
                 //忘记密码
-                startActivity(new Intent(this,ForgetPasswdActivity.class));
+                String username=et_username.getText().toString().trim();
+                if(username.isEmpty()){
+                    Toast.makeText(this,"请输入用户名！",Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent=new Intent(this,ForgetPasswdActivity.class);
+                    intent.putExtra("username",username);
+                    startActivityForResult(intent, FORGET);
+                }
                 break;
             default:
                 break;
@@ -194,6 +202,9 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /**
+         * 从选择图片得到的结果
+         */
         if(resultCode==Activity.RESULT_OK && requestCode == 0)
         {
             picPath = data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
@@ -207,6 +218,12 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
             Uri localUri = Uri.fromFile(new File(picPath));
             Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
             sendBroadcast(localIntent);
+        }
+        /**
+         * 从忘记密码得到的结果
+         */
+        if(resultCode==Activity.RESULT_OK && requestCode == FORGET){
+            et_passwd.setText(data.getStringExtra("passwd"));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
