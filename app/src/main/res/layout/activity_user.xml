@@ -45,6 +45,13 @@
         android:inputType="textPassword"
         android:hint="密码"/>
 
+    <CheckBox
+        android:id="@+id/cb_passwd"
+        android:layout_toRightOf="@id/et_passwd"
+        android:layout_alignTop="@id/et_passwd"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
     <Button
         android:id="@+id/btn_login"
         android:layout_below="@id/et_passwd"

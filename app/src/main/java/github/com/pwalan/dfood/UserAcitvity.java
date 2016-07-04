@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -56,6 +58,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     private EditText et_passwd;
     private EditText et_passwdconf;
     private RoundImageView img_head;
+    private CheckBox cb_passwd;
 
     private Button btn_login;
     private Button btn_register;
@@ -84,6 +87,17 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         et_passwdconf = (EditText) findViewById(R.id.et_passwdconf);
         img_head = (RoundImageView) findViewById(R.id.img_head);
         img_head.setOnClickListener(this);
+        cb_passwd=(CheckBox)findViewById(R.id.cb_passwd);
+        cb_passwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cb_passwd.isChecked()){
+                    et_passwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }{
+                    et_passwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
 
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
