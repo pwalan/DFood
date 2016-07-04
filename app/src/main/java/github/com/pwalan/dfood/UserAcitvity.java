@@ -241,7 +241,6 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 case REGISTER:
                     //取消进度框
                     if(progressDialog!=null) progressDialog.dismiss();
-
                     try {
                         String status=response.getString("status");
                         if(status.equals("succeed")){

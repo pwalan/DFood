@@ -31,6 +31,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -41,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import github.com.pwalan.dfood.myview.RoundImageView;
+import github.com.pwalan.dfood.utils.C;
 import github.com.pwalan.dfood.utils.ListViewBinder;
 import github.com.pwalan.dfood.utils.ListViewUtils;
 import github.com.pwalan.dfood.utils.QCloud;
@@ -48,8 +52,8 @@ import github.com.pwalan.dfood.utils.SelectPicActivity;
 
 
 public class UploadActivity extends Activity{
-    //去上传文件
-    protected static final int TO_UPLOAD_FILE = 1;
+    //上传
+    protected static final int UPLOAD = 1;
     //选择文件
     public static final int TO_SELECT_PHOTO = 2;
     //编辑步骤
@@ -84,11 +88,16 @@ public class UploadActivity extends Activity{
     private String recipeurl=null; //菜谱的介绍图片
     private int step_num=1;  //步骤数
     private String season;  //选择的季节
+    private String rname;
+    private String rcontent;
+    private String stepCon="",stepUrl="";
     List<Map<String, Object>> listItems;
     Map<String, Object> listItem;
     List<String> picUrls;  //步骤图片的url
     List<String> picPaths;  //步骤图片在手机上的位置
     SimpleAdapter adapter;
+
+    private JSONObject response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,16 +127,15 @@ public class UploadActivity extends Activity{
                 finish();
             }
         });
-        //顶部右侧的加号图标点击启动上传
+        //顶部右侧的图标点击启动上传
         img_up=(ImageView)findViewById(R.id.img_up);
         img_up.setImageResource(R.drawable.myup);
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String rname=et_rname.getText().toString().trim();
-                String rcontent=et_rcontent.getText().toString().trim();
+                rname=et_rname.getText().toString().trim();
+                rcontent=et_rcontent.getText().toString().trim();
                 season=(String)sp_season.getSelectedItem();
-                String stepCon="",stepUrl="";
                 for(int i=0;i<listItems.size();i++){
                     stepCon+=(listItems.get(i).get("content")+" ");
                     stepUrl+=(picUrls.get(i)+" ");
@@ -137,6 +145,21 @@ public class UploadActivity extends Activity{
                     Toast.makeText(UploadActivity.this,"请添加菜名！",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(UploadActivity.this,"上传中...",Toast.LENGTH_SHORT).show();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HashMap map=new HashMap();
+                            map.put("uid",app.getUid());
+                            map.put("rname",rname);
+                            map.put("rcontent",rcontent);
+                            map.put("pic",recipeurl);
+                            map.put("season",season);
+                            map.put("stepCon",stepCon);
+                            map.put("stepUrl",stepUrl);
+                            response= C.asyncPost(app.getServer() + "upRecipe", map);
+                            handler.sendEmptyMessage(UPLOAD);
+                        }
+                    }).start();
                 }
             }
         });
@@ -274,8 +297,16 @@ public class UploadActivity extends Activity{
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case TO_UPLOAD_FILE:
-                    QCloud.UploadPic(picPath, UploadActivity.this);
+                case UPLOAD:
+                    try {
+                        String data=response.getString("data");
+                        if(data.equals("add")){
+                            Toast.makeText(UploadActivity.this,"上传成功，请等待审核",Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     break;
