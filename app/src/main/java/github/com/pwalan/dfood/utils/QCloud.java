@@ -62,7 +62,7 @@ public class QCloud {
                     public void onUploadSucceed(final FileInfo result) {
                         Log.i("Demo", "upload succeed: " + result.url);
                         resultUrl=result.url;
-                        Toast.makeText(con,"上传成功！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(con,"图片上传成功！",Toast.LENGTH_SHORT).show();
                         //发出广播
                         localBroadcastManager.sendBroadcast(new Intent("github.com.pwalan.dfood.LOCAL_BROADCAST"));
                     }
@@ -71,7 +71,6 @@ public class QCloud {
                     }
                     @Override
                     public void onUploadProgress(long totalSize, long sendSize){
-                        Toast.makeText(con,"上传中，请稍后...",Toast.LENGTH_SHORT).show();
                         long p = (long) ((sendSize * 100) / (totalSize * 1.0f));
                         Log.i("Demo", "上传进度: " + p + "%");
                     }
@@ -85,6 +84,7 @@ public class QCloud {
         task.setBucket(bucket); // 设置 Bucket(可选)
         task.setFileId("test_fileId_" + UUID.randomUUID()); // 为图片自定义 FileID(可选)
         task.setAuth(sign);
+        Toast.makeText(con,"图片上传中，请稍后...",Toast.LENGTH_SHORT).show();
         photoUploadMgr.upload(task); // 开始上传
     }
 

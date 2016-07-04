@@ -3,14 +3,17 @@ package github.com.pwalan.dfood;
 import android.app.Activity;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,14 +48,17 @@ import github.com.pwalan.dfood.utils.SelectPicActivity;
 
 
 public class UploadActivity extends Activity{
-    /**
-     * 去上传文件
-     */
+    //去上传文件
     protected static final int TO_UPLOAD_FILE = 1;
-    /**
-     * 选择文件
-     */
+    //选择文件
     public static final int TO_SELECT_PHOTO = 2;
+    //编辑步骤
+    public static final int EDIT_STEP=3;
+
+    //本地广播
+    private IntentFilter intentFilter;
+    private LocalReceiver localReceiver;
+    private LocalBroadcastManager localBroadcastManager;
 
     /**
      * 要上传图片的本地地址
@@ -75,13 +81,13 @@ public class UploadActivity extends Activity{
 
     private App app;
     private Bitmap bitmap;
-    private String recipeurl=null;
-    private int step_num=1;
+    private String recipeurl=null; //菜谱的介绍图片
+    private int step_num=1;  //步骤数
     private String season;  //选择的季节
     List<Map<String, Object>> listItems;
     Map<String, Object> listItem;
-    List<Map<String, String>> steps; //要上传的步骤
-    List<String> picPaths;
+    List<String> picUrls;  //步骤图片的url
+    List<String> picPaths;  //步骤图片在手机上的位置
     SimpleAdapter adapter;
 
     @Override
@@ -92,6 +98,13 @@ public class UploadActivity extends Activity{
         progressDialog = new ProgressDialog(this);
 
         app=(App)getApplication();
+
+        //本地广播接收初始化
+        localBroadcastManager=LocalBroadcastManager.getInstance(this);
+        intentFilter=new IntentFilter();
+        intentFilter.addAction("github.com.pwalan.dfood.LOCAL_BROADCAST");
+        localReceiver=new LocalReceiver();
+        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 
         /**
          * 初始化页面标题栏
@@ -111,8 +124,20 @@ public class UploadActivity extends Activity{
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String rname=et_rname.getText().toString().trim();
+                String rcontent=et_rcontent.getText().toString().trim();
                 season=(String)sp_season.getSelectedItem();
-                Toast.makeText(UploadActivity.this, season, Toast.LENGTH_SHORT).show();
+                String stepCon="",stepUrl="";
+                for(int i=0;i<listItems.size();i++){
+                    stepCon+=(listItems.get(i).get("content")+" ");
+                    stepUrl+=(picUrls.get(i)+" ");
+                }
+                Log.i("dfood","菜名："+rname+"\n介绍："+rcontent+"\n介绍的图片："+recipeurl+"\n步骤："+stepCon+"\n图片："+stepUrl);
+                if(rname.isEmpty()){
+                    Toast.makeText(UploadActivity.this,"请添加菜名！",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(UploadActivity.this,"上传中...",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //顶部标签
@@ -123,23 +148,37 @@ public class UploadActivity extends Activity{
          * 初始化食谱部分
          */
         iv_recipe=(ImageView)findViewById(R.id.iv_recipe);
+        iv_recipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UploadActivity.this,SelectPicActivity.class);
+                startActivityForResult(intent, TO_SELECT_PHOTO);
+            }
+        });
         et_rname=(EditText)findViewById(R.id.et_rname);
         et_rcontent=(EditText)findViewById(R.id.et_rcontent);
         sp_season=(Spinner)findViewById(R.id.sp_season);
+
         /**
          * 初始化步骤列表
          */
         step_list=(ListView)findViewById(R.id.step_list);
         listItems = new ArrayList<Map<String, Object>>();
         listItem = new HashMap<String, Object>();
-        listItem.put("num", step_num +"");
+        picUrls=new ArrayList<String>();
+        picPaths=new ArrayList<String>();
+
+        listItem.put("num", step_num + ".");
         listItem.put("content", "请添加");
         listItems.add(listItem);
+        picUrls.add("");
         picPaths.add("");
+
         adapter= new SimpleAdapter(UploadActivity.this, listItems, R.layout.step_item,
                 new String[]{"num", "content", "pic"},
                 new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
         adapter.setViewBinder(new ListViewBinder());
+
         step_list.setAdapter(adapter);
         step_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -151,12 +190,10 @@ public class UploadActivity extends Activity{
                 bundle.putString("content",(String)listItems.get(position).get("content"));
                 bundle.putString("picPath",picPaths.get(position));
                 intent.putExtras(bundle);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, EDIT_STEP);
             }
         });
 
-        steps=new ArrayList<Map<String,String>>();
-        picPaths=new ArrayList<String>();
         //添加步骤的按钮
         imv_add=(ImageView)findViewById(R.id.imv_add);
         imv_add.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +205,7 @@ public class UploadActivity extends Activity{
                 listItem.put("content","请添加");
                 listItems.add(listItem);
                 picPaths.add("");
+                picUrls.add("");
                 adapter.notifyDataSetChanged();
                 ListViewUtils.setListViewHeightBasedOnChildren(step_list);
             }
@@ -180,6 +218,8 @@ public class UploadActivity extends Activity{
                 if(size>0){
                     step_num--;
                     listItems.remove(size-1);
+                    picUrls.remove(size-1);
+                    picPaths.remove(size-1);
                     adapter.notifyDataSetChanged();
                     ListViewUtils.setListViewHeightBasedOnChildren(step_list);
                 }
@@ -197,6 +237,8 @@ public class UploadActivity extends Activity{
             picPath = data.getStringExtra(SelectPicActivity.KEY_PHOTO_PATH);
             Log.i("dfood", "最终选择的图片=" + picPath);
             Bitmap bm = BitmapFactory.decodeFile(picPath);
+            iv_recipe.setImageBitmap(bm);
+            QCloud.UploadPic(picPath, UploadActivity.this);
             //更新图库
             Uri localUri = Uri.fromFile(new File(picPath));
             Intent localIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, localUri);
@@ -205,72 +247,28 @@ public class UploadActivity extends Activity{
         /**
          * 从上传步骤得到结果
          */
-        if(resultCode==Activity.RESULT_OK&&requestCode==0){
+        if(resultCode==Activity.RESULT_OK&&requestCode==EDIT_STEP){
             Bundle returndata=data.getExtras();
+            int position=returndata.getInt("position");
+            picPaths.set(position,returndata.getString("picPath"));
+            bitmap=BitmapFactory.decodeFile(returndata.getString("picPath"));
+            picUrls.set(position,returndata.getString("url"));
+            Log.i("dfood","步骤"+position+returndata.getString("url"));
+            listItems.get(position).put("content",returndata.getString("content"));
+            listItems.get(position).put("pic", bitmap);
+            adapter.notifyDataSetChanged();
+            ListViewUtils.setListViewHeightBasedOnChildren(step_list);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    //自定义Adapter满足点击item内部*************************************************
-    public class MyAdapter extends BaseAdapter {
-
-        private LayoutInflater mInflater;
-
-        public MyAdapter(Context context) {
-            this.mInflater = LayoutInflater.from(context);
-        }
-
+    //接受广播
+    class LocalReceiver extends BroadcastReceiver {
         @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return listItems.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            if (convertView == null) {
-
-                holder=new ViewHolder();
-
-                //可以理解为从vlist获取view  之后把view返回给ListView
-
-                convertView = mInflater.inflate(R.layout.step_up_item, null);
-                holder.tv_num=(TextView)convertView.findViewById(R.id.tv_num);
-                holder.et_step=(EditText)convertView.findViewById(R.id.et_step);
-                holder.iv_step=(ImageView)convertView.findViewById(R.id.iv_step);
-
-                convertView.setTag(holder);
-            }else {
-                holder = (ViewHolder)convertView.getTag();
-            }
-            holder.tv_num.setText((String)listItems.get(position).get("num"));
-            holder.iv_step.setImageBitmap((Bitmap)listItems.get(position).get("pic"));
-
-            return convertView;
+        public void onReceive(Context context, Intent intent){
+            recipeurl=QCloud.resultUrl;
         }
     }
-
-    //这里存储的是step_up_item里的组件
-    public final class ViewHolder {
-        public TextView tv_num;
-        public EditText et_step;
-        public ImageView iv_step;
-    }
-    //******************************************************************************
 
     private Handler handler = new Handler(){
         @Override
