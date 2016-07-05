@@ -65,6 +65,8 @@ public class ShowRecipeActivity extends Activity {
     protected static final int HEADS=6;
     //获取新评论
     protected static final int GET_COMMENT=7;
+    //点赞
+    protected static final int ADDZAN=8;
 
     //本地广播
     private IntentFilter intentFilter;
@@ -179,6 +181,13 @@ public class ShowRecipeActivity extends Activity {
                                                                      Toast.makeText(ShowRecipeActivity.this, "要收藏请先登录", Toast.LENGTH_SHORT).show();
                                                                  }
                                                                  break;
+                                                             case R.id.zan:
+                                                                 if (app.isLogin()) {
+                                                                     addZan();
+                                                                 } else {
+                                                                     Toast.makeText(ShowRecipeActivity.this, "要点赞请先登录", Toast.LENGTH_SHORT).show();
+                                                                 }
+                                                                 break;
                                                              case R.id.share:
                                                                  popup.dismiss();
                                                                  Toast.makeText(ShowRecipeActivity.this, "分享", Toast.LENGTH_SHORT).show();
@@ -279,6 +288,22 @@ public class ShowRecipeActivity extends Activity {
         }).start();
     }
 
+    /**
+     * 点赞
+     */
+    private void addZan(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap map=new HashMap();
+                map.put("uid",app.getUid());
+                map.put("rid",rid);
+                response=C.asyncPost(app.getServer()+"addZan",map);
+                handler.sendEmptyMessage(ADDZAN);
+            }
+        }).start();
+    }
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -290,9 +315,9 @@ public class ShowRecipeActivity extends Activity {
                         if (!data.toString().equals("{}")) {
                             //处理相关数据
                             rid = Integer.parseInt(data.get("rid").toString());
-                            Log.i("step","rpic:"+data.get("rpic").toString());
+                            Log.i("step", "rpic:" + data.get("rpic").toString());
                             //下载菜谱介绍图片
-                            QCloud.downloadPic(data.get("rpic").toString());
+                            QCloud.downloadPic(data.get("rpic").toString()+"/foodofworld");
                             status=RPIC;
                             //getHttpBitmap(data.get("rpic").toString(), RPIC);
                             uid = data.getInt("uid");
@@ -328,7 +353,7 @@ public class ShowRecipeActivity extends Activity {
                     JSONObject jo = null;
                     try {
                         jo = steps.getJSONObject(count);
-                        QCloud.downloadPic(jo.get("pic").toString());
+                        QCloud.downloadPic(jo.get("pic").toString()+"/foodofworld");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -341,6 +366,16 @@ public class ShowRecipeActivity extends Activity {
                             Toast.makeText(ShowRecipeActivity.this,"已收藏",Toast.LENGTH_SHORT).show();
                         }else if(result.equals("cancle")){
                             Toast.makeText(ShowRecipeActivity.this,"已取消收藏",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case ADDZAN:
+                    try {
+                        String result = response.getString("data");
+                        if(result.equals("add")){
+                            Toast.makeText(ShowRecipeActivity.this,"b(￣▽￣)d",Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -424,7 +459,7 @@ public class ShowRecipeActivity extends Activity {
                             }
                         }else{
                             jo = steps.getJSONObject(count);
-                            QCloud.downloadPic(jo.get("pic").toString());
+                            QCloud.downloadPic(jo.get("pic").toString()+"/foodofworld");
                             //getHttpBitmap(jo.get("pic").toString(), STEP);
                             Log.i("step",jo.get("pic").toString());
                         }
