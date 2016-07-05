@@ -63,6 +63,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     private CheckBox cb_passwd;
     private RelativeLayout rl01;
 
+
     private Button btn_login;
     private Button btn_register;
     private Button btn_toregister;

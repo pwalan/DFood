@@ -7,6 +7,74 @@
         <item>冬</item>
     </string-array>
 
+    <string-array name="gender">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+
+    <string-array name="age">
+        <item></item>
+        <item>15岁以下</item>
+        <item>16-25</item>
+        <item>26-50</item>
+        <item>50以上</item>
+    </string-array>
+
+    <string-array name="city">
+        <item></item>
+        <item>安徽</item>
+        <item>澳门</item>
+        <item>北京</item>
+        <item>重庆</item>
+        <item>福建</item>
+        <item>甘肃</item>
+        <item>广东</item>
+        <item>广西</item>
+        <item>贵州</item>
+        <item>海南</item>
+        <item>河北</item>
+        <item>河南</item>
+        <item>黑龙江</item>
+        <item>湖北</item>
+        <item>湖南</item>
+        <item>吉林</item>
+        <item>江苏</item>
+        <item>江西</item>
+        <item>辽宁</item>
+        <item>内蒙古</item>
+        <item>宁夏</item>
+        <item>青海</item>
+        <item>山东</item>
+        <item>山西</item>
+        <item>陕西</item>
+        <item>上海</item>
+        <item>四川</item>
+        <item>台湾</item>
+        <item>天津</item>
+        <item>西藏</item>
+        <item>香港</item>
+        <item>新疆</item>
+        <item>云南</item>
+        <item>浙江</item>
+    </string-array>
+
+    <string-array name="salary">
+        <item></item>
+        <item>2000以下</item>
+        <item>2000-15000</item>
+        <item>15000-5000</item>
+        <item>50000以上</item>
+    </string-array>
+
+    <string-array name="taste">
+        <item></item>
+        <item>酸</item>
+        <item>甜</item>
+        <item>苦</item>
+        <item>辣</item>
+        <item>咸</item>
+    </string-array>
+
     <string-array name="questions">
         <item>您目前的姓名是？</item>
         <item>您配偶的生日是？</item>

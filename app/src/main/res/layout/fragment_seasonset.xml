@@ -13,7 +13,7 @@
         <Button
             android:layout_height="wrap_content"
             android:text="春"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:background="@color/lightgreen"
             android:id="@+id/btn_spring" />
 
@@ -24,7 +24,7 @@
         <Button
             android:layout_height="wrap_content"
             android:text="夏"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:background="@color/tianyi"
             android:id="@+id/btn_summer"/>
 
@@ -35,7 +35,7 @@
         <Button
             android:layout_height="wrap_content"
             android:text="秋"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:background="@color/lightgoldenyellow"
             android:id="@+id/btn_autumn"/>
 
@@ -46,7 +46,7 @@
         <Button
             android:layout_height="wrap_content"
             android:text="冬"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:background="@color/white"
             android:id="@+id/btn_winter"/>
     </LinearLayout>

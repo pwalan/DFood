@@ -1,158 +1,289 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.pwalan.androidtest.UserAcitvity">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/blank0"
-        android:paddingTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:text="美食天下欢迎您"/>
-
-    <github.com.pwalan.dfood.myview.RoundImageView
-        android:id="@+id/img_head"
-        android:layout_below="@id/blank0"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/user"/>
-
-    <!-- *************登录***************** -->
-
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_below="@id/img_head"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:hint="用户名"/>
-
-    <EditText
-        android:id="@+id/et_passwd"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/et_username"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:inputType="textPassword"
-        android:hint="密码"/>
-
-    <CheckBox
-        android:id="@+id/cb_passwd"
-        android:layout_toRightOf="@id/et_passwd"
-        android:layout_alignTop="@id/et_passwd"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_below="@id/et_passwd"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:text="登录"
-        android:background="@color/tianyi"/>
-
-
-    <Button
-        android:id="@+id/btn_forget"
-        android:layout_below="@id/btn_login"
-        android:layout_centerHorizontal="true"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:text="忘记密码?"
-        android:textSize="14dp"
-        android:gravity="end|center_vertical"
-        android:background="#00ffffff"/>
-
-    <!-- *************注册***************** -->
-
-    <EditText
-        android:id="@+id/et_passwdconf"
-        android:layout_below="@id/et_passwd"
-        android:layout_centerHorizontal="true"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:inputType="textPassword"
-        android:visibility="invisible"
-        android:hint="确认密码"/>
 
     <RelativeLayout
-        android:id="@+id/rl01"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/et_passwdconf"
-        android:layout_marginTop="10dp"
-        android:visibility="invisible" >
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.pwalan.androidtest.UserAcitvity">
 
         <TextView
-            android:id="@+id/tv02"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:text="密保问题："
-            android:gravity="center"
-            android:textSize="18dp"/>
-
-        <Spinner
-            android:id="@+id/sp_question"
-            android:layout_toRightOf="@id/tv02"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="40dp"
-            android:layout_width="match_parent"
+            android:id="@+id/blank0"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/questions"
-            android:textSize="18dp"/>
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:text="美食天下欢迎您"
+            android:textSize="20dp"
+            android:background="@color/tianyi"/>
 
-        <TextView
-            android:id="@+id/tv03"
-            android:layout_below="@id/sp_question"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:text="答案："
-            android:textSize="18dp"
-            android:gravity="center"/>
+        <github.com.pwalan.dfood.myview.RoundImageView
+            android:id="@+id/img_head"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@id/blank0"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/user" />
+
+        <!-- *************登录***************** -->
 
         <EditText
-            android:id="@+id/et_answer"
-            android:layout_toRightOf="@id/tv03"
-            android:layout_below="@id/sp_question"
-            android:layout_marginRight="60dp"
+            android:id="@+id/et_username"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/img_head"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="用户名" />
+
+        <EditText
+            android:id="@+id/et_passwd"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/et_username"
+            android:layout_centerHorizontal="true"
+            android:hint="密码"
+            android:inputType="textPassword" />
+
+        <CheckBox
+            android:id="@+id/cb_passwd"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@id/et_passwd"
+            android:layout_toRightOf="@id/et_passwd" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/et_passwd"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@color/tianyi"
+            android:text="登录" />
+
+
+        <Button
+            android:id="@+id/btn_forget"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/btn_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="#00ffffff"
+            android:gravity="end|center_vertical"
+            android:text="忘记密码?"
+            android:textSize="14dp"
+            android:textStyle="italic"/>
+
+        <!-- *************注册***************** -->
+
+        <EditText
+            android:id="@+id/et_passwdconf"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/et_passwd"
+            android:layout_centerHorizontal="true"
+            android:hint="确认密码"
+            android:inputType="textPassword"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:id="@+id/rl01"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_passwdconf"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tv_base"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:background="@color/tianyi"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="基本信息"
+                android:textSize="22dp" />
+            <!-- 性别 -->
+            <TextView
+                android:id="@+id/tv04"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/tv_base"
+                android:gravity="center"
+                android:text="性别："
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/sp_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv04"
+                android:layout_below="@id/tv_base"
+                android:entries="@array/gender"
+                android:textSize="18dp" />
+
+            <!-- 年龄段 -->
+            <TextView
+                android:id="@+id/tv05"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/sp_gender"
+                android:gravity="center"
+                android:text="年龄段："
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/sp_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv05"
+                android:layout_below="@id/sp_gender"
+                android:entries="@array/age"
+                android:textSize="18dp" />
+
+            <!-- 籍贯 -->
+            <TextView
+                android:id="@+id/tv06"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/sp_age"
+                android:gravity="center"
+                android:text="籍贯："
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/sp_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv06"
+                android:layout_below="@id/sp_age"
+                android:entries="@array/city"
+                android:textSize="18dp" />
+
+            <!-- 工薪 -->
+            <TextView
+                android:id="@+id/tv07"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/sp_city"
+                android:gravity="center"
+                android:text="工薪："
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/sp_salary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv07"
+                android:layout_below="@id/sp_city"
+                android:entries="@array/salary"
+                android:textSize="18dp" />
+
+            <!-- 口味 -->
+            <TextView
+                android:id="@+id/tv08"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/sp_salary"
+                android:gravity="center"
+                android:text="口味："
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/sp_taste"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv08"
+                android:layout_below="@id/sp_salary"
+                android:entries="@array/taste"
+                android:textSize="18dp" />
+
+            <!-- 密保问题 -->
+            <TextView
+                android:id="@+id/tv02"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/sp_taste"
+                android:gravity="center"
+                android:text="密保问题："
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/sp_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv02"
+                android:layout_below="@id/sp_taste"
+                android:entries="@array/questions"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv03"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/sp_question"
+                android:gravity="center"
+                android:text="答案："
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/et_answer"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/sp_question"
+                android:layout_marginRight="60dp"
+                android:layout_toRightOf="@id/tv03" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/rl01"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@color/tianyi"
+            android:text="注册"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/btn_toregister"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/btn_forget"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:background="#00000000"
+            android:text="欢迎注册"
+            android:visibility="visible" />
+
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_below="@id/rl01"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:visibility="invisible"
-        android:text="注册"
-        android:background="@color/tianyi"/>
-
-    <Button
-        android:id="@+id/btn_toregister"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:visibility="visible"
-        android:text="欢迎注册"
-        android:background="#00000000"/>
-
-
-</RelativeLayout>
+</ScrollView>
