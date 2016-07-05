@@ -49,7 +49,7 @@ public class SearchActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String url="http://pwalan-10035979.image.myqcloud.com/test_fileId_2c01ef1f-a261-4377-9226-f2a24762e28b";
-                QCloud.downloadPic(url,SearchActivity.this);
+                QCloud.downloadPic(url);
             }
         });
 

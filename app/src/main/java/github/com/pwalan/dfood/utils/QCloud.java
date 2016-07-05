@@ -104,7 +104,7 @@ public class QCloud {
      * 下载图片
      * @param imgUrl
      */
-    public static void downloadPic(String imgUrl,final Context con){
+    public static void downloadPic(String imgUrl){
         mDownloader.download(imgUrl,new Downloader.DownloadListener() {
 
             @Override
@@ -117,7 +117,7 @@ public class QCloud {
                     @Override
                     public void run() {
                         // TODO Auto-generated method stub
-                        Toast.makeText(con, "图片下载成功!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(con, "图片下载成功!", Toast.LENGTH_SHORT).show();
                         String file_path = arg1.getPath();
                         try
                         {

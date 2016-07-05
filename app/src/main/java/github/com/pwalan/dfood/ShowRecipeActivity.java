@@ -1,11 +1,15 @@
 package github.com.pwalan.dfood;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +45,7 @@ import github.com.pwalan.dfood.myview.RoundImageView;
 import github.com.pwalan.dfood.utils.C;
 import github.com.pwalan.dfood.utils.ListViewBinder;
 import github.com.pwalan.dfood.utils.ListViewUtils;
+import github.com.pwalan.dfood.utils.QCloud;
 
 /**
  * 菜单详情页
@@ -61,13 +66,18 @@ public class ShowRecipeActivity extends Activity {
     //获取新评论
     protected static final int GET_COMMENT=7;
 
+    //本地广播
+    private IntentFilter intentFilter;
+    private LocalReceiver localReceiver;
+    private LocalBroadcastManager localBroadcastManager;
+
     private App app;
     private String rname;
     private int rid, uid;
     private int count = 0;
+    private int status;
     private JSONObject response, data;
     private JSONArray steps,comments;
-    List<Map<String, Object>> step_listItems,com_listItems;
     private Bitmap bitmap;
 
     //startActivityForResult需要的intent
@@ -88,9 +98,14 @@ public class ShowRecipeActivity extends Activity {
 
     //步骤列表
     private ListView step_list;
+    private SimpleAdapter step_adapter;
+    List<Map<String, Object>> step_listItems;
+
 
     //评论列表
     private ListView comment_list;
+    private SimpleAdapter comment_adapter;
+    List<Map<String, Object>> com_listItems;
 
 
     @Override
@@ -99,6 +114,16 @@ public class ShowRecipeActivity extends Activity {
         setContentView(R.layout.activity_show_recipe);
 
         rname = getIntent().getStringExtra("rname");
+
+        //腾讯云上传初始化
+        QCloud.init(this);
+
+        //本地广播接收初始化
+        localBroadcastManager=LocalBroadcastManager.getInstance(this);
+        intentFilter=new IntentFilter();
+        intentFilter.addAction("github.com.pwalan.dfood.LOCAL_BROADCAST");
+        localReceiver=new LocalReceiver();
+        localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 
         initView();
 
@@ -138,20 +163,20 @@ public class ShowRecipeActivity extends Activity {
                                                          switch (item.getItemId()) {
                                                              case R.id.comment:
                                                                  popup.dismiss();
-                                                                 if(app.isLogin()){
-                                                                     Intent intent=new Intent(ShowRecipeActivity.this,MakeCommentActivity.class);
-                                                                     intent.putExtra("rid",rid);
-                                                                     startActivityForResult(intent,0);
-                                                                 }else{
-                                                                     Toast.makeText(ShowRecipeActivity.this,"要评论请先登录",Toast.LENGTH_SHORT).show();
+                                                                 if (app.isLogin()) {
+                                                                     Intent intent = new Intent(ShowRecipeActivity.this, MakeCommentActivity.class);
+                                                                     intent.putExtra("rid", rid);
+                                                                     startActivityForResult(intent, 0);
+                                                                 } else {
+                                                                     Toast.makeText(ShowRecipeActivity.this, "要评论请先登录", Toast.LENGTH_SHORT).show();
                                                                  }
                                                                  break;
                                                              case R.id.favorite:
                                                                  popup.dismiss();
-                                                                 if(app.isLogin()){
+                                                                 if (app.isLogin()) {
                                                                      addFavorite();
-                                                                 }else{
-                                                                     Toast.makeText(ShowRecipeActivity.this,"要收藏请先登录",Toast.LENGTH_SHORT).show();
+                                                                 } else {
+                                                                     Toast.makeText(ShowRecipeActivity.this, "要收藏请先登录", Toast.LENGTH_SHORT).show();
                                                                  }
                                                                  break;
                                                              case R.id.share:
@@ -187,12 +212,23 @@ public class ShowRecipeActivity extends Activity {
 
         //初始化步骤
         step_list = (ListView) findViewById(R.id.step_list);
+        step_listItems = new ArrayList<Map<String, Object>>();
+        step_adapter = new SimpleAdapter(ShowRecipeActivity.this, step_listItems, R.layout.step_item,
+                new String[]{"num", "content", "pic"},
+                new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
+        step_adapter.setViewBinder(new ListViewBinder());
+        step_list.setAdapter(step_adapter);
+        ListViewUtils.setListViewHeightBasedOnChildren(step_list);
 
         //初始化评论
         comment_list = (ListView) findViewById(R.id.comment_list);
-
-        step_listItems = new ArrayList<Map<String, Object>>();
         com_listItems=new ArrayList<Map<String, Object>>();
+        comment_adapter = new SimpleAdapter(ShowRecipeActivity.this, com_listItems, R.layout.comment_item,
+                new String[]{"cname", "time", "content","head"},
+                new int[]{R.id.tv_cname, R.id.tv_time, R.id.tv_content, R.id.iv_chead});
+        comment_adapter.setViewBinder(new ListViewBinder());
+        comment_list.setAdapter(comment_adapter);
+        ListViewUtils.setListViewHeightBasedOnChildren(comment_list);
 
 
     }
@@ -255,16 +291,19 @@ public class ShowRecipeActivity extends Activity {
                             //处理相关数据
                             rid = Integer.parseInt(data.get("rid").toString());
                             Log.i("step","rpic:"+data.get("rpic").toString());
-                            getHttpBitmap(data.get("rpic").toString(), RPIC);
+                            //下载菜谱介绍图片
+                            QCloud.downloadPic(data.get("rpic").toString());
+                            status=RPIC;
+                            //getHttpBitmap(data.get("rpic").toString(), RPIC);
                             uid = data.getInt("uid");
                             tv_username.setText(data.get("username").toString());
                             tv_rcontent.setText("        " + data.get("info").toString());
                             comments=new JSONArray(data.getString("comments"));
                             //处理菜谱步骤
                             steps = new JSONArray(data.get("steps").toString());
-                            JSONObject jo = steps.getJSONObject(count);
-                            getHttpBitmap(jo.get("pic").toString(), STEP);
-                            Log.i("step", jo.get("pic").toString());
+
+                            //getHttpBitmap(jo.get("pic").toString(), STEP);
+
                         } else {
                             Toast.makeText(ShowRecipeActivity.this, "未找到,请返回！", Toast.LENGTH_SHORT).show();
                         }
@@ -274,50 +313,26 @@ public class ShowRecipeActivity extends Activity {
                     break;
 
                 case RPIC:
-                    iv_recipe.setImageBitmap(bitmap);
                     try {
-                        getHttpBitmap(data.get("head").toString(), HEAD);
+                        iv_recipe.setImageBitmap(QCloud.bmp);
+                        //下完菜谱介绍图片后开始下载上传用户的头像
+                        QCloud.downloadPic(data.get("head").toString());
+                        status=HEAD;
+                        //getHttpBitmap(data.get("head").toString(), HEAD);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
-
                 case HEAD:
-                    iv_head.setImageBitmap(bitmap);
-                    break;
-
-                case STEP:
-                    Log.i("step","现在是第"+count);
+                    iv_head.setImageBitmap(QCloud.bmp);
+                    JSONObject jo = null;
                     try {
-                        JSONObject jo = steps.getJSONObject(count);
-                        Map<String, Object> step_listItem = new HashMap<String, Object>();
-                        step_listItem.put("num", jo.get("num").toString());
-                        step_listItem.put("content", jo.get("content").toString());
-                        step_listItem.put("pic", bitmap);
-                        step_listItems.add(step_listItem);
-                        count++;
-                        if (count == steps.length()) {
-                            SimpleAdapter adapter = new SimpleAdapter(ShowRecipeActivity.this, step_listItems, R.layout.step_item,
-                                    new String[]{"num", "content", "pic"},
-                                    new int[]{R.id.tv_num, R.id.tv_step, R.id.iv_step});
-                            adapter.setViewBinder(new ListViewBinder());
-                            step_list.setAdapter(adapter);
-                            ListViewUtils.setListViewHeightBasedOnChildren(step_list);
-
-                            //获取完步骤后再获取评论
-                            count=0;
-                            jo=comments.getJSONObject(count);
-                            if(jo!=null){
-                                getHttpBitmap(jo.getString("head"),HEADS);
-                            }
-                        }else{
-                            jo = steps.getJSONObject(count);
-                            getHttpBitmap(jo.get("pic").toString(), STEP);
-                            Log.i("step",jo.get("pic").toString());
-                        }
+                        jo = steps.getJSONObject(count);
+                        QCloud.downloadPic(jo.get("pic").toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    status=STEP;
                     break;
                 case ADDFAVORITE:
                     try {
@@ -332,40 +347,27 @@ public class ShowRecipeActivity extends Activity {
                     }
                     break;
                 case HEADS:
-                    try {
-                        JSONObject jo = comments.getJSONObject(count);
-                        Map<String, Object> com_listItem = new HashMap<String, Object>();
-                        com_listItem.put("cname", jo.get("cname").toString());
-                        com_listItem.put("time",jo.getString("time"));
-                        com_listItem.put("content", jo.get("content").toString());
-                        com_listItem.put("head", bitmap);
-                        com_listItems.add(com_listItem);
-                        count++;
-                        if (count == comments.length()) {
-                            SimpleAdapter adapter = new SimpleAdapter(ShowRecipeActivity.this, com_listItems, R.layout.comment_item,
-                                    new String[]{"cname", "time", "content","head"},
-                                    new int[]{R.id.tv_cname, R.id.tv_time, R.id.tv_content, R.id.iv_chead});
-                            adapter.setViewBinder(new ListViewBinder());
-                            comment_list.setAdapter(adapter);
-                            ListViewUtils.setListViewHeightBasedOnChildren(comment_list);
-                            //设置结果
-                            setResult(Activity.RESULT_OK, lastIntent);
-                        }else{
-                            jo = comments.getJSONObject(count);
-                            getHttpBitmap(jo.get("head").toString(), HEADS);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    //设置结果
+                    setResult(Activity.RESULT_OK, lastIntent);
                     break;
                 case GET_COMMENT:
                     try {
+                        com_listItems=new ArrayList<Map<String, Object>>();
+                        comment_adapter = new SimpleAdapter(ShowRecipeActivity.this, com_listItems, R.layout.comment_item,
+                                new String[]{"cname", "time", "content","head"},
+                                new int[]{R.id.tv_cname, R.id.tv_time, R.id.tv_content, R.id.iv_chead});
+                        comment_adapter.setViewBinder(new ListViewBinder());
+                        comment_list.setAdapter(comment_adapter);
+                        ListViewUtils.setListViewHeightBasedOnChildren(comment_list);
+
                         data = new JSONObject(response.get("data").toString());
                         comments=new JSONArray(data.getString("comments"));
-                        JSONObject jo = steps.getJSONObject(count);
-                        jo=comments.getJSONObject(count);
-                        if(jo!=null){
-                            getHttpBitmap(jo.getString("head"),HEADS);
+                        JSONObject jo_co = steps.getJSONObject(count);
+                        jo_co=comments.getJSONObject(count);
+                        if(jo_co!=null){
+                            QCloud.downloadPic(jo_co.getString("head"));
+                            status=HEADS;
+                            //getHttpBitmap(jo.getString("head"),HEADS);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -386,6 +388,75 @@ public class ShowRecipeActivity extends Activity {
             getComments();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //接受广播
+    class LocalReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent){
+            switch (status){
+                case RPIC:
+                    handler.sendEmptyMessage(RPIC);
+                    break;
+                case HEAD:
+                    handler.sendEmptyMessage(HEAD);
+                    break;
+                case STEP:
+                    Log.i("step","现在是第"+count);
+                    try {
+                        JSONObject jo = steps.getJSONObject(count);
+                        Map<String, Object> step_listItem = new HashMap<String, Object>();
+                        step_listItem.put("num", jo.get("num").toString());
+                        step_listItem.put("content", jo.get("content").toString());
+                        step_listItem.put("pic", QCloud.bmp);
+                        step_listItems.add(step_listItem);
+                        step_adapter.notifyDataSetChanged();
+                        ListViewUtils.setListViewHeightBasedOnChildren(step_list);
+                        count++;
+                        if (count == steps.length()) {
+                            //获取完步骤后再获取评论
+                            count=0;
+                            jo=comments.getJSONObject(count);
+                            if(jo!=null){
+                                QCloud.downloadPic(jo.getString("head"));
+                                status=HEADS;
+                                //getHttpBitmap(jo.getString("head"),HEADS);
+                            }
+                        }else{
+                            jo = steps.getJSONObject(count);
+                            QCloud.downloadPic(jo.get("pic").toString());
+                            //getHttpBitmap(jo.get("pic").toString(), STEP);
+                            Log.i("step",jo.get("pic").toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case HEADS:
+                    try {
+                        JSONObject jo = comments.getJSONObject(count);
+                        Map<String, Object> com_listItem = new HashMap<String, Object>();
+                        com_listItem.put("cname", jo.get("cname").toString());
+                        com_listItem.put("time",jo.getString("time"));
+                        com_listItem.put("content", jo.get("content").toString());
+                        com_listItem.put("head", QCloud.bmp);
+                        com_listItems.add(com_listItem);
+                        comment_adapter.notifyDataSetChanged();
+                        ListViewUtils.setListViewHeightBasedOnChildren(comment_list);
+                        count++;
+                        if (count == comments.length()) {
+                            handler.sendEmptyMessage(HEADS);
+                        }else{
+                            jo = comments.getJSONObject(count);
+                            QCloud.downloadPic(jo.get("head").toString());
+                            //getHttpBitmap(jo.get("head").toString(), HEADS);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
     }
 
     public void getHttpBitmap(final String url, final int msg) {
