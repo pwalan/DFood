@@ -2,10 +2,15 @@ package github.com.pwalan.dfood.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tencent.download.Downloader;
+import com.tencent.download.core.DownloadResult;
 import com.tencent.upload.Const;
 import com.tencent.upload.UploadManager;
 import com.tencent.upload.task.ITask;
@@ -25,18 +30,21 @@ import java.util.UUID;
 public class QCloud {
     //本地广播,通知上传完成
     static LocalBroadcastManager localBroadcastManager;
-    /**
-     * 腾讯云上传管理类
-     */
+    //腾讯云上传管理类
     static UploadManager photoUploadMgr;
+    //下载管理类
+    static Downloader mDownloader = null;
 
     static String bucket;
     static String sign;
     static String response;
     public static String resultUrl;
+    public static Bitmap bmp;
+
+    private static Handler mMainHandler = null;
 
     /**
-     * 上传初始化
+     * 上传下载初始化
      * @param con 上下文
      */
     public static void init(Context con){
@@ -48,6 +56,10 @@ public class QCloud {
         // 实例化Photo业务上传管理类
         photoUploadMgr = new UploadManager(con, "10035979",
                 Const.FileType.Photo, "qcloudphoto");
+
+        //实例化下载管理类
+        mMainHandler = new Handler(Looper.getMainLooper());
+        mDownloader = new Downloader(con, "Downloader","10035979");
     }
 
     /**
@@ -86,6 +98,63 @@ public class QCloud {
         task.setAuth(sign);
         Toast.makeText(con,"图片上传中，请稍后...",Toast.LENGTH_SHORT).show();
         photoUploadMgr.upload(task); // 开始上传
+    }
+
+    /**
+     * 下载图片
+     * @param imgUrl
+     */
+    public static void downloadPic(String imgUrl,final Context con){
+        mDownloader.download(imgUrl,new Downloader.DownloadListener() {
+
+            @Override
+            public void onDownloadSucceed(String arg0, final DownloadResult arg1) {
+                // TODO Auto-generated method stub
+
+                Log.i("dfood",  "下载成功: " + arg1.getPath());
+
+                mMainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(con, "图片下载成功!", Toast.LENGTH_SHORT).show();
+                        String file_path = arg1.getPath();
+                        try
+                        {
+                            bmp = Utils.decodeSampledBitmap(file_path, 2);
+                            //发出广播
+                            localBroadcastManager.sendBroadcast(new Intent("github.com.pwalan.dfood.LOCAL_BROADCAST"));
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onDownloadProgress(String url, long totalSize, float progress) {
+                // TODO Auto-generated method stub
+                long nProgress = (int) (progress * 100);
+                Log.i("dfood", "下载进度: " + nProgress + "%");
+
+
+            }
+
+            @Override
+            public void onDownloadFailed(String url, DownloadResult result) {
+                // TODO Auto-generated method stub
+                Log.i("dfood", "下载失败: " + result. getErrorCode());
+            }
+
+            @Override
+            public void onDownloadCanceled(String url) {
+                // TODO Auto-generated method stub
+                Log.i("dfood", "下载任务被取消");
+            }
+        });
     }
 
     // 获取app 的签名

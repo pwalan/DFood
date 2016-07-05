@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tencent.upload.UploadManager;
@@ -60,6 +61,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     private EditText et_passwdconf;
     private RoundImageView img_head;
     private CheckBox cb_passwd;
+    private RelativeLayout rl01;
 
     private Button btn_login;
     private Button btn_register;
@@ -99,6 +101,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 }
             }
         });
+        rl01=(RelativeLayout)findViewById(R.id.rl01);
 
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
@@ -143,6 +146,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 btn_login.setVisibility(View.INVISIBLE);
                 btn_forget.setVisibility(View.INVISIBLE);
                 et_passwdconf.setVisibility(View.VISIBLE);
+                rl01.setVisibility(View.VISIBLE);
                 btn_register.setVisibility(View.VISIBLE);
                 break;
 
@@ -267,6 +271,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                             btn_login.setVisibility(View.VISIBLE);
                             btn_forget.setVisibility(View.VISIBLE);
                             et_passwdconf.setVisibility(View.INVISIBLE);
+                            rl01.setVisibility(View.INVISIBLE);
                             btn_register.setVisibility(View.INVISIBLE);
                             registering=false;
                         }else{

@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="github.com.pwalan.dfood.SearchActivity">
+
+    <TextView
+        android:id="@+id/tv01"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="菜谱搜索"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimaryDark"/>
+
+    <ImageView
+        android:id="@+id/iv_down"
+        android:layout_below="@id/tv01"
+        android:layout_centerHorizontal="true"
+        android:layout_width="300dp"
+        android:layout_height="160dp"
+        android:background="@color/lightgray"/>
+
+</RelativeLayout>

@@ -362,7 +362,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public void onSearchClicked(View v){
-        Toast.makeText(MainActivity.this,"搜索",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,SearchActivity.class));
     }
 
     public void onExitClicked(View v) {

@@ -83,6 +83,10 @@
             android:name=".UpStepActivity"
             android:label="@string/title_activity_up_step" >
         </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
     </application>
 
 </manifest>

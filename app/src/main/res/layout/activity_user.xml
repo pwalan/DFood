@@ -87,24 +87,57 @@
         android:visibility="invisible"
         android:hint="确认密码"/>
 
-    <LinearLayout
-        android:id="@+id/ll01"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+    <RelativeLayout
+        android:id="@+id/rl01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/et_passwdconf"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal"
         android:visibility="invisible" >
 
+        <TextView
+            android:id="@+id/tv02"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="密保问题："
+            android:gravity="center"
+            android:textSize="18dp"/>
 
-    </LinearLayout>
+        <Spinner
+            android:id="@+id/sp_question"
+            android:layout_toRightOf="@id/tv02"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/questions"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/tv03"
+            android:layout_below="@id/sp_question"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="答案："
+            android:textSize="18dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/et_answer"
+            android:layout_toRightOf="@id/tv03"
+            android:layout_below="@id/sp_question"
+            android:layout_marginRight="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_below="@id/et_passwdconf"
+        android:layout_below="@id/rl01"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:visibility="invisible"
