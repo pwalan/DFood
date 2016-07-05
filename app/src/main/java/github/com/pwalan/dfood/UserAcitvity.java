@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.tencent.upload.UploadManager;
@@ -62,7 +63,8 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
     private RoundImageView img_head;
     private CheckBox cb_passwd;
     private RelativeLayout rl01;
-
+    private Spinner sp_gender, sp_age, sp_city,sp_salary, sp_taste, sp_question;
+    private EditText et_answer;
 
     private Button btn_login;
     private Button btn_register;
@@ -103,6 +105,13 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
             }
         });
         rl01=(RelativeLayout)findViewById(R.id.rl01);
+        sp_age=(Spinner)findViewById(R.id.sp_age);
+        sp_gender=(Spinner)findViewById(R.id.sp_gender);
+        sp_city=(Spinner)findViewById(R.id.sp_city);
+        sp_salary=(Spinner)findViewById(R.id.sp_salary);
+        sp_taste=(Spinner)findViewById(R.id.sp_taste);
+        sp_question=(Spinner)findViewById(R.id.sp_question);
+        et_answer=(EditText)findViewById(R.id.et_answer);
 
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
@@ -122,12 +131,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 app.setUsername(et_username.getText().toString().trim());
                 passwd=et_passwd.getText().toString().trim();
                 app.setPasswd(passwd);
-
-                if(progressDialog==null) progressDialog=new ProgressDialog(this);
-                progressDialog.setTitle("请稍后");
-                progressDialog.setMessage("登录中...");
-                progressDialog.show();
-
+                Toast.makeText(this,"登录中...",Toast.LENGTH_SHORT).show();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -160,11 +164,7 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                 app.setHeadurl(QCloud.resultUrl);
 
                 if(passwd.equals(passwdconf)){
-                    if(progressDialog==null) progressDialog=new ProgressDialog(this);
-                    progressDialog.setTitle("请稍后");
-                    progressDialog.setMessage("注册中...");
-                    progressDialog.show();
-
+                    Toast.makeText(this,"注册中...",Toast.LENGTH_SHORT).show();
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -172,6 +172,13 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                             map.put("username",app.getUsername());
                             map.put("passwd",passwd);
                             map.put("head",app.getHeadurl());
+                            map.put("gender",sp_gender.getSelectedItem().toString());
+                            map.put("age",sp_age.getSelectedItem().toString());
+                            map.put("city",sp_city.getSelectedItem().toString());
+                            map.put("salary", sp_salary.getSelectedItem().toString());
+                            map.put("taste", sp_taste.getSelectedItem().toString());
+                            map.put("question", sp_question.getSelectedItem().toString());
+                            map.put("answer",et_answer.getText().toString().trim());
                             response= C.asyncPost(app.getServer()+"register",map);
                             Log.i("register_response",response.toString());
                             handler.sendEmptyMessage(REGISTER);
@@ -238,9 +245,6 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LOGIN:
-                    //取消进度框
-                    if(progressDialog!=null) progressDialog.dismiss();
-
                     try {
                         String status=response.getString("status");
                         if(status.equals("succeed")){
@@ -261,8 +265,6 @@ public class UserAcitvity extends Activity implements View.OnClickListener {
                     break;
 
                 case REGISTER:
-                    //取消进度框
-                    if(progressDialog!=null) progressDialog.dismiss();
                     try {
                         String status=response.getString("status");
                         if(status.equals("succeed")){
