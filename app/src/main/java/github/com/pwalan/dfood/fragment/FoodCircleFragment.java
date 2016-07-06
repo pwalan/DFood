@@ -82,28 +82,24 @@ public class FoodCircleFragment extends Fragment {
         localReceiver=new LocalReceiver();
         localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 
+        list=(ListView)view.findViewById(R.id.list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
+                intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                startActivity(intent);
+            }
+        });
+
         refreshableView = (RefreshableView) view.findViewById(R.id.refreshable_view);
         refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
             @Override
             public void onRefresh() {
                 getData();
+                refreshableView.finishRefreshing();
             }
         }, 0);
-
-        list=(ListView)view.findViewById(R.id.list);
-        adapter = new SimpleAdapter(view.getContext(), listItems, R.layout.quanzi_item,
-                new String[]{"head", "name", "time","rname","rpic","num"},
-                new int[]{R.id.head, R.id.name, R.id.time,R.id.rname,R.id.rpic,R.id.num});
-        adapter.setViewBinder(new ListViewBinder());
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(getActivity(),ShowRecipeActivity.class);
-                intent.putExtra("rname", listItems.get(position).get("rname").toString());
-                startActivity(intent);
-            }
-        });
 
         getData();
 
@@ -114,7 +110,9 @@ public class FoodCircleFragment extends Fragment {
      * 获取数据
      */
     public void getData(){
+        count=0;
         listItems = new ArrayList<Map<String, Object>>();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -131,6 +129,11 @@ public class FoodCircleFragment extends Fragment {
             switch (msg.what) {
                 case FOOODCIRCLE_GET_DATA:
                     try {
+                        adapter = new SimpleAdapter(getActivity(), listItems, R.layout.quanzi_item,
+                                new String[]{"head", "name", "time","rname","rpic","num"},
+                                new int[]{R.id.head, R.id.name, R.id.time,R.id.rname,R.id.rpic,R.id.num});
+                        adapter.setViewBinder(new ListViewBinder());
+                        list.setAdapter(adapter);
                         data = new JSONArray(response.getString("data"));
                         JSONObject jo = data.getJSONObject(count);
                         QCloud.downloadPic(jo.getString("head"));
@@ -179,7 +182,6 @@ public class FoodCircleFragment extends Fragment {
                             status=FOOODCIRCLE_HEAD;
                         }else{
                             status=0;
-                            refreshableView.finishRefreshing();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
