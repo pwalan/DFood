@@ -134,6 +134,7 @@ public class FoodCircleFragment extends Fragment {
                                 new int[]{R.id.head, R.id.name, R.id.time,R.id.rname,R.id.rpic,R.id.num});
                         adapter.setViewBinder(new ListViewBinder());
                         list.setAdapter(adapter);
+
                         data = new JSONArray(response.getString("data"));
                         JSONObject jo = data.getJSONObject(count);
                         QCloud.downloadPic(jo.getString("head"));
