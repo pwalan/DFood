@@ -5,6 +5,9 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/ChangePasswdActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/ForgetPasswdActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/UserUpdateDialog.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/github/com/pwalan/dfood/myview/RefreshableView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/arrow.png" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/pull_to_refresh.xml" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

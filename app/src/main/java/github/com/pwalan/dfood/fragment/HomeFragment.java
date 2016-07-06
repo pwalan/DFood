@@ -90,7 +90,6 @@ public class HomeFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "你点击了 " + names[position], Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getActivity(),ShowRecipeActivity.class);
                 intent.putExtra("rname",names[position]);
                 startActivity(intent);

@@ -80,7 +80,6 @@ public class ShowRecipeActivity extends Activity {
     private int status;
     private JSONObject response, data;
     private JSONArray steps,comments;
-    private Bitmap bitmap;
 
     //startActivityForResult需要的intent
     private Intent lastIntent ;
@@ -117,7 +116,7 @@ public class ShowRecipeActivity extends Activity {
 
         rname = getIntent().getStringExtra("rname");
 
-        //腾讯云上传初始化
+        //腾讯云下载初始化
         QCloud.init(this);
 
         //本地广播接收初始化
@@ -375,7 +374,7 @@ public class ShowRecipeActivity extends Activity {
                     try {
                         String result = response.getString("data");
                         if(result.equals("add")){
-                            Toast.makeText(ShowRecipeActivity.this,"b(￣▽￣)d",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ShowRecipeActivity.this,"点赞成功！",Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -493,32 +492,4 @@ public class ShowRecipeActivity extends Activity {
             }
         }
     }
-
-    public void getHttpBitmap(final String url, final int msg) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL myFileURL = new URL(url);
-                    //获得连接
-                    HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
-                    //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
-                    conn.setConnectTimeout(6000);
-                    //连接设置获得数据流
-                    conn.setDoInput(true);
-                    conn.connect();
-                    //得到数据流
-                    InputStream is = conn.getInputStream();
-                    //解析得到图片
-                    bitmap = BitmapFactory.decodeStream(is);
-                    //关闭数据流
-                    is.close();
-                    handler.sendEmptyMessage(msg);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
 }

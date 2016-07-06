@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     android:padding="10dp"
     android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
-        android:id="@+id/r1"
+        android:id="@+id/rl01"
         android:layout_width="match_parent"
         android:layout_height="60dp">
 
@@ -40,7 +40,7 @@
             android:textSize="18dp"
             />
 
-        <CheckBox
+        <!--<CheckBox
             android:id="@+id/cb_favorite"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
@@ -49,13 +49,14 @@
             android:checked="false"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"/>-->
 
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_below="@id/r1"
+        android:id="@+id/rl02"
+        android:layout_below="@id/rl01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -68,7 +69,7 @@
             android:text="菜名"/>
 
         <ImageView
-            android:id="@+id/picture"
+            android:id="@+id/rpic"
             android:layout_width="match_parent"
             android:layout_below="@id/rname"
             android:layout_height="200dp"
@@ -77,13 +78,13 @@
             />
 
         <TextView
-            android:layout_below="@id/picture"
+            android:layout_below="@id/rpic"
             android:layout_alignParentRight="true"
             android:id="@+id/num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:text="0评论 0收藏"/>
+            android:text="0评论 0收藏 0赞"/>
 
     </RelativeLayout>
 
