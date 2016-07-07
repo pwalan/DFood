@@ -51,6 +51,7 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
     RefreshableView refreshableView;
 
     private App app;
+    private int status;
     private int count=0;
 
     @Override
@@ -110,7 +111,7 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.content, fg3);
                 fragmentTransaction.commit();
-                setChioceItem(0);
+                setChioceItem(status);
                 count++;
             }
         });
@@ -120,6 +121,7 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
 
         fragmentManager = getSupportFragmentManager();
         setChioceItem(0); // 初始化页面加载时显示第一个选项卡
+        status=0;
 
     }
 
@@ -127,12 +129,15 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.first_layout:
+                status=0;
                 setChioceItem(0);
                 break;
             case R.id.second_layout:
+                status=1;
                 setChioceItem(1);
                 break;
             case R.id.third_layout:
+                status=2;
                 setChioceItem(2);
                 break;
             default:
