@@ -316,7 +316,7 @@ public class ShowRecipeActivity extends Activity {
                             rid = Integer.parseInt(data.get("rid").toString());
                             Log.i("step", "rpic:" + data.get("rpic").toString());
                             //下载菜谱介绍图片
-                            QCloud.downloadPic(data.get("rpic").toString()+"/foodofworld");
+                            QCloud.downloadPic(data.get("rpic").toString());
                             status=RPIC;
                             //getHttpBitmap(data.get("rpic").toString(), RPIC);
                             uid = data.getInt("uid");
@@ -352,7 +352,7 @@ public class ShowRecipeActivity extends Activity {
                     JSONObject jo = null;
                     try {
                         jo = steps.getJSONObject(count);
-                        QCloud.downloadPic(jo.get("pic").toString()+"/foodofworld");
+                        QCloud.downloadPic(jo.get("pic").toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -458,7 +458,7 @@ public class ShowRecipeActivity extends Activity {
                             }
                         }else{
                             jo = steps.getJSONObject(count);
-                            QCloud.downloadPic(jo.get("pic").toString()+"/foodofworld");
+                            QCloud.downloadPic(jo.get("pic").toString());
                             //getHttpBitmap(jo.get("pic").toString(), STEP);
                             Log.i("step",jo.get("pic").toString());
                         }

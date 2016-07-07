@@ -1,6 +1,7 @@
 package github.com.pwalan.dfood;
 
 import android.content.Intent;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -12,12 +13,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import github.com.pwalan.dfood.fragment.UnderAuditFragment;
 import github.com.pwalan.dfood.fragment.UpFailedFragment;
 import github.com.pwalan.dfood.fragment.UpSucceedFragment;
 import github.com.pwalan.dfood.myview.RefreshableView;
+import github.com.pwalan.dfood.utils.C;
 
 public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
+    //获取数据
+    protected static final int GET_DATA=1;
 
     // 顶部栏显示
     private ImageView titleLeftImv;
@@ -52,7 +63,7 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
 
     private App app;
     private int status;
-    private int count=0;
+    private JSONObject response,data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,29 +101,8 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
         img_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle b1 = new Bundle();
-                b1.putString("data", "发布成功刷新" + (count) + "次");
-                Bundle b2 = new Bundle();
-                b2.putString("data", "审核中刷新" + (count) + "次");
-                Bundle b3 = new Bundle();
-                b3.putString("data", "发布失败刷新" + (count) + "次");
-                fg1 = new UpSucceedFragment();
-                fg2 = new UnderAuditFragment();
-                fg3 = new UpFailedFragment();
-                fg1.setArguments(b1);
-                fg2.setArguments(b2);
-                fg3.setArguments(b3);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content, fg1);
-                fragmentTransaction.commit();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.content, fg2);
-                fragmentTransaction.commit();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.content, fg3);
-                fragmentTransaction.commit();
-                setChioceItem(status);
-                count++;
+                Toast.makeText(ShowMyUp.this,"更新中，请稍后...",Toast.LENGTH_SHORT).show();
+                getData();
             }
         });
         //顶部标签
@@ -122,6 +112,8 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
         fragmentManager = getSupportFragmentManager();
         setChioceItem(0); // 初始化页面加载时显示第一个选项卡
         status=0;
+
+        getData();
 
     }
 
@@ -162,9 +154,11 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
                 // 如果fg1为空，则创建一个并添加到界面上
                 if (fg1 == null) {
                     fg1 = new UpSucceedFragment();
+                    titleTv.setText("发布成功");
                     fragmentTransaction.add(R.id.content, fg1);
                 } else {
                     // 如果不为空，则直接将它显示出来
+                    titleTv.setText("发布成功");
                     fragmentTransaction.show(fg1);
                 }
                 break;
@@ -174,8 +168,10 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
                 secondLayout.setBackgroundColor(gray);
                 if (fg2 == null) {
                     fg2 = new UnderAuditFragment();
+                    titleTv.setText("审核中");
                     fragmentTransaction.add(R.id.content, fg2);
                 } else {
+                    titleTv.setText("审核中");
                     fragmentTransaction.show(fg2);
                 }
                 break;
@@ -185,8 +181,10 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
                 thirdLayout.setBackgroundColor(gray);
                 if (fg3 == null) {
                     fg3 = new UpFailedFragment();
+                    titleTv.setText("发布失败");
                     fragmentTransaction.add(R.id.content, fg3);
                 } else {
+                    titleTv.setText("发布失败");
                     fragmentTransaction.show(fg3);
                 }
                 break;
@@ -226,4 +224,60 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
         }
     }
 
+    /**
+     * 获取数据
+     */
+    public void getData(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap map = new HashMap();
+                map.put("uid",app.getUid());
+                response = C.asyncPost(app.getServer() + "getUpSituation", map);
+                handler.sendEmptyMessage(GET_DATA);
+            }
+        }).start();
+    }
+
+    private android.os.Handler handler = new android.os.Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case GET_DATA:
+                    try {
+                        data=new JSONObject(response.getString("data"));
+                        /**
+                         * 利用bundle向fragment传数据，注意fragmentTransaction的使用
+                         */
+                        Bundle b1 = new Bundle();
+                        b1.putString("data",data.getString("succeed"));
+                        Bundle b2 = new Bundle();
+                        b2.putString("data", data.getString("audit"));
+                        Bundle b3 = new Bundle();
+                        b3.putString("data",data.getString("failed"));
+                        fg1 = new UpSucceedFragment();
+                        fg2 = new UnderAuditFragment();
+                        fg3 = new UpFailedFragment();
+                        fg1.setArguments(b1);
+                        fg2.setArguments(b2);
+                        fg3.setArguments(b3);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content, fg1);
+                        fragmentTransaction.commit();
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.add(R.id.content, fg2);
+                        fragmentTransaction.commit();
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.add(R.id.content, fg3);
+                        fragmentTransaction.commit();
+                        setChioceItem(0);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
