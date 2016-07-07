@@ -59,6 +59,7 @@ public class ShowPersonInf extends Activity {
 
     private TextView tv_conNum,tv_recNum;
     private ListView uplist;
+    SimpleAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +70,24 @@ public class ShowPersonInf extends Activity {
 
         app=(App)getApplication();
         lastIntent = getIntent();
-        listItems=new ArrayList<Map<String, Object>>();
 
         uplist=(ListView)findViewById(R.id.uplist);
+        listItems=new ArrayList<Map<String, Object>>();
+        adapter = new SimpleAdapter(ShowPersonInf.this, listItems, R.layout.simple_recipe_item,
+                new String[]{"rname", "time", "pic"},
+                new int[]{R.id.tv_rname, R.id.tv_time, R.id.iv_pic});
+        adapter.setViewBinder(new ListViewBinder());
+        uplist.setAdapter(adapter);
+        uplist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(ShowPersonInf.this, "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ShowPersonInf.this, ShowRecipeActivity.class);
+                intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                startActivity(intent);
+            }
+        });
+
         tv_conNum=(TextView)findViewById(R.id.tv_conNum);
         tv_recNum=(TextView)findViewById(R.id.tv_recNum);
         //初始化标题栏
@@ -162,22 +178,9 @@ public class ShowPersonInf extends Activity {
                         listItem.put("time",jo.getString("time"));
                         listItem.put("pic",bitmap);
                         listItems.add(listItem);
+                        adapter.notifyDataSetChanged();
                         count++;
                         if(count==ups.length()){
-                            SimpleAdapter adapter = new SimpleAdapter(ShowPersonInf.this, listItems, R.layout.simple_recipe_item,
-                                    new String[]{"rname", "time", "pic"},
-                                    new int[]{R.id.tv_rname, R.id.tv_time, R.id.iv_pic});
-                            adapter.setViewBinder(new ListViewBinder());
-                            uplist.setAdapter(adapter);
-                            uplist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Toast.makeText(ShowPersonInf.this, "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ShowPersonInf.this, ShowRecipeActivity.class);
-                                    intent.putExtra("rname", listItems.get(position).get("rname").toString());
-                                    startActivity(intent);
-                                }
-                            });
                             //设置结果
                             setResult(Activity.RESULT_OK, lastIntent);
                         }else{

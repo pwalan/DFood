@@ -54,6 +54,7 @@ public class SeasonsetFragment extends Fragment {
     SimpleAdapter simpleAdapter;
     ListView list;
     private List<Map<String, Object>> listItems;
+    SimpleAdapter adapter;
 
     public String[] names = new String[]{
             "白切鸡", "夫妻肺片", "麻婆豆腐", "七星鱼丸", "石锅拌饭", "糖醋鲤鱼"
@@ -99,7 +100,6 @@ public class SeasonsetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_seasonset, container, false);
 
         app=(App)getActivity().getApplication();
-        list = (ListView) view.findViewById(R.id.season_list);
 
         btn_spring=(Button)view.findViewById(R.id.btn_spring);
         btn_spring.setOnClickListener(new ClickEvent());
@@ -109,6 +109,8 @@ public class SeasonsetFragment extends Fragment {
         btn_autumn.setOnClickListener(new ClickEvent());
         btn_winter=(Button)view.findViewById(R.id.btn_winter);
         btn_winter.setOnClickListener(new ClickEvent());
+
+        list = (ListView) view.findViewById(R.id.season_list);
 
         return view;
     }
@@ -122,6 +124,20 @@ public class SeasonsetFragment extends Fragment {
                 listItems = new ArrayList<Map<String, Object>>();
                 season="春";
                 count=0;
+                adapter = new SimpleAdapter(getActivity(), listItems, R.layout.simple_item,
+                        new String[]{"rname", "pic"},
+                        new int[]{R.id.picture_name,R.id.shared_pictures});
+                adapter.setViewBinder(new ListViewBinder());
+                list.setAdapter(adapter);
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getActivity(), "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
+                        intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                        startActivity(intent);
+                    }
+                });
                 getData();
             }else if(btn_summer==v){
                 /*names=sum_names;
@@ -129,6 +145,20 @@ public class SeasonsetFragment extends Fragment {
                 listItems = new ArrayList<Map<String, Object>>();
                 season="夏";
                 count=0;
+                adapter = new SimpleAdapter(getActivity(), listItems, R.layout.simple_item,
+                        new String[]{"rname", "pic"},
+                        new int[]{R.id.picture_name,R.id.shared_pictures});
+                adapter.setViewBinder(new ListViewBinder());
+                list.setAdapter(adapter);
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getActivity(), "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
+                        intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                        startActivity(intent);
+                    }
+                });
                 getData();
             }else if(btn_autumn==v){
                 /*names=aut_names;
@@ -136,6 +166,20 @@ public class SeasonsetFragment extends Fragment {
                 listItems = new ArrayList<Map<String, Object>>();
                 season="秋";
                 count=0;
+                adapter = new SimpleAdapter(getActivity(), listItems, R.layout.simple_item,
+                        new String[]{"rname", "pic"},
+                        new int[]{R.id.picture_name,R.id.shared_pictures});
+                adapter.setViewBinder(new ListViewBinder());
+                list.setAdapter(adapter);
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getActivity(), "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
+                        intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                        startActivity(intent);
+                    }
+                });
                 getData();
             }else if(btn_winter==v){
                 /*names=win_names;
@@ -143,6 +187,20 @@ public class SeasonsetFragment extends Fragment {
                 listItems = new ArrayList<Map<String, Object>>();
                 season="冬";
                 count=0;
+                adapter = new SimpleAdapter(getActivity(), listItems, R.layout.simple_item,
+                        new String[]{"rname", "pic"},
+                        new int[]{R.id.picture_name,R.id.shared_pictures});
+                adapter.setViewBinder(new ListViewBinder());
+                list.setAdapter(adapter);
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Toast.makeText(getActivity(), "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
+                        intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                        startActivity(intent);
+                    }
+                });
                 getData();
             }
 
@@ -203,27 +261,15 @@ public class SeasonsetFragment extends Fragment {
                 case GET_PICS:
                     Map<String, Object> listItem = new HashMap<String, Object>();
                     try {
-                        Log.i("dfood","现在是第"+count+"个菜谱");
+                        Log.i("dfood", "现在是第" + count + "个菜谱");
                         JSONObject jo = data.getJSONObject(count);
                         listItem.put("rname",jo.getString("rname"));
                         listItem.put("pic",bitmap);
                         listItems.add(listItem);
+                        adapter.notifyDataSetChanged();
                         count++;
                         if(count==data.length()){
-                            SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems, R.layout.simple_item,
-                                    new String[]{"rname", "pic"},
-                                    new int[]{R.id.picture_name,R.id.shared_pictures});
-                            adapter.setViewBinder(new ListViewBinder());
-                            list.setAdapter(adapter);
-                            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Toast.makeText(getActivity(), "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
-                                    intent.putExtra("rname", listItems.get(position).get("rname").toString());
-                                    startActivity(intent);
-                                }
-                            });
+
                         }else{
                             jo = data.getJSONObject(count);
                             getHttpBitmap(jo.getString("pic"),GET_PICS);
