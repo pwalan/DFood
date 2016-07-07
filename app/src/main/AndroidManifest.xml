@@ -87,6 +87,10 @@
             android:name=".SearchActivity"
             android:label="@string/title_activity_search" >
         </activity>
+        <activity
+            android:name=".ShowMyUp"
+            android:label="@string/title_activity_show_my_up" >
+        </activity>
     </application>
 
 </manifest>

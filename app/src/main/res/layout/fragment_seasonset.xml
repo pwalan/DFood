@@ -9,46 +9,39 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:gravity="center"
-        android:layout_marginTop="10dp">
+        android:layout_margin="10dp">
         <Button
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:text="春"
-            android:layout_width="wrap_content"
             android:background="@color/lightgreen"
             android:id="@+id/btn_spring" />
 
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
-
         <Button
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:text="夏"
-            android:layout_width="wrap_content"
             android:background="@color/tianyi"
             android:id="@+id/btn_summer"/>
 
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
-
         <Button
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:text="秋"
-            android:layout_width="wrap_content"
             android:background="@color/lightgoldenyellow"
             android:id="@+id/btn_autumn"/>
 
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="match_parent" />
-
         <Button
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:text="冬"
-            android:layout_width="wrap_content"
             android:background="@color/white"
             android:id="@+id/btn_winter"/>
+
     </LinearLayout>
 
     <ListView

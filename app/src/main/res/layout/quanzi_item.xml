@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/rl01"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content">
 
 
         <github.com.pwalan.dfood.myview.RoundImageView
@@ -64,8 +64,9 @@
             android:id="@+id/rname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_centerHorizontal="true"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:text="菜名"/>
 
         <ImageView
@@ -80,6 +81,7 @@
         <TextView
             android:layout_below="@id/rpic"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
             android:id="@+id/num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

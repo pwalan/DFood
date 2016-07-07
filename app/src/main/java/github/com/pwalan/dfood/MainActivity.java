@@ -83,7 +83,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private TextView fourthText;
     // 定义几个颜色
     private int whirt = 0xFFFFFFFF;
-    private int gray = 0xFF7597B3;
+    private int gray = 0xFF66CCFF;
     private int dark = 0xff000000;
     // 定义FragmentManager对象管理器
     private FragmentManager fragmentManager;
@@ -353,8 +353,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onMyupClicked(View v) {
         if (app.isLogin()) {
             menu.toggle();
-            Intent intent = new Intent(this, ShowPersonInf.class);
-            intent.putExtra("uid", app.getUid());
+            Intent intent = new Intent(this, ShowMyUp.class);
             startActivity(intent);
         } else {
             Toast.makeText(MainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();

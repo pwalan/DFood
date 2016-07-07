@@ -28,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@color/whitesmoke"></FrameLayout>
+                android:background="@color/whitesmoke">
+            </FrameLayout>
             <!--3. 底部的四个选项菜单-->
             <LinearLayout
                 android:layout_width="match_parent"
