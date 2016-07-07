@@ -61,6 +61,7 @@ public class FoodCircleFragment extends Fragment {
     private int count=0;
     private int status;
 
+    //下拉刷新
     RefreshableView refreshableView;
 
     private ListView list;
@@ -92,6 +93,7 @@ public class FoodCircleFragment extends Fragment {
             }
         });
 
+        //下拉刷新初始化
         refreshableView = (RefreshableView) view.findViewById(R.id.refreshable_view);
         refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
             @Override
