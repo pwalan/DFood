@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -16,7 +17,7 @@ public class UserUpdateDialog extends Activity implements View.OnClickListener {
     //startActivityForResult需要的intent
     private Intent lastIntent ;
 
-    private LinearLayout dialogLayout;
+    private RelativeLayout dialogLayout;
     private Button btn_ch_passwd,btn_ch_head,btn_cancel;
 
     @Override
@@ -26,7 +27,7 @@ public class UserUpdateDialog extends Activity implements View.OnClickListener {
 
         lastIntent = getIntent();
 
-        dialogLayout = (LinearLayout) findViewById(R.id.dialog_layout);
+        dialogLayout = (RelativeLayout) findViewById(R.id.dialog_layout);
         dialogLayout.setOnClickListener(this);
         btn_ch_head=(Button)findViewById(R.id.btn_ch_head);
         btn_ch_head.setOnClickListener(this);
@@ -47,6 +48,9 @@ public class UserUpdateDialog extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn_ch_passwd:
                 startActivityForResult(new Intent(this, ChangePasswdActivity.class), 1);
+                break;
+            case R.id.btn_cancel:
+                finish();
                 break;
             default:
                 finish();

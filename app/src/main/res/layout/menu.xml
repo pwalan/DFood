@@ -8,14 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="菜 单"
+        android:text="菜  单"
         android:textSize="26dp"
         android:textColor="@color/black"/>
 
     <!--登录注册-->
     <Button
         android:id="@+id/btn_user"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_marginTop="120dp"
         android:layout_centerHorizontal="true"
@@ -38,7 +38,7 @@
 
     <Button
         android:id="@+id/btn_concern"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@id/btn_user"
         android:layout_marginTop="20dp"
@@ -62,7 +62,7 @@
 
     <Button
         android:id="@+id/btn_favorite"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@id/btn_concern"
         android:layout_marginTop="20dp"
@@ -86,7 +86,7 @@
 
     <Button
         android:id="@+id/btn_myup"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@id/btn_favorite"
         android:layout_marginTop="20dp"
@@ -109,7 +109,7 @@
 
     <Button
         android:id="@+id/btn_search"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@id/btn_myup"
         android:layout_marginTop="20dp"
@@ -132,7 +132,7 @@
 
     <Button
         android:id="@+id/btn_help"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@id/btn_search"
         android:layout_marginTop="20dp"
@@ -155,7 +155,7 @@
 
     <Button
         android:id="@+id/btn_exit"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_below="@id/btn_help"
         android:layout_marginTop="20dp"
