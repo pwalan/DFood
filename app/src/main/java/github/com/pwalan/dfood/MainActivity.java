@@ -365,6 +365,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         startActivity(new Intent(this,SearchActivity.class));
     }
 
+    public void onHelpClicked(View v){
+        menu.toggle();
+        startActivity(new Intent(this,HelpActivity.class));
+    }
+
     public void onExitClicked(View v) {
         finish();
     }

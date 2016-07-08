@@ -181,7 +181,7 @@ public class FoodCircleFragment extends Fragment {
                         listItems.get(count).put("rpic", QCloud.bmp);
                         adapter.notifyDataSetChanged();
                         count++;
-                        if(count<data.length()){
+                        if(count<data.length()&&count<20){
                             JSONObject jo = data.getJSONObject(count);
                             QCloud.downloadPic(jo.getString("head"));
                             status=FOOODCIRCLE_HEAD;

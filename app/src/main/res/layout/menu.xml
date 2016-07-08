@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00ffffff">
+    android:background="#6066ccff">
 
     <TextView
         android:layout_width="match_parent"
@@ -128,13 +128,36 @@
         android:layout_height="40dp"
         android:src="@drawable/search"/>
 
+    <!--帮助-->
+
+    <Button
+        android:id="@+id/btn_help"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btn_search"
+        android:layout_marginTop="20dp"
+        android:background="#00ffffff"
+        android:onClick="onHelpClicked"
+        android:text="软件帮助"
+        android:textSize="20dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp"
+        android:gravity="left|center"/>
+
+    <ImageView
+        android:layout_toLeftOf="@id/btn_help"
+        android:layout_alignTop="@id/btn_help"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/help"/>
+
     <!--退出程序-->
 
     <Button
         android:id="@+id/btn_exit"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_below="@id/btn_search"
+        android:layout_below="@id/btn_help"
         android:layout_marginTop="20dp"
         android:background="#00ffffff"
         android:onClick="onExitClicked"
