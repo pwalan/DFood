@@ -198,6 +198,7 @@ public class SeasonsetFragment extends Fragment {
                         Toast.makeText(getActivity(), "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
                         intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                        intent.putExtra("uid",Integer.parseInt(listItems.get(position).get("uid").toString()));
                         startActivity(intent);
                     }
                 });
@@ -265,6 +266,7 @@ public class SeasonsetFragment extends Fragment {
                         JSONObject jo = data.getJSONObject(count);
                         listItem.put("rname",jo.getString("rname"));
                         listItem.put("pic",bitmap);
+                        listItem.put("uid",jo.getInt("uid"));
                         listItems.add(listItem);
                         adapter.notifyDataSetChanged();
                         count++;

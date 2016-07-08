@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(getActivity(),ShowRecipeActivity.class);
                 intent.putExtra("rname",names[position]);
+                intent.putExtra("uid",1);
                 startActivity(intent);
             }
         });

@@ -89,6 +89,7 @@ public class FoodCircleFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
                 intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                intent.putExtra("uid",Integer.parseInt(listItems.get(position).get("uid").toString()));
                 startActivity(intent);
             }
         });
@@ -162,6 +163,7 @@ public class FoodCircleFragment extends Fragment {
                         Map<String, Object> listItem = new HashMap<String, Object>();
                         listItem.put("head",QCloud.bmp);
                         listItem.put("name",jo.getString("username"));
+                        listItem.put("uid",jo.getInt("uid"));
                         listItem.put("time",jo.getString("time"));
                         listItem.put("rname",jo.getString("rname"));
                         listItem.put("num", jo.getInt("cnum") + "评论" + " " + jo.getInt("fnum") + "收藏" +

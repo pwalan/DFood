@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import github.com.pwalan.dfood.App;
 import github.com.pwalan.dfood.R;
 import github.com.pwalan.dfood.ShowRecipeActivity;
 import github.com.pwalan.dfood.utils.ListViewBinder;
@@ -41,6 +42,7 @@ public class UpSucceedFragment extends Fragment {
     //获取图片
     protected static final int GET_PICS=1;
 
+    private App app;
     private int count=0;
     private Bitmap bitmap;
     private JSONArray data;
@@ -52,12 +54,14 @@ public class UpSucceedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_up_succeed, container, false);
 
+        app=(App)getActivity().getApplication();
         list=(ListView)view.findViewById(R.id.list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
                 intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                intent.putExtra("uid",app.getUid());
                 startActivity(intent);
             }
         });

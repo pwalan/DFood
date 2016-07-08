@@ -81,9 +81,9 @@ public class ShowPersonInf extends Activity {
         uplist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ShowPersonInf.this, "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ShowPersonInf.this, ShowRecipeActivity.class);
                 intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                intent.putExtra("uid",uid);
                 startActivity(intent);
             }
         });

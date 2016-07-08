@@ -97,6 +97,7 @@ public class RecipeFragment extends Fragment {
                     Toast.makeText(getActivity(), child[parent][children], Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(getActivity(),ShowRecipeActivity.class);
                     intent.putExtra("rname",child[parent][children]);
+                    intent.putExtra("uid",1);
                     startActivity(intent);
                     return false;
                 }

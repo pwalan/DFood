@@ -385,6 +385,7 @@ public class ShowRecipeActivity extends Activity {
                 case HEADS:
                     //设置结果
                     setResult(Activity.RESULT_OK, lastIntent);
+                    status=0;
                     break;
                 case GET_COMMENT:
                     try {

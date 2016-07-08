@@ -89,6 +89,7 @@ public class ShowFavoritesActivity extends Activity {
                         listItem.put("rname",jo.getString("rname"));
                         listItem.put("time",jo.getString("time"));
                         listItem.put("pic", bitmap);
+                        listItem.put("uid",jo.getInt("uid"));
                         listItems.add(listItem);
                         count++;
                         if(count==data.length()){
@@ -100,9 +101,9 @@ public class ShowFavoritesActivity extends Activity {
                             flist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Toast.makeText(ShowFavoritesActivity.this, "你点击了 " + listItems.get(position).get("rname").toString(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(ShowFavoritesActivity.this, ShowRecipeActivity.class);
                                     intent.putExtra("rname", listItems.get(position).get("rname").toString());
+                                    intent.putExtra("uid",Integer.parseInt(listItems.get(position).get("uid").toString()));
                                     startActivityForResult(intent, 0);
                                 }
                             });
