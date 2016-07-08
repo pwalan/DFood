@@ -75,7 +75,7 @@ public class ShowRecipeActivity extends Activity {
 
     private App app;
     private String rname;
-    private int rid, uid;
+    private int rid,ruid, uid;
     private int count = 0;
     private int status;
     private JSONObject response, data;
@@ -115,6 +115,7 @@ public class ShowRecipeActivity extends Activity {
         setContentView(R.layout.activity_show_recipe);
 
         rname = getIntent().getStringExtra("rname");
+        ruid=getIntent().getIntExtra("uid",1);
 
         //腾讯云下载初始化
         QCloud.init(this);
@@ -250,6 +251,7 @@ public class ShowRecipeActivity extends Activity {
             public void run() {
                 HashMap map = new HashMap();
                 map.put("rname", rname);
+                map.put("uid",ruid);
                 response = C.asyncPost(app.getServer() + "getSteps", map);
                 handler.sendEmptyMessage(GET_DATA);
             }

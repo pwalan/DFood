@@ -15,12 +15,30 @@
         android:textColor="@color/white"
         android:background="@color/colorPrimaryDark"/>
 
-    <ImageView
-        android:id="@+id/iv_down"
+    <EditText
+        android:id="@+id/et_search"
         android:layout_below="@id/tv01"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="300dp"
-        android:layout_height="160dp"
-        android:background="@color/lightgray"/>
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:hint="菜名"
+        android:gravity="center"/>
+
+    <ImageView
+        android:id="@+id/iv_search"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_toRightOf="@id/et_search"
+        android:layout_below="@id/tv01"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/search"/>
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_below="@id/et_search"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

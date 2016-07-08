@@ -361,6 +361,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public void onSearchClicked(View v){
+        menu.toggle();
         startActivity(new Intent(this,SearchActivity.class));
     }
 
