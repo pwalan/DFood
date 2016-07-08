@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import github.com.pwalan.dfood.R;
@@ -41,7 +42,7 @@ public class SelectPicActivity extends Activity implements OnClickListener{
 
     private static final String TAG = "SelectPicActivity";
 
-    private LinearLayout dialogLayout;
+    private RelativeLayout dialogLayout;
     private Button takePhotoBtn,pickPhotoBtn,cancelBtn;
 
     /**获取到的图片路径*/
@@ -60,7 +61,7 @@ public class SelectPicActivity extends Activity implements OnClickListener{
      * 初始化加载View
      */
     private void initView() {
-        dialogLayout = (LinearLayout) findViewById(R.id.dialog_layout);
+        dialogLayout = (RelativeLayout) findViewById(R.id.dialog_layout);
         dialogLayout.setOnClickListener(this);
         takePhotoBtn = (Button) findViewById(R.id.btn_take_photo);
         takePhotoBtn.setOnClickListener(this);
