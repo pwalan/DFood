@@ -7,62 +7,62 @@
     android:background="#66ccff">
 
     <Button
-        android:id="@+id/btn_take_photo"
+        android:id="@+id/btn_qq"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="15dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/camera"
+        android:background="@drawable/qq"
         />
 
     <TextView
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_take_photo"
-        android:layout_alignLeft="@id/btn_take_photo"
+        android:layout_below="@id/btn_qq"
+        android:layout_alignLeft="@id/btn_qq"
         android:layout_marginBottom="10dp"
-        android:text="相机拍照"
+        android:text="QQ好友"
         android:textSize="20dp"
-        android:gravity="center"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:gravity="center"/>
 
     <Button
-        android:id="@+id/btn_pick_photo"
-        android:layout_toRightOf="@id/btn_take_photo"
+        android:id="@+id/btn_qqkj"
+        android:layout_toRightOf="@id/btn_qq"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/album"/>
+        android:layout_marginRight="15dp"
+        android:background="@drawable/qqkj"/>
 
     <TextView
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_pick_photo"
-        android:layout_alignLeft="@id/btn_pick_photo"
+        android:layout_below="@id/btn_qqkj"
+        android:layout_alignLeft="@id/btn_qqkj"
         android:layout_marginBottom="10dp"
-        android:text="相册选择"
+        android:text="QQ空间"
         android:textSize="20dp"
         android:gravity="center"
         android:textColor="@color/white"/>
 
     <Button
-        android:id="@+id/btn_cancel"
+        android:id="@+id/btn_weibo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/btn_pick_photo"
-        android:background="@drawable/btnexit" />
+        android:layout_toRightOf="@id/btn_qqkj"
+        android:background="@drawable/weibo" />
 
     <TextView
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_cancel"
-        android:layout_alignLeft="@id/btn_cancel"
+        android:layout_below="@id/btn_weibo"
+        android:layout_alignLeft="@id/btn_weibo"
         android:layout_marginBottom="10dp"
-        android:text="取消"
+        android:text="新浪微博"
         android:textSize="20dp"
         android:gravity="center"
         android:textColor="@color/white"/>

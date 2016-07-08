@@ -190,7 +190,7 @@ public class ShowRecipeActivity extends Activity {
                                                                  break;
                                                              case R.id.share:
                                                                  popup.dismiss();
-                                                                 Toast.makeText(ShowRecipeActivity.this, "分享", Toast.LENGTH_SHORT).show();
+                                                                 startActivity(new Intent(ShowRecipeActivity.this,ShareDialogActivity.class));
                                                                  break;
                                                              default:
                                                                  break;
