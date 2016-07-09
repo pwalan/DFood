@@ -74,7 +74,7 @@ public class ShowRecipeActivity extends Activity {
     private LocalBroadcastManager localBroadcastManager;
 
     private App app;
-    private String rname;
+    private String rname, rpic;
     private int rid,ruid, uid;
     private int count = 0;
     private int status;
@@ -190,7 +190,12 @@ public class ShowRecipeActivity extends Activity {
                                                                  break;
                                                              case R.id.share:
                                                                  popup.dismiss();
-                                                                 startActivity(new Intent(ShowRecipeActivity.this,ShareDialogActivity.class));
+                                                                 Intent intent=new Intent(ShowRecipeActivity.this,ShareDialogActivity.class);
+                                                                 intent.putExtra("rid",rid);
+                                                                 intent.putExtra("rname",rname);
+                                                                 intent.putExtra("content",tv_rcontent.getText().toString().trim());
+                                                                 intent.putExtra("rpic",rpic);
+                                                                 startActivity(intent);
                                                                  break;
                                                              default:
                                                                  break;
@@ -318,7 +323,8 @@ public class ShowRecipeActivity extends Activity {
                             rid = Integer.parseInt(data.get("rid").toString());
                             Log.i("step", "rpic:" + data.get("rpic").toString());
                             //下载菜谱介绍图片
-                            QCloud.downloadPic(data.get("rpic").toString());
+                            rpic=data.get("rpic").toString();
+                            QCloud.downloadPic(rpic);
                             status=RPIC;
                             //getHttpBitmap(data.get("rpic").toString(), RPIC);
                             uid = data.getInt("uid");
