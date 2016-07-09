@@ -9,11 +9,18 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
+import java.util.Random;
+
 
 public class WelcomeActivity extends Activity {
 
     ImageView homeImage;
     Boolean isFirstIn;
+
+    private int[] imageIds = new int[]{
+            R.drawable.bg1, R.drawable.bg2, R.drawable.bg3,
+            R.drawable.bg4, R.drawable.bg5, R.drawable.bg6
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +28,10 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
 
         homeImage = (ImageView) findViewById(R.id.homeimg);
+        //通过随机数设置欢迎界面
+        Random random=new Random();
+        homeImage.setImageResource(imageIds[random.nextInt(imageIds.length)]);
+
         AlphaAnimation alphaAnimation = new AlphaAnimation((float) 0.5, 1);
         alphaAnimation.setDuration(3000);
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
