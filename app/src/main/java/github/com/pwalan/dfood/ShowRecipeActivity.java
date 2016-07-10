@@ -77,7 +77,7 @@ public class ShowRecipeActivity extends Activity {
     private String rname, rpic;
     private int rid,ruid, uid;
     private int count = 0;
-    private int status;
+    private int status;  //图片下载状态
     private JSONObject response, data;
     private JSONArray steps,comments;
 

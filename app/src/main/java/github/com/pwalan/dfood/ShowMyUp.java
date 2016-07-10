@@ -59,8 +59,6 @@ public class ShowMyUp extends FragmentActivity implements View.OnClickListener{
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
-    RefreshableView refreshableView;
-
     private App app;
     private int status;
     private JSONObject response,data;

@@ -46,6 +46,8 @@ import github.com.pwalan.dfood.utils.QCloud;
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
     //下载头像
     protected static final int DOWNLOAD_FILE_DONE = 1;
+    //获取数据
+    protected static final int GET_DATA = 2;
 
     private App app;
     private Bitmap bitmap;
@@ -86,6 +88,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private int dark = 0xff000000;
     // 定义FragmentManager对象管理器
     private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
         initView(); // 初始化界面控件
+        getData();
         setChioceItem(0); // 初始化页面加载时显示第一个选项卡
         menu = (SlidingMenu) findViewById(R.id.slide_menu);
     }
@@ -303,6 +307,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }).start();
     }
 
+    /**
+     * 获取数据
+     */
+    public void getData(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap map = new HashMap();
+                map.put("uid",app.getUid());
+                response = C.asyncPost(app.getServer() + "getHomeRecipes", map);
+                handler.sendEmptyMessage(GET_DATA);
+            }
+        }).start();
+    }
+
 
     private Handler handler = new Handler() {
         @Override
@@ -311,6 +330,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 case DOWNLOAD_FILE_DONE:
                     titleLeftImv.setImageBitmap(bitmap);
                     Log.i("main", "获取首页头像");
+                    break;
+                case GET_DATA:
+                    try {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("data",response.getString("data"));
+                        fg1=new HomeFragment();
+                        fg1.setArguments(bundle);
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.content, fg1);
+                        fragmentTransaction.commit();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     break;
@@ -388,6 +420,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 btn_user.setText(app.getUsername());
                 if (app.getHeadurl() != null) {
                     getHttpBitmap(app.getHeadurl());
+                    getData();
                 }
             }
         }
