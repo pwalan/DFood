@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class ShareDialogActivity extends Activity implements View.OnClickListener {
     private RelativeLayout dialogLayout;
-    private Button btn_qq, btn_qqkj, btn_weibo;
+    private Button btn_qq, btn_qqkj, btn_weixin;
 
     private Tencent mTencent;
     private int rid;
@@ -49,8 +49,8 @@ public class ShareDialogActivity extends Activity implements View.OnClickListene
         btn_qq.setOnClickListener(this);
         btn_qqkj = (Button) findViewById(R.id.btn_qqkj);
         btn_qqkj.setOnClickListener(this);
-        btn_weibo = (Button) findViewById(R.id.btn_weibo);
-        btn_weibo.setOnClickListener(this);
+        btn_weixin = (Button) findViewById(R.id.btn_weixin);
+        btn_weixin.setOnClickListener(this);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class ShareDialogActivity extends Activity implements View.OnClickListene
                 sharetoQQKJ();
                 finish();
                 break;
-            case R.id.btn_weibo:
-                Toast.makeText(this, "分享到新浪微博", Toast.LENGTH_SHORT).show();
+            case R.id.btn_weixin:
+                Toast.makeText(this, "分享到微信", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             default:

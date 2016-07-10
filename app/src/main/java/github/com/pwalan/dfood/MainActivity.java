@@ -330,6 +330,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 case DOWNLOAD_FILE_DONE:
                     titleLeftImv.setImageBitmap(bitmap);
                     Log.i("main", "获取首页头像");
+                    getData();
                     break;
                 case GET_DATA:
                     try {
@@ -420,7 +421,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 btn_user.setText(app.getUsername());
                 if (app.getHeadurl() != null) {
                     getHttpBitmap(app.getHeadurl());
-                    getData();
                 }
             }
         }
