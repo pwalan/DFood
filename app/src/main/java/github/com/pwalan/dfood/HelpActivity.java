@@ -18,7 +18,7 @@ public class HelpActivity extends Activity {
 
     private int[] imageIds = new int[]{
             R.drawable.picture0, R.drawable.picture1, R.drawable.picture2,
-            R.drawable.picture3, R.drawable.picture4
+            R.drawable.picture3, R.drawable.picture4, R.drawable.picture5
     };
     private int len;
 
