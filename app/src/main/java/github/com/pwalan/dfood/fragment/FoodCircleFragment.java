@@ -99,6 +99,7 @@ public class FoodCircleFragment extends Fragment {
         refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
             @Override
             public void onRefresh() {
+                status=0;
                 getData();
                 refreshableView.finishRefreshing();
             }
