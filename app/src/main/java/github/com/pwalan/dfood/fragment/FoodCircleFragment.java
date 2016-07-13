@@ -44,11 +44,11 @@ import github.com.pwalan.dfood.utils.QCloud;
  */
 public class FoodCircleFragment extends Fragment {
     //获取数据
-    protected static final int FOOODCIRCLE_GET_DATA=1;
+    protected static final int FOOODCIRCLE_GET_DATA = 1;
     //获取头像
-    protected static final int FOOODCIRCLE_HEAD=2;
+    protected static final int FOOODCIRCLE_HEAD = 2;
     //获取菜谱图片
-    protected static final int FOOODCIRCLE_PIC=3;
+    protected static final int FOOODCIRCLE_PIC = 3;
 
     //本地广播
     private IntentFilter intentFilter;
@@ -58,7 +58,7 @@ public class FoodCircleFragment extends Fragment {
     private App app;
     private JSONArray data;
     private JSONObject response;
-    private int count=0;
+    private int count = 0;
     private int status;
 
     //下拉刷新
@@ -72,24 +72,24 @@ public class FoodCircleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_foodcircle, container, false);
 
-        app=(App)getActivity().getApplication();
+        app = (App) getActivity().getApplication();
         //腾讯云下载初始化
         QCloud.init(view.getContext());
 
         //本地广播接收初始化
-        localBroadcastManager=LocalBroadcastManager.getInstance(view.getContext());
-        intentFilter=new IntentFilter();
+        localBroadcastManager = LocalBroadcastManager.getInstance(view.getContext());
+        intentFilter = new IntentFilter();
         intentFilter.addAction("github.com.pwalan.dfood.LOCAL_BROADCAST");
-        localReceiver=new LocalReceiver();
+        localReceiver = new LocalReceiver();
         localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 
-        list=(ListView)view.findViewById(R.id.list);
+        list = (ListView) view.findViewById(R.id.list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ShowRecipeActivity.class);
                 intent.putExtra("rname", listItems.get(position).get("rname").toString());
-                intent.putExtra("uid",Integer.parseInt(listItems.get(position).get("uid").toString()));
+                intent.putExtra("uid", Integer.parseInt(listItems.get(position).get("uid").toString()));
                 startActivity(intent);
             }
         });
@@ -99,7 +99,7 @@ public class FoodCircleFragment extends Fragment {
         refreshableView.setOnRefreshListener(new RefreshableView.PullToRefreshListener() {
             @Override
             public void onRefresh() {
-                status=0;
+                status = 0;
                 getData();
                 refreshableView.finishRefreshing();
             }
@@ -113,8 +113,8 @@ public class FoodCircleFragment extends Fragment {
     /**
      * 获取数据
      */
-    public void getData(){
-        count=0;
+    public void getData() {
+        count = 0;
         listItems = new ArrayList<Map<String, Object>>();
 
         new Thread(new Runnable() {
@@ -134,15 +134,15 @@ public class FoodCircleFragment extends Fragment {
                 case FOOODCIRCLE_GET_DATA:
                     try {
                         adapter = new SimpleAdapter(getActivity(), listItems, R.layout.quanzi_item,
-                                new String[]{"head", "name", "time","rname","rpic","num"},
-                                new int[]{R.id.head, R.id.name, R.id.time,R.id.rname,R.id.rpic,R.id.num});
+                                new String[]{"head", "name", "time", "rname", "rpic", "num"},
+                                new int[]{R.id.head, R.id.name, R.id.time, R.id.rname, R.id.rpic, R.id.num});
                         adapter.setViewBinder(new ListViewBinder());
                         list.setAdapter(adapter);
 
                         data = new JSONArray(response.getString("data"));
                         JSONObject jo = data.getJSONObject(count);
                         QCloud.downloadPic(jo.getString("head"));
-                        status=FOOODCIRCLE_HEAD;
+                        status = FOOODCIRCLE_HEAD;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -157,22 +157,22 @@ public class FoodCircleFragment extends Fragment {
     class LocalReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            switch (status){
+            switch (status) {
                 case FOOODCIRCLE_HEAD:
                     try {
                         JSONObject jo = data.getJSONObject(count);
                         Map<String, Object> listItem = new HashMap<String, Object>();
-                        listItem.put("head",QCloud.bmp);
-                        listItem.put("name",jo.getString("username"));
-                        listItem.put("uid",jo.getInt("uid"));
-                        listItem.put("time",jo.getString("time"));
-                        listItem.put("rname",jo.getString("rname"));
+                        listItem.put("head", QCloud.bmp);
+                        listItem.put("name", jo.getString("username"));
+                        listItem.put("uid", jo.getInt("uid"));
+                        listItem.put("time", jo.getString("time"));
+                        listItem.put("rname", jo.getString("rname"));
                         listItem.put("num", jo.getInt("cnum") + "评论" + " " + jo.getInt("fnum") + "收藏" +
                                 " " + jo.getInt("znum") + "赞");
                         listItems.add(listItem);
                         adapter.notifyDataSetChanged();
                         QCloud.downloadPic(jo.getString("pic"));
-                        status=FOOODCIRCLE_PIC;
+                        status = FOOODCIRCLE_PIC;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -182,12 +182,12 @@ public class FoodCircleFragment extends Fragment {
                         listItems.get(count).put("rpic", QCloud.bmp);
                         adapter.notifyDataSetChanged();
                         count++;
-                        if(count<data.length()&&count<20){
+                        if (count < data.length() && count < 20) {
                             JSONObject jo = data.getJSONObject(count);
                             QCloud.downloadPic(jo.getString("head"));
-                            status=FOOODCIRCLE_HEAD;
-                        }else{
-                            status=0;
+                            status = FOOODCIRCLE_HEAD;
+                        } else {
+                            status = 0;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -41,7 +41,7 @@ public class ChangeHeadActivity extends Activity {
     private LocalBroadcastManager localBroadcastManager;
 
     //startActivityForResult需要的intent
-    private Intent lastIntent ;
+    private Intent lastIntent;
 
     private ImageView img_head;
     private Button btn_change;
@@ -60,15 +60,15 @@ public class ChangeHeadActivity extends Activity {
         lastIntent = getIntent();
 
         //本地广播接收初始化
-        localBroadcastManager=LocalBroadcastManager.getInstance(this);
-        intentFilter=new IntentFilter();
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        intentFilter = new IntentFilter();
         intentFilter.addAction("github.com.pwalan.dfood.LOCAL_BROADCAST");
-        localReceiver=new LocalReceiver();
+        localReceiver = new LocalReceiver();
         localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 
         //腾讯云上传初始化
         QCloud.init(this);
-        QCloud.resultUrl=null;
+        QCloud.resultUrl = null;
 
         img_head = (ImageView) findViewById(R.id.img_head);
         img_head.setOnClickListener(new View.OnClickListener() {
@@ -78,17 +78,17 @@ public class ChangeHeadActivity extends Activity {
                 startActivityForResult(intent, 0);
             }
         });
-        btn_change=(Button)findViewById(R.id.btn_change);
+        btn_change = (Button) findViewById(R.id.btn_change);
         btn_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(QCloud.resultUrl!=null){
+                if (QCloud.resultUrl != null) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             HashMap map = new HashMap();
-                            map.put("uid",app.getUid());
-                            map.put("head",QCloud.resultUrl);
+                            map.put("uid", app.getUid());
+                            map.put("head", QCloud.resultUrl);
                             response = C.asyncPost(app.getServer() + "changeHead", map);
                             handler.sendEmptyMessage(GET_DATA);
                         }
@@ -118,7 +118,7 @@ public class ChangeHeadActivity extends Activity {
     //接受广播
     class LocalReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent){
+        public void onReceive(Context context, Intent intent) {
             btn_change.setClickable(true);
             btn_change.setBackgroundColor(getResources().getColor(R.color.tianyi));
         }
@@ -137,11 +137,11 @@ public class ChangeHeadActivity extends Activity {
                     break;
                 case GET_DATA:
                     try {
-                        String data=response.getString("data");
-                        if(data.equals("changed")){
+                        String data = response.getString("data");
+                        if (data.equals("changed")) {
                             //设置结果
                             setResult(Activity.RESULT_OK, lastIntent);
-                            Toast.makeText(ChangeHeadActivity.this,"更换成功！",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangeHeadActivity.this, "更换成功！", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     } catch (JSONException e) {
